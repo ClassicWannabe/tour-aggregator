@@ -1,0 +1,154 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DB_URL")
+}
+
+model Supplier {
+  id              String             @id @default(uuid()) @db.Uuid
+  type            SupplierType
+  companyName     String?
+  firstName       String
+  lastName        String
+  email           String             @unique
+  isEmailVerified Boolean
+  password        String
+  locations       SupplierLocation[]
+  uploads         SupplierUpload[]
+  payments        SupplierPayment[]
+  tours           Tour[]
+  createdAt       DateTime           @default(now())
+  updatedAt       DateTime           @updatedAt
+}
+
+model SupplierLocation {
+  id         String   @id @default(uuid()) @db.Uuid
+  supplierId String   @db.Uuid
+  locationId String   @db.Uuid
+  supplier   Supplier @relation(fields: [supplierId], references: [id])
+  location   Location @relation(fields: [locationId], references: [id])
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+model SupplierUpload {
+  id         String   @id @default(uuid()) @db.Uuid
+  supplierId String   @db.Uuid
+  link       String
+  supplier   Supplier @relation(fields: [supplierId], references: [id])
+  createdAt  DateTime @default(now())
+}
+
+model SupplierPayment {
+  id          String    @id @default(uuid()) @db.Uuid
+  supplierId  String    @db.Uuid
+  paymentDate DateTime
+  amount      BigInt
+  expireAt    DateTime
+  isRefunded  Boolean
+  refundDate  DateTime?
+  supplier    Supplier  @relation(fields: [supplierId], references: [id])
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+model Location {
+  id        String             @id @default(uuid()) @db.Uuid
+  type      LocationType
+  name      String
+  parentId  String?            @db.Uuid // Nullable self-reference to parent location
+  parent    Location?          @relation("LocationParent", fields: [parentId], references: [id])
+  children  Location[]         @relation("LocationParent")
+  suppliers SupplierLocation[]
+  createdAt DateTime           @default(now())
+  updatedAt DateTime           @updatedAt
+}
+
+model Tour {
+  id                   String          @id @default(uuid()) @db.Uuid
+  title                String
+  thesis               String
+  description          String
+  isActive             Boolean         @default(true)
+  supplierId           String          @db.Uuid
+  transportDescription String?
+  pricePerPerson       Int
+  supplier             Supplier        @relation(fields: [supplierId], references: [id])
+  contacts             TourContact[]
+  photos               TourPhoto[]
+  highlights           TourHighlight[]
+  inclusions           TourInclusion[]
+  itineraries          TourItinerary[]
+  reviews              TourReview[]
+  createdAt            DateTime        @default(now())
+  updatedAt            DateTime        @updatedAt
+}
+
+model TourContact {
+  id          String   @id @default(uuid()) @db.Uuid
+  phoneNumber String
+  tourId      String   @db.Uuid
+  tour        Tour     @relation(fields: [tourId], references: [id])
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model TourPhoto {
+  id            String   @id @default(uuid()) @db.Uuid
+  originalLink  String
+  optimizedLink String
+  tourId        String   @db.Uuid
+  tour          Tour     @relation(fields: [tourId], references: [id])
+  createdAt     DateTime @default(now())
+}
+
+model TourHighlight {
+  id        String   @id @default(uuid()) @db.Uuid
+  text      String
+  tourId    String   @db.Uuid
+  tour      Tour     @relation(fields: [tourId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model TourInclusion {
+  id        String   @id @default(uuid()) @db.Uuid
+  text      String
+  tourId    String   @db.Uuid
+  tour      Tour     @relation(fields: [tourId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model TourItinerary {
+  id          String   @id @default(uuid()) @db.Uuid
+  itineraryId String
+  tourId      String   @db.Uuid
+  tour        Tour     @relation(fields: [tourId], references: [id])
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model TourReview {
+  id        String   @id @default(uuid()) @db.Uuid
+  rate      Int
+  comment   String?
+  tourId    String   @db.Uuid
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  tour      Tour     @relation(fields: [tourId], references: [id])
+}
+
+enum SupplierType {
+  COMPANY
+  INDIVIDUAL
+}
+
+enum LocationType {
+  CITY
+  COUNTRY
+  REGION
+}
