@@ -6,12 +6,14 @@ import {
   Patch,
   Param,
   Delete,
+  Query,
 } from '@nestjs/common';
 import { ToursService } from './tours.service';
 import { CreateTourDto } from './dto/create-tour.dto';
 import { UpdateTourDto } from './dto/update-tour.dto';
 import { ApiConsumes, ApiTags } from '@nestjs/swagger';
 import { FormDataRequest } from 'nestjs-form-data';
+import { FindAllToursDto } from './dto/find-all-tours.dto';
 
 @Controller('tours')
 @ApiTags('Tours Controller')
@@ -22,19 +24,17 @@ export class ToursController {
   @FormDataRequest()
   @ApiConsumes('multipart/form-data')
   create(@Body() createTourDto: CreateTourDto) {
-    console.log('createTourDto', createTourDto);
-    // console.log(photos);
     return this.toursService.create(createTourDto);
   }
 
   @Get()
-  findAll() {
-    return this.toursService.findAll();
+  findAll(@Query() query: FindAllToursDto) {
+    return this.toursService.findAll(query);
   }
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.toursService.findOne(+id);
+    return this.toursService.findOne(id);
   }
 
   @Patch(':id')
@@ -44,6 +44,6 @@ export class ToursController {
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.toursService.remove(+id);
+    return this.toursService.remove(id);
   }
 }

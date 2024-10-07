@@ -1,13 +1,15 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateTourDto } from './dto/create-tour.dto';
 import { UpdateTourDto } from './dto/update-tour.dto';
 import { PrismaService } from '../../prisma/prisma.service';
+import { FindAllToursDto } from './dto/find-all-tours.dto';
 
 @Injectable()
 export class ToursService {
   constructor(private readonly prismaService: PrismaService) {}
 
   async create(createTourDto: CreateTourDto) {
+    console.log(createTourDto);
     const {
       contacts = [],
       highlights = [],
@@ -17,7 +19,7 @@ export class ToursService {
     } = createTourDto;
     return this.prismaService.tour.create({
       data: {
-        supplierId: '1f4b806b-8483-4ee2-a013-d12dc959165e',
+        supplierId: tourInfo.supplierId,
         contacts: { createMany: { data: contacts } },
         highlights: { createMany: { data: highlights } },
         inclusions: { createMany: { data: inclusions } },
@@ -27,19 +29,44 @@ export class ToursService {
     });
   }
 
-  findAll() {
-    return `This action returns all tours`;
+  findAll(query: FindAllToursDto) {
+    return this.prismaService.tour.findMany({
+      include: {
+        photos: query.shouldIncludePhotos,
+        contacts: query.shouldIncludeContacts,
+        highlights: query.shouldIncludeHighlights,
+        inclusions: query.shouldIncludeInclusions,
+      },
+      take: query.limit,
+      skip: query.offset,
+    });
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} tour`;
+  async findOne(id: string) {
+    try {
+      return await this.prismaService.tour.findFirstOrThrow({
+        include: {
+          photos: true,
+          contacts: true,
+          highlights: true,
+          inclusions: true,
+        },
+        where: { id },
+      });
+    } catch (e) {
+      throw new NotFoundException(`Tour not found by ID: ${id}`);
+    }
   }
 
   update(id: number, updateTourDto: UpdateTourDto) {
     return `This action updates a #${id} tour`;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} tour`;
+  async remove(id: string) {
+    try {
+      return await this.prismaService.tour.delete({ where: { id } });
+    } catch (e) {
+      throw new NotFoundException(`Tour not found by ID: ${id}`);
+    }
   }
 }

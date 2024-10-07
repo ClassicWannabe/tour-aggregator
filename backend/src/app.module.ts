@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
-import { ToursModule } from './api/tours/tours.module';
+import { ApiModule } from './api/api.module';
 
 @Module({
-  imports: [ToursModule],
+  imports: [ApiModule],
 })
 export class AppModule {}
