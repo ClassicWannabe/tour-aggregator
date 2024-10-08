@@ -2,4 +2,6 @@ export const SUPPLIER_JWT_SECRET = process.env.SUPPLIER_JWT_SECRET;
 
 export const SUPPLIER_JWT_EXPIRES_IN = '7d';
 
+export const SUPPLIER_JWT_REQUEST_KEY = 'supplier';
+
 export const SUPPLIER_PASSWORD_SALT_ROUNDS = 10;

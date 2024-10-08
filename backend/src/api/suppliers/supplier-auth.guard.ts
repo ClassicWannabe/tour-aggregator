@@ -5,7 +5,7 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { SUPPLIER_JWT_SECRET } from './constants';
+import { SUPPLIER_JWT_REQUEST_KEY, SUPPLIER_JWT_SECRET } from './constants';
 import { Request } from 'express';
 
 @Injectable()
@@ -23,7 +23,7 @@ export class SupplierAuthGuard implements CanActivate {
         secret: SUPPLIER_JWT_SECRET,
       });
 
-      request['user'] = payload;
+      request[SUPPLIER_JWT_REQUEST_KEY] = payload;
     } catch {
       throw new UnauthorizedException();
     }
