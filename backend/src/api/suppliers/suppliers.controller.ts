@@ -1,47 +1,31 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Patch,
-  Param,
-  Delete,
-} from '@nestjs/common';
+import { Controller, Post, Body, Get, UseGuards } from '@nestjs/common';
 import { SuppliersService } from './suppliers.service';
-import { CreateSupplierDto } from './dto/create-supplier.dto';
-import { UpdateSupplierDto } from './dto/update-supplier.dto';
-import { ApiTags } from '@nestjs/swagger';
+import { SignUpSupplierDto } from './dto/sign-up-supplier.dto';
+import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
+import { SupplierAuthGuard } from './supplier-auth.guard';
+import { SignInSupplierDto } from './dto/sign-in-supplier.dto';
+import { SupplierJwt } from './supplier-jwt.decorator';
+import { SupplierJwtBody } from './types';
 
 @Controller('suppliers')
 @ApiTags('Suppliers Controller')
 export class SuppliersController {
   constructor(private readonly suppliersService: SuppliersService) {}
 
-  @Post()
-  create(@Body() createSupplierDto: CreateSupplierDto) {
-    return this.suppliersService.create(createSupplierDto);
+  @Post('sign-up')
+  signUp(@Body() signUpSupplierDto: SignUpSupplierDto) {
+    return this.suppliersService.signUp(signUpSupplierDto);
   }
 
-  @Get()
-  findAll() {
-    return this.suppliersService.findAll();
+  @Post('sign-in')
+  signIn(@Body() signInSupplierDto: SignInSupplierDto) {
+    return this.suppliersService.signIn(signInSupplierDto);
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.suppliersService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(
-    @Param('id') id: string,
-    @Body() updateSupplierDto: UpdateSupplierDto,
-  ) {
-    return this.suppliersService.update(+id, updateSupplierDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.suppliersService.remove(+id);
+  @ApiBearerAuth()
+  @UseGuards(SupplierAuthGuard)
+  @Get('me')
+  getInfo(@SupplierJwt() supplier: SupplierJwtBody) {
+    return this.suppliersService.findOne(supplier.sub);
   }
 }
