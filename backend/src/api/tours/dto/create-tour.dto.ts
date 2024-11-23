@@ -1,6 +1,6 @@
 import { ApiProperty, PickType } from '@nestjs/swagger';
 import { TourDto } from './tour.dto';
-import { Allow, IsOptional, ValidateNested } from 'class-validator';
+import { IsOptional, ValidateNested } from 'class-validator';
 import { TourContactDto } from './tour-contact.dto';
 import { Type } from 'class-transformer';
 import { TourHighlightDto } from './tour-highlight.dto';
@@ -22,9 +22,6 @@ export class CreateTourDto extends PickType(TourDto, [
   'pricePerPerson',
   'isActive',
 ]) {
-  @Allow()
-  supplierId: string; // delete after auth implementation
-
   @ApiProperty({
     description: 'Tour contacts in JSON format',
     example: [{ phoneNumber: '7778883412' }],
