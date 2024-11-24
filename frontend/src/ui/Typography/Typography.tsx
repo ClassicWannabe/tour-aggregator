@@ -1,4 +1,4 @@
-import React from "react";
+import React from "react"
 
 const variants = {
   headline1: "text-2xl leading-[120%] font-semibold",
@@ -16,11 +16,11 @@ const variants = {
   body1: "text-base leading-[140%] font-normal",
   body2: "text-sm leading-[130%] font-normal",
   body3: "text-[10px] leading-[120%] font-normal",
-};
+}
 
 export interface TypographyProps extends React.HTMLAttributes<HTMLDivElement> {
-  as?: keyof JSX.IntrinsicElements;
-  variant?: keyof typeof variants;
+  as?: keyof JSX.IntrinsicElements
+  variant?: keyof typeof variants
 }
 
 const Typography: React.FC<TypographyProps> = ({
@@ -29,16 +29,16 @@ const Typography: React.FC<TypographyProps> = ({
   children,
   className,
 }) => {
-  const Component = as || "div";
+  const Component = as || "div"
 
-  const cn = [variants[variant]];
-  if (className) cn.push(className);
+  const cn = [variants[variant]]
+  if (className) cn.push(className)
 
   return (
     <Component as={as} className={cn.join(" ")}>
       {children}
     </Component>
-  );
-};
+  )
+}
 
-export default Typography;
+export default Typography
