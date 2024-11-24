@@ -11,7 +11,6 @@ export function TransformJsonToInstance(cls: ClassConstructor<unknown>) {
       try {
         return plainToInstance(cls, JSON.parse(params.value));
       } catch (e) {
-        console.log(params, e);
         throw new BadRequestException(`Invalid JSON format: ${params.key}`);
       }
     },

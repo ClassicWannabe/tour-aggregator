@@ -1,4 +1,12 @@
-import { Controller, Post, Body, Get, UseGuards } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Body,
+  Get,
+  UseGuards,
+  HttpStatus,
+  HttpCode,
+} from '@nestjs/common';
 import { SuppliersService } from './suppliers.service';
 import { SignUpSupplierDto } from './dto/sign-up-supplier.dto';
 import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
@@ -6,6 +14,8 @@ import { SupplierAuthGuard } from './supplier-auth.guard';
 import { SignInSupplierDto } from './dto/sign-in-supplier.dto';
 import { SupplierJwt } from './supplier-jwt.decorator';
 import { SupplierJwtBody } from './types';
+import { VerifyEmailDto } from './dto/verify-email.dto';
+import { SendEmailVerificationDto } from './dto/send-email-verification.dto';
 
 @Controller('suppliers')
 @ApiTags('Suppliers Controller')
@@ -20,6 +30,22 @@ export class SuppliersController {
   @Post('sign-in')
   signIn(@Body() signInSupplierDto: SignInSupplierDto) {
     return this.suppliersService.signIn(signInSupplierDto);
+  }
+
+  @Post('send-email-verification')
+  @HttpCode(HttpStatus.NO_CONTENT)
+  sendEmailVerification(
+    @Body() sendEmailVerificationDto: SendEmailVerificationDto,
+  ) {
+    return this.suppliersService.sendEmailVerification(
+      sendEmailVerificationDto.email,
+    );
+  }
+
+  @Post('verify-email')
+  @HttpCode(HttpStatus.NO_CONTENT)
+  verifyEmail(@Body() verifyEmailDto: VerifyEmailDto) {
+    return this.suppliersService.verifyEmail(verifyEmailDto);
   }
 
   @ApiBearerAuth()

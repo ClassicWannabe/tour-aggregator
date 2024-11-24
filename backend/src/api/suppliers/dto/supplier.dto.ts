@@ -7,6 +7,7 @@ import {
   IsString,
   IsStrongPassword,
   Length,
+  ArrayMaxSize,
 } from 'class-validator';
 
 export class SupplierDto {
@@ -24,43 +25,35 @@ export class SupplierDto {
   type: SupplierType;
 
   @ApiPropertyOptional({
-    description: 'Company name',
-    example: 'ТОО "Компания"',
+    description: 'Personal description',
+    example: 'Опытный походник с 5-летним опытом',
   })
   @IsOptional()
   @IsString()
-  @Length(3, 30)
-  companyName?: string;
-
-  @ApiProperty({
-    description: 'First Name',
-    example: 'Димаш',
-  })
-  @IsString()
-  @Length(2, 20)
-  firstName: string;
-
-  @ApiProperty({
-    description: 'Last Name',
-    example: 'Кудайберген',
-  })
-  @IsString()
-  @Length(2, 20)
-  lastName: string;
+  @Length(3, 100)
+  aboutMe?: string;
 
   @ApiProperty({
     description: 'Supplier Email',
     example: 'example@example.com',
-    uniqueItems: true,
   })
   @IsEmail()
   email: string;
 
-  @ApiProperty({
-    description: 'Is Email verified',
-    example: false,
+  @ApiPropertyOptional({
+    description: 'Social Links',
+    example: ['https://www.instagram.com/'],
   })
-  isEmailVerified: boolean;
+  @ArrayMaxSize(5)
+  @IsOptional()
+  @IsString({ each: true })
+  socialLinks?: string[];
+
+  @ApiProperty({
+    description: 'Email verification date',
+    example: new Date(),
+  })
+  emailVerifiedAt: Date;
 
   @ApiProperty({
     description: 'Supplier password',

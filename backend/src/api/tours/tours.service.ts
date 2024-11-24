@@ -14,26 +14,15 @@ export class ToursService {
   ) {}
 
   async create(createTourDto: CreateTourDto, supplierId: string) {
-    console.log(createTourDto);
-    const {
-      contacts = [],
-      highlights = [],
-      inclusions = [],
-      photos = [],
-      ...tourInfo
-    } = createTourDto;
+    const { photos = [], ...tourInfo } = createTourDto;
 
     const uploadedPhotos = await this.uploadPhotos(photos);
 
     const tour = await this.prismaService.tour.create({
       data: {
         supplierId: supplierId,
-        contacts: { createMany: { data: contacts } },
-        highlights: { createMany: { data: highlights } },
-        inclusions: { createMany: { data: inclusions } },
         ...tourInfo,
       },
-      include: { contacts: true, highlights: true, inclusions: true },
     });
 
     return tour;
@@ -49,9 +38,6 @@ export class ToursService {
     return this.prismaService.tour.findMany({
       include: {
         photos: query.shouldIncludePhotos,
-        contacts: query.shouldIncludeContacts,
-        highlights: query.shouldIncludeHighlights,
-        inclusions: query.shouldIncludeInclusions,
       },
       take: query.limit,
       skip: query.offset,
@@ -63,9 +49,6 @@ export class ToursService {
       return await this.prismaService.tour.findFirstOrThrow({
         include: {
           photos: true,
-          contacts: true,
-          highlights: true,
-          inclusions: true,
         },
         where: { id },
       });
