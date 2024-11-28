@@ -1,10 +1,8 @@
 "use client"
 import { useEffect, useState } from "react"
 
-const useMediaQuery = (query: string, config?: { initialValue?: boolean }) => {
-  const [matches, setMatches] = useState<boolean>(
-    config?.initialValue ?? window.matchMedia(query).matches ?? false,
-  )
+const useMediaQuery = (query: string) => {
+  const [matches, setMatches] = useState<boolean>(false)
   useEffect(() => {
     const media = window.matchMedia(query)
 
