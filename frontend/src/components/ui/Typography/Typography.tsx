@@ -23,12 +23,7 @@ export interface TypographyProps extends React.HTMLAttributes<HTMLDivElement> {
   variant?: keyof typeof variants
 }
 
-const Typography: React.FC<TypographyProps> = ({
-  variant = "body1",
-  as,
-  children,
-  className,
-}) => {
+const Typography: React.FC<TypographyProps> = ({ variant = "body1", as, children, className }) => {
   const Component = as || "div"
 
   const cn = [variants[variant]]
