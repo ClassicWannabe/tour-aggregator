@@ -7,9 +7,7 @@ import DesktopHeader from "@/components/Header/DesktopHeader"
 
 const Header = () => {
   const isMobileViewport = useMediaQuery("(max-width: 768px)")
-  return (
-    <header>{isMobileViewport ? <MobileHeader /> : <DesktopHeader />}</header>
-  )
+  return <header>{isMobileViewport ? <MobileHeader /> : <DesktopHeader />}</header>
 }
 
 export default Header

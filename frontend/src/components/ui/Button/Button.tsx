@@ -28,7 +28,7 @@ const sizes: Record<Sizes, string> = {
   lg: "px-5 py-3 text-lg",
 }
 
-const BaseStyles = "hover:opacity-90 transition-opacity"
+const BaseStyles = "hover:opacity-90 transition-opacity font-normal"
 
 const Button: React.FC<ButtonProps> = ({
   children,
