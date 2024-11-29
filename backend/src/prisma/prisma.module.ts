@@ -6,7 +6,10 @@ import { PrismaService } from './prisma.service';
   providers: [
     {
       useFactory: () =>
-        new PrismaService({ log: ['query', 'info', 'warn', 'error'] }),
+        new PrismaService({
+          log: ['query', 'info', 'warn', 'error'],
+          omit: { supplier: { password: true } },
+        }),
       provide: PrismaService,
     },
   ],

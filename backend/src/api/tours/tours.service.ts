@@ -3,39 +3,41 @@ import { CreateTourDto } from './dto/create-tour.dto';
 import { UpdateTourDto } from './dto/update-tour.dto';
 import { PrismaService } from '../../prisma/prisma.service';
 import { FindAllToursDto } from './dto/find-all-tours.dto';
+import { StorageService } from '../storage/storage.service';
+import { MemoryStoredFile } from 'nestjs-form-data';
 
 @Injectable()
 export class ToursService {
-  constructor(private readonly prismaService: PrismaService) {}
+  constructor(
+    private readonly prismaService: PrismaService,
+    private readonly storageService: StorageService,
+  ) {}
 
-  async create(createTourDto: CreateTourDto) {
-    console.log(createTourDto);
-    const {
-      contacts = [],
-      highlights = [],
-      inclusions = [],
-      photos = [],
-      ...tourInfo
-    } = createTourDto;
-    return this.prismaService.tour.create({
+  async create(createTourDto: CreateTourDto, supplierId: string) {
+    const { photos = [], ...tourInfo } = createTourDto;
+
+    const uploadedPhotos = await this.uploadPhotos(photos);
+
+    const tour = await this.prismaService.tour.create({
       data: {
-        supplierId: tourInfo.supplierId,
-        contacts: { createMany: { data: contacts } },
-        highlights: { createMany: { data: highlights } },
-        inclusions: { createMany: { data: inclusions } },
+        supplierId: supplierId,
         ...tourInfo,
       },
-      include: { contacts: true, highlights: true, inclusions: true },
     });
+
+    return tour;
+  }
+
+  private uploadPhotos(photos: MemoryStoredFile[]) {
+    return Promise.all(
+      photos.map((photo) => this.storageService.uploadFile(photo)),
+    );
   }
 
   findAll(query: FindAllToursDto) {
     return this.prismaService.tour.findMany({
       include: {
         photos: query.shouldIncludePhotos,
-        contacts: query.shouldIncludeContacts,
-        highlights: query.shouldIncludeHighlights,
-        inclusions: query.shouldIncludeInclusions,
       },
       take: query.limit,
       skip: query.offset,
@@ -47,9 +49,6 @@ export class ToursService {
       return await this.prismaService.tour.findFirstOrThrow({
         include: {
           photos: true,
-          contacts: true,
-          highlights: true,
-          inclusions: true,
         },
         where: { id },
       });

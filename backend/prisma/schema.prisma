@@ -1,6 +1,6 @@
 generator client {
   provider        = "prisma-client-js"
-  previewFeatures = ["relationJoins"]
+  previewFeatures = ["relationJoins", "omitApi"]
 }
 
 datasource db {
@@ -9,147 +9,107 @@ datasource db {
 }
 
 model Supplier {
-  id              String             @id @default(uuid()) @db.Uuid
+  id              String       @id @default(uuid()) @db.Uuid
   type            SupplierType
-  companyName     String?
-  firstName       String
-  lastName        String
-  email           String             @unique
-  isEmailVerified Boolean            @default(false)
+  email           String       @unique
+  emailVerifiedAt DateTime?
   password        String
-  locations       SupplierLocation[]
-  uploads         SupplierUpload[]
-  payments        SupplierPayment[]
-  tours           Tour[]
-  createdAt       DateTime           @default(now())
-  updatedAt       DateTime           @updatedAt
+  socialLinks     String[]
+  aboutMe         String?
+  createdAt       DateTime     @default(now())
+  updatedAt       DateTime     @updatedAt
+
+  tours             Tour[]
+  supplierUploads   SupplierUpload[]
+  verificationCodes VerificationCode[]
+
+  companySupplier    CompanySupplier?
+  individualSupplier IndividualSupplier?
 }
 
-model SupplierLocation {
-  id         String   @id @default(uuid()) @db.Uuid
+model VerificationCode {
+  id        String   @id @default(uuid()) @db.Uuid
+  code      String
+  expireAt  DateTime
+  createdAt DateTime @default(now())
+
   supplierId String   @db.Uuid
-  locationId String   @db.Uuid
   supplier   Supplier @relation(fields: [supplierId], references: [id])
-  location   Location @relation(fields: [locationId], references: [id])
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
+}
+
+enum SupplierType {
+  CompanySupplier
+  IndividualSupplier
+}
+
+model CompanySupplier {
+  id          String @id @default(uuid()) @db.Uuid
+  ownerName   String
+  companyName String
+
+  supplierId String   @unique @db.Uuid
+  supplier   Supplier @relation(fields: [supplierId], references: [id])
+}
+
+model IndividualSupplier {
+  id        String @id @default(uuid()) @db.Uuid
+  firstName String
+  lastName  String
+
+  supplierId String   @unique @db.Uuid
+  supplier   Supplier @relation(fields: [supplierId], references: [id])
 }
 
 model SupplierUpload {
-  id         String   @id @default(uuid()) @db.Uuid
+  id          String   @id @default(uuid()) @db.Uuid
+  storageLink String
+  createdAt   DateTime @default(now())
+
   supplierId String   @db.Uuid
-  link       String
   supplier   Supplier @relation(fields: [supplierId], references: [id])
-  createdAt  DateTime @default(now())
-}
-
-model SupplierPayment {
-  id          String    @id @default(uuid()) @db.Uuid
-  supplierId  String    @db.Uuid
-  paymentDate DateTime
-  amount      BigInt
-  expireAt    DateTime
-  isRefunded  Boolean
-  refundDate  DateTime?
-  supplier    Supplier  @relation(fields: [supplierId], references: [id])
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
-}
-
-model Location {
-  id        String             @id @default(uuid()) @db.Uuid
-  type      LocationType
-  name      String
-  parentId  String?            @db.Uuid // Nullable self-reference to parent location
-  parent    Location?          @relation("LocationParent", fields: [parentId], references: [id])
-  children  Location[]         @relation("LocationParent")
-  suppliers SupplierLocation[]
-  createdAt DateTime           @default(now())
-  updatedAt DateTime           @updatedAt
 }
 
 model Tour {
-  id                   String          @id @default(uuid()) @db.Uuid
+  id                   String   @id @default(uuid()) @db.Uuid
   title                String
   thesis               String
   description          String
-  isActive             Boolean         @default(true)
-  supplierId           String          @db.Uuid
   transportDescription String?
   pricePerPerson       Int
-  supplier             Supplier        @relation(fields: [supplierId], references: [id])
-  contacts             TourContact[]
-  photos               TourPhoto[]
-  highlights           TourHighlight[]
-  inclusions           TourInclusion[]
-  itineraries          TourItinerary[]
-  reviews              TourReview[]
-  createdAt            DateTime        @default(now())
-  updatedAt            DateTime        @updatedAt
-}
+  peopleCount          Int
+  contacts             String[]
+  highlights           String[]
+  inclusions           String[]
+  exclusions           String[]
+  startDate            DateTime
+  endDate              DateTime
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @updatedAt
 
-model TourContact {
-  id          String   @id @default(uuid()) @db.Uuid
-  phoneNumber String
-  tourId      String   @db.Uuid
-  tour        Tour     @relation(fields: [tourId], references: [id], onDelete: Cascade)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  itineraries TourItinerary[]
+  photos      TourPhoto[]
+
+  supplierId String   @db.Uuid
+  supplier   Supplier @relation(fields: [supplierId], references: [id])
 }
 
 model TourPhoto {
-  id            String   @id @default(uuid()) @db.Uuid
-  originalLink  String
-  optimizedLink String
-  tourId        String   @db.Uuid
-  tour          Tour     @relation(fields: [tourId], references: [id], onDelete: Cascade)
-  createdAt     DateTime @default(now())
-}
+  id                   String   @id @default(uuid()) @db.Uuid
+  originalStorageLink  String
+  optimizedStorageLink String
+  createdAt            DateTime @default(now())
 
-model TourHighlight {
-  id        String   @id @default(uuid()) @db.Uuid
-  text      String
-  tourId    String   @db.Uuid
-  tour      Tour     @relation(fields: [tourId], references: [id], onDelete: Cascade)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-}
-
-model TourInclusion {
-  id        String   @id @default(uuid()) @db.Uuid
-  text      String
-  tourId    String   @db.Uuid
-  tour      Tour     @relation(fields: [tourId], references: [id], onDelete: Cascade)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  tourId String @db.Uuid
+  tour   Tour   @relation(fields: [tourId], references: [id], onDelete: Cascade)
 }
 
 model TourItinerary {
   id          String   @id @default(uuid()) @db.Uuid
-  itineraryId String
-  tourId      String   @db.Uuid
-  tour        Tour     @relation(fields: [tourId], references: [id], onDelete: Cascade)
+  time        String
+  description String
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
-}
 
-model TourReview {
-  id        String   @id @default(uuid()) @db.Uuid
-  rate      Int
-  comment   String?
-  tourId    String   @db.Uuid
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  tour      Tour     @relation(fields: [tourId], references: [id], onDelete: Cascade)
-}
-
-enum SupplierType {
-  COMPANY
-  INDIVIDUAL
-}
-
-enum LocationType {
-  CITY
-  COUNTRY
-  REGION
+  tourId String @db.Uuid
+  tour   Tour   @relation(fields: [tourId], references: [id], onDelete: Cascade)
 }
