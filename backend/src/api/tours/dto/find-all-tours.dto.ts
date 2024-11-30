@@ -29,28 +29,4 @@ export class FindAllToursDto {
   @IsBoolean()
   @Type(() => Boolean)
   shouldIncludePhotos: boolean = false;
-
-  @ApiPropertyOptional({
-    description: 'Include contacts in the response',
-    example: true,
-  })
-  @IsBoolean()
-  @Type(() => Boolean)
-  shouldIncludeContacts: boolean = false;
-
-  @ApiPropertyOptional({
-    description: 'Include highlights in the response',
-    example: true,
-  })
-  @IsBoolean()
-  @Type(() => Boolean)
-  shouldIncludeHighlights: boolean = false;
-
-  @ApiPropertyOptional({
-    description: 'Include inclusions in the response',
-    example: true,
-  })
-  @IsBoolean()
-  @Type(() => Boolean)
-  shouldIncludeInclusions: boolean = false;
 }

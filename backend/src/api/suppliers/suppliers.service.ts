@@ -151,6 +151,7 @@ export class SuppliersService {
   async findOne(id: string) {
     return this.prismaService.supplier.findUnique({
       where: { id },
+      include: { individualSupplier: true, companySupplier: true },
     });
   }
 

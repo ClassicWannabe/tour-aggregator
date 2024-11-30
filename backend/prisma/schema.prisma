@@ -66,7 +66,7 @@ model SupplierUpload {
   createdAt   DateTime @default(now())
 
   supplierId String   @db.Uuid
-  supplier   Supplier @relation(fields: [supplierId], references: [id])
+  supplier   Supplier @relation(fields: [supplierId], references: [id], onDelete: Cascade)
 }
 
 model Tour {
@@ -94,10 +94,11 @@ model Tour {
 }
 
 model TourPhoto {
-  id                   String   @id @default(uuid()) @db.Uuid
-  originalStorageLink  String
-  optimizedStorageLink String
-  createdAt            DateTime @default(now())
+  id                           String   @id @default(uuid()) @db.Uuid
+  originalStorageLink          String
+  compressedMediumStorageLink  String
+  compressedPreviewStorageLink String
+  createdAt                    DateTime @default(now())
 
   tourId String @db.Uuid
   tour   Tour   @relation(fields: [tourId], references: [id], onDelete: Cascade)
