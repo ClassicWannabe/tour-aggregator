@@ -1,0 +1,14 @@
+import Header from "@/components/Header"
+
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode
+}>) {
+  return (
+    <section className="h-full">
+      <Header />
+      {children}
+    </section>
+  )
+}
