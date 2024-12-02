@@ -5,7 +5,6 @@ WORKDIR /app
 COPY . .
 
 # Prepare the app
-RUN npm install
-RUN npm run build:db
+RUN npm ci
 
 CMD [ "npm", "run", "start:dev" ]

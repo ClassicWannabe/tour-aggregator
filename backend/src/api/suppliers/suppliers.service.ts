@@ -16,6 +16,7 @@ import { SignInSupplierDto } from './dto/sign-in-supplier.dto';
 import { SupplierType } from '@prisma/client';
 import { VerifyEmailDto } from './dto/verify-email.dto';
 import { CustomConfigService } from '../../config/custom-config.service';
+import { MailerService } from '../../mailer/mailer.service';
 
 @Injectable()
 export class SuppliersService {
@@ -23,6 +24,7 @@ export class SuppliersService {
     private readonly prismaService: PrismaService,
     private readonly jwtService: JwtService,
     private readonly configService: CustomConfigService,
+    private readonly mailerService: MailerService,
   ) {}
 
   async signUp(signUpSupplierDto: SignUpSupplierDto) {
@@ -81,20 +83,21 @@ export class SuppliersService {
       throw new BadRequestException('Email is already verified');
     }
 
-    const resendSeconds = this.configService.getOrFail<number>(
+    const resendSeconds = this.configService.getOrFailNumber(
       'SUPPLIER_VERIFICATION_CODE_RESEND_SECONDS',
     );
-    const minDate = DateTime.now().plus({ second: resendSeconds });
+    const minDate = DateTime.now().minus({ second: resendSeconds });
+
     const isRecentVerificationCodeExists = supplier.verificationCodes.some(
       (verificationCode) =>
-        DateTime.fromJSDate(verificationCode.createdAt) < minDate,
+        DateTime.fromJSDate(verificationCode.createdAt) > minDate,
     );
 
     if (isRecentVerificationCodeExists) {
       throw new BadRequestException('Cannot send email verification code yet');
     }
 
-    const expireSeconds = this.configService.getOrFail<number>(
+    const expireSeconds = this.configService.getOrFailNumber(
       'SUPPLIER_VERIFICATION_CODE_EXPIRATION_SECONDS',
     );
     const expireAt = DateTime.now().plus({ second: expireSeconds }).toJSDate();
@@ -103,6 +106,8 @@ export class SuppliersService {
     await this.prismaService.verificationCode.create({
       data: { expireAt, supplierId: supplier.id, code: newCode },
     });
+
+    await this.mailerService.sendVerificationEmail(email, newCode);
   }
 
   private generateOTP() {
