@@ -4,7 +4,7 @@ const variants = {
   headline1: "text-2xl leading-[120%] font-semibold",
   headline2: "text-2xl leading-[120%] font-medium",
   headline3: "text-xl leading-[120%] font-semibold",
-  headline4: "text-base leading-[140%] font-semibold tracking-[-.02em]",
+  headline4: "text-xl leading-[140%] font-semibold tracking-[-.02em]",
   headline5: "text-sm leading-[130%] font-medium tracking-[-.02em]",
 
   caption1: "text-base leading-[140%] font-medium tracking-[-.02em]",

@@ -3,5 +3,5 @@ export default function GuestLayout({
 }: Readonly<{
   children: React.ReactNode
 }>) {
-  return <section>{children}</section>
+  return <section className="h-full bg-colorBgLayout">{children}</section>
 }

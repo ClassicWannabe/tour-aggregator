@@ -3,6 +3,8 @@ import { Slot } from "@radix-ui/react-slot"
 import { ChevronRight, MoreHorizontal } from "lucide-react"
 
 import { cn } from "@/lib/utils"
+import { JSX } from "react/jsx-runtime"
+import IntrinsicElements = JSX.IntrinsicElements
 
 const Breadcrumb = React.forwardRef<
   HTMLElement,

@@ -16,6 +16,7 @@ export default {
         primaryWhite: "#fff",
         primaryBlack: "#000",
         borderColorSecondary: "#00000026",
+        colorBgLayout: "#F5F5F5",
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         card: {
