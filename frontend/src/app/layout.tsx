@@ -1,5 +1,9 @@
 import type { Metadata } from "next"
 import { Inter } from "next/font/google"
+import { NextIntlClientProvider } from "next-intl"
+import { getMessages } from "next-intl/server"
+import { notFound } from "next/navigation"
+import { Locale, routing } from "@/i18n/routing"
 import "../globals.css"
 
 const inter = Inter({
@@ -14,14 +18,23 @@ export const metadata: Metadata = {
   description: "Next level tours",
 }
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
-}: Readonly<{
+  params,
+}: {
   children: React.ReactNode
-}>) {
+  params: { locale: string }
+}) {
+  const { locale } = params
+  if (!routing.locales.includes(locale as Locale)) {
+    notFound()
+  }
+  const messages = await getMessages()
   return (
-    <html lang="en">
-      <body className={`${inter.variable} antialiased`}>{children}</body>
+    <html lang={locale}>
+      <body className={`${inter.variable} antialiased`}>
+        <NextIntlClientProvider messages={messages}>{children}</NextIntlClientProvider>
+      </body>
     </html>
   )
 }

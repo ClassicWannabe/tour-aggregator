@@ -25,7 +25,7 @@ const GuestFormWrapper: React.FC<Props> = ({ children, title }) => {
             <ChevronLeft />
           </BreadcrumbSeparator>
           <BreadcrumbItem>
-            <BreadcrumbLink href="/">Components</BreadcrumbLink>
+            <BreadcrumbLink href="/">Вернуться назад</BreadcrumbLink>
           </BreadcrumbItem>
         </BreadcrumbList>
       </Breadcrumb>
