@@ -1,4 +1,4 @@
-import Button from "../../components/ui/Button"
+import Button from "../../../components/ui/Button"
 import Input from "@/components/ui/Input"
 import Logo from "@/components/Logo"
 

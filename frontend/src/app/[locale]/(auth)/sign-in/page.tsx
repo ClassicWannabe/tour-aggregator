@@ -1,6 +1,6 @@
-import Typography from "../../../components/ui/Typography"
-import Button from "../../../components/ui/Button"
-import GuestFormWrapper from "@/app/(auth)/components/GuestFormWrapper"
+import Typography from "../../../../components/ui/Typography"
+import Button from "../../../../components/ui/Button"
+import GuestFormWrapper from "@/app/[locale]/(auth)/components/GuestFormWrapper"
 
 export default function SignIn() {
   return (

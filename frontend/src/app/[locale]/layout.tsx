@@ -4,7 +4,7 @@ import { NextIntlClientProvider } from "next-intl"
 import { getMessages } from "next-intl/server"
 import { notFound } from "next/navigation"
 import { Locale, routing } from "@/i18n/routing"
-import "../globals.css"
+import "../../globals.css"
 
 const inter = Inter({
   subsets: ["latin", "cyrillic", "cyrillic-ext"],
