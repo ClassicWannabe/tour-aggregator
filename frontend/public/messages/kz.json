@@ -1,6 +1,13 @@
 {
   "AuthPage": {
-    "goBack": "Вернуться назад kz",
+    "enterAccount": "Войти в личный кабинет кз",
     "createAccount": "Создать аккаунт kz"
+  },
+  "RootLayout": {
+    "title": "kz title",
+    "description": "en desc"
+  },
+  "SharedComponents": {
+    "goBackBtnLabel": "Вернуться назад kz"
   }
 }

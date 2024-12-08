@@ -1,6 +1,13 @@
 {
   "AuthPage": {
-    "goBack": "Вернуться назад en",
+    "enterAccount": "Войти в личный кабинет енг",
     "createAccount": "Создать аккаунт en"
+  },
+  "RootLayout": {
+    "title": "ENg title",
+    "description": "en desc"
+  },
+  "SharedComponents": {
+    "goBackBtnLabel": "Вернуться назад en"
   }
 }

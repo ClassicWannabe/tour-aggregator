@@ -1,18 +1,14 @@
-import Typography from "../../../../components/ui/Typography"
 import Button from "../../../../components/ui/Button"
 import GuestFormWrapper from "@/app/[locale]/(auth)/components/GuestFormWrapper"
+import { getTranslations, setRequestLocale } from "next-intl/server"
 
-export default function SignIn() {
+export default async function SignIn({ params }: { params: { locale: string } }) {
+  const { locale } = await params
+  const t = await getTranslations("AuthPage")
+  setRequestLocale(locale)
   return (
     <section className="h-full flex justify-center items-center">
-      <GuestFormWrapper title="Вход в Личный кабинет">
-        <Typography variant="headline1" as="h1">
-          123
-        </Typography>
-        <Typography variant="body3" as="p">
-          123
-        </Typography>
-        <p></p>
+      <GuestFormWrapper title={t("enterAccount")}>
         <Button>btn</Button>
         <Button color="secondary" variant="filled">
           btn

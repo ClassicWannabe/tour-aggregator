@@ -1,10 +1,10 @@
-import type { Metadata } from "next"
 import { Inter } from "next/font/google"
 import { NextIntlClientProvider } from "next-intl"
-import { getMessages } from "next-intl/server"
+import { getMessages, getTranslations, setRequestLocale } from "next-intl/server"
 import { notFound } from "next/navigation"
 import { Locale, routing } from "@/i18n/routing"
 import "../../globals.css"
+import { ReactNode } from "react"
 
 const inter = Inter({
   subsets: ["latin", "cyrillic", "cyrillic-ext"],
@@ -13,23 +13,32 @@ const inter = Inter({
   style: ["normal", "italic"],
 })
 
-export const metadata: Metadata = {
-  title: "Go Trip",
-  description: "Next level tours",
+type Props = {
+  children: ReactNode
+  params: { locale: string }
 }
 
-export default async function RootLayout({
-  children,
-  params,
-}: {
-  children: React.ReactNode
-  params: { locale: string }
-}) {
-  const { locale } = params
+export function generateStaticParams() {
+  return routing.locales.map((locale) => ({ locale }))
+}
+
+export async function generateMetadata({ params }: Omit<Props, "children">) {
+  const { locale } = await params
+  const t = await getTranslations({ locale, namespace: "RootLayout" })
+
+  return {
+    title: t("title"),
+    description: t("description"),
+  }
+}
+
+export default async function RootLayout({ children, params }: Props) {
+  const { locale } = await params
   if (!routing.locales.includes(locale as Locale)) {
     notFound()
   }
   const messages = await getMessages()
+  setRequestLocale(locale)
   return (
     <html lang={locale}>
       <body className={`${inter.variable} antialiased`}>
