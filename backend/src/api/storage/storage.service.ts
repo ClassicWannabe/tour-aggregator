@@ -28,7 +28,7 @@ export class StorageService implements OnModuleInit {
       this.configService.getOrFail<string>('SECRET_ACCESS_KEY');
     this.endpoint = this.configService.getOrFail<string>('S3_ENDPOINT');
     const region = this.configService.getOrFail<string>('S3_REGION');
-    const forcePathStyle = this.configService.getOrFail<boolean>(
+    const forcePathStyle = this.configService.getOrFailBool(
       'S3_FORCE_PATH_STYLE',
     );
 

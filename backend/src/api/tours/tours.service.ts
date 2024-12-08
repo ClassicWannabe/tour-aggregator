@@ -6,6 +6,7 @@ import { FindAllToursDto } from './dto/find-all-tours.dto';
 import { MemoryStoredFile } from 'nestjs-form-data';
 import { FileManagerService } from '../file-manager/file-manager.service';
 import { Prisma } from '@prisma/client';
+import { SEARCH_SIMILARITY_MIN_THRESHOLD } from './constants';
 
 @Injectable()
 export class ToursService {
@@ -50,13 +51,49 @@ export class ToursService {
     }));
   }
 
-  findAll(query: FindAllToursDto) {
-    return this.prismaService.tour.findMany({
-      include: {
-        photos: query.shouldIncludePhotos,
-      },
+  async findAll(query: FindAllToursDto) {
+    const whereClause = query.search
+      ? ({
+          title: {
+            word_similarity: {
+              text: query.search,
+              threshold: { gte: SEARCH_SIMILARITY_MIN_THRESHOLD },
+              order: 'desc',
+            },
+          },
+          thesis: {
+            word_similarity: {
+              text: query.search,
+              threshold: { gte: SEARCH_SIMILARITY_MIN_THRESHOLD },
+              order: 'desc',
+            },
+          },
+          description: {
+            word_similarity: {
+              text: query.search,
+              threshold: { gte: SEARCH_SIMILARITY_MIN_THRESHOLD },
+              order: 'desc',
+            },
+          },
+        } as const)
+      : undefined;
+
+    const tours = await this.prismaService.tour.similarity({
+      where: whereClause,
       take: query.limit,
       skip: query.offset,
+    });
+    const tourIds = tours.map((tour) => tour.id);
+    const tourPhotos = await this.prismaService.tourPhoto.findMany({
+      where: { tourId: { in: tourIds } },
+    });
+
+    return tours.map((tour) => {
+      const relatedPhotos = tourPhotos.filter(
+        (tourPhoto) => tourPhoto.tourId === tour.id,
+      );
+
+      return { ...tour, photos: relatedPhotos };
     });
   }
 
