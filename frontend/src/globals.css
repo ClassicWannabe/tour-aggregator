@@ -72,3 +72,9 @@ body {
     @apply bg-background text-foreground;
   }
 }
+
+@layer utilities {
+  .text-body2 {
+    @apply text-sm leading-[130%] font-normal;
+  }
+}

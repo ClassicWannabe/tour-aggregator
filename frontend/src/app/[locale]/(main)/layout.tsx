@@ -1,13 +1,14 @@
 import Header from "@/components/Header"
 import { setRequestLocale } from "next-intl/server"
 
-export default function MainLayout({
+export default async function MainLayout({
   children,
-  params: { locale },
+  params,
 }: {
   children: React.ReactNode
-  params: { locale: string }
+  params: Promise<{ locale: string }>
 }) {
+  const { locale } = await params
   setRequestLocale(locale)
   return (
     <section className="h-full">

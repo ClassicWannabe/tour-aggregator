@@ -23,9 +23,9 @@ const colors: Record<Colors, string> = {
 }
 
 const sizes: Record<Sizes, string> = {
-  sm: "px-2 py-1 text-sm",
-  md: "px-4 py-2 text-base",
-  lg: "px-5 py-3 text-lg",
+  sm: "px-2 py-1",
+  md: "px-4 py-2",
+  lg: "px-5 py-3",
 }
 
 const BaseStyles = "hover:opacity-90 transition-opacity font-normal"

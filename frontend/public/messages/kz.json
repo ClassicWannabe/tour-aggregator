@@ -1,7 +1,10 @@
 {
   "AuthPage": {
-    "enterAccount": "Войти в личный кабинет кз",
-    "createAccount": "Создать аккаунт kz"
+    "enterAccountTitle": "Войти в личный кабинет кз",
+    "createAccount": "Создать аккаунт kz",
+    "enterAccountBtn": "Войти kz",
+    "noAccount": "Нет аккаунта? kz",
+    "signUp": "Регистрация kz"
   },
   "RootLayout": {
     "title": "kz title",

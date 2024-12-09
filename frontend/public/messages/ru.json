@@ -1,7 +1,10 @@
 {
   "AuthPage": {
-    "enterAccount": "Войти в личный кабинет",
-    "createAccount": "Создать аккаунт"
+    "enterAccountTitle": "Войти в личный кабинет",
+    "createAccount": "Создать аккаунт",
+    "enterAccountBtn": "Войти",
+    "noAccount": "Нет аккаунта?",
+    "signUp": "Регистрация"
   },
   "RootLayout": {
     "title": "ru title",

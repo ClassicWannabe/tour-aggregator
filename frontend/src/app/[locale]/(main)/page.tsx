@@ -3,7 +3,8 @@ import Input from "@/components/ui/Input"
 import Logo from "@/components/Logo"
 import { setRequestLocale } from "next-intl/server"
 
-export default function Home({ params: { locale } }: { params: { locale: string } }) {
+export default async function Home({ params }: { params: Promise<{ locale: string }> }) {
+  const { locale } = await params
   setRequestLocale(locale)
   return (
     <section className="h-full flex items-center justify-center flex-col">
