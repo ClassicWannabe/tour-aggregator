@@ -5,7 +5,7 @@ type Variants = "filled" | "outlined" | "text"
 type Colors = "primary" | "secondary"
 type Sizes = "sm" | "md" | "lg"
 
-export interface ButtonProps extends React.HTMLAttributes<HTMLButtonElement> {
+export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: Variants
   className?: string
   size?: Sizes

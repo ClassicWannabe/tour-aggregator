@@ -1,16 +1,33 @@
 {
   "AuthPage": {
     "enterAccountTitle": "Войти в личный кабинет en",
-    "createAccount": "Создать аккаунт en",
     "enterAccountBtn": "Войти en",
     "noAccount": "Нет аккаунта? en",
     "signUp": "Регистрация en"
+  },
+  "SignUpPage": {
+    "createAccount": "Создать аккаунт",
+    "companyName": "Название компании",
+    "ownerFullName": "ФИО владельца",
+    "confirmPassword": "Подтвердите пароль",
+    "resourcesLinks": "Ссылки на ресурсы (Instagram, Facebook)",
+    "addOtherLink": "Добавить еще ссылку",
+    "agreeToTermPolicy": "I have read and agree to Movo's Terms of Service and Privacy Policy.",
+    "agreeToReceiveUpdates": "I agree to receive marketing updates from Che tam.",
+    "accountExist": "Уже есть аккаунт?",
+    "entry": "Вход",
+    "name": "Имя",
+    "surname": "Фамилия"
   },
   "RootLayout": {
     "title": "ENg title",
     "description": "en desc"
   },
-  "SharedComponents": {
-    "goBackBtnLabel": "Вернуться назад en"
+  "Shared": {
+    "goBackBtnLabel": "Вернуться назад en",
+    "emailLabel": "Электронная почта en",
+    "passwordLabel": "Пароль",
+    "tourAgency": "Тур агенство",
+    "tourGuide": "Гид"
   }
 }

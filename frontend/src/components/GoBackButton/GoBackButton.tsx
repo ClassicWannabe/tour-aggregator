@@ -8,7 +8,7 @@ import { ArrowLeft } from "lucide-react"
 const GoBackButton = () => {
   const { back } = useRouter()
   const goBack = () => back()
-  const t = useTranslations("SharedComponents")
+  const t = useTranslations("Shared")
 
   return (
     <button type="button" onClick={goBack} className="flex items-center gap-1">
