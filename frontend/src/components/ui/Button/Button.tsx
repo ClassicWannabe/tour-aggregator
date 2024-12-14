@@ -1,4 +1,5 @@
 import React from "react"
+import { cn } from "@/lib/utils"
 
 type Variants = "filled" | "outlined" | "text"
 type Colors = "primary" | "secondary"
@@ -38,11 +39,8 @@ const Button: React.FC<ButtonProps> = ({
   className,
   ...rest
 }) => {
-  const classNameCombined =
-    BaseStyles + " " + variants[variant] + " " + colors[color] + " " + sizes[size] + " " + (className ?? "")
-
   return (
-    <button className={classNameCombined} {...rest}>
+    <button className={cn(BaseStyles, variants[variant], colors[color], sizes[size], className ?? "")} {...rest}>
       {children}
     </button>
   )

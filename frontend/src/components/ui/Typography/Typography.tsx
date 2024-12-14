@@ -1,4 +1,5 @@
 import React from "react"
+import { cn } from "@/lib/utils"
 
 const variants = {
   headline1: "text-2xl leading-[120%] font-semibold",
@@ -26,11 +27,8 @@ export interface TypographyProps extends React.HTMLAttributes<HTMLDivElement> {
 const Typography: React.FC<TypographyProps> = ({ variant = "body1", as, children, className }) => {
   const Component = as || "div"
 
-  const cn = [variants[variant]]
-  if (className) cn.push(className)
-
   return (
-    <Component as={as} className={cn.join(" ")}>
+    <Component as={as} className={cn(variants[variant], className ?? "")}>
       {children}
     </Component>
   )
