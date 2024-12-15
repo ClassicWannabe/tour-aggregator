@@ -1,9 +1,8 @@
 import React from "react"
-import Input from "@/components/ui/Input"
 import Typography from "@/components/ui/Typography"
 import Button from "@/components/ui/Button"
 import { getTranslations } from "next-intl/server"
-import Label from "@/components/ui/Label"
+import CustomInput from "@/components/CustomInput/CustomInput"
 
 export default async function SingInForm() {
   const sT = await getTranslations("Shared")
@@ -11,14 +10,8 @@ export default async function SingInForm() {
 
   return (
     <div className="flex-col flex gap-3">
-      <div className="flex flex-col gap-1">
-        <Label htmlFor="email-input">{sT("email")}</Label>
-        <Input id="email-input" type="email" placeholder={sT("email")} />
-      </div>
-      <div className="flex flex-col gap-1">
-        <Label htmlFor="password-input">{sT("password")}</Label>
-        <Input id="password-input" type="password" placeholder={sT("password")} />
-      </div>
+      <CustomInput id="email-input" label={sT("email")} placeholder={sT("email")} type="email" />
+      <CustomInput id="password-input" label={sT("password")} placeholder={sT("password")} type="password" />
       <Button className="w-full" type="submit">
         <Typography as="span" variant="body1">
           {t("enterAccountBtn")}
