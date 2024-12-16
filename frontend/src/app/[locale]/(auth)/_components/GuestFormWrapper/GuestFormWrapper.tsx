@@ -13,7 +13,7 @@ const GuestFormWrapper: React.FC<Props> = ({ children, title }) => {
     <div className="bg-primaryWhite rounded-lg p-12 pt-4 flex flex-col gap-6 w-full xs:w-[420px]">
       <Image src="/static/icons/Logo.svg" alt="Our logo" width={152} height={28} />
       <GoBackButton />
-      <Typography variant="headline4" as="h1">
+      <Typography variant="headline4" as="h1" color="black1">
         {title}
       </Typography>
       {children}

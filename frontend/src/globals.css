@@ -74,7 +74,43 @@ body {
 }
 
 @layer utilities {
+  .text-body1 {
+    @apply text-base leading-[140%] font-normal;
+  }
   .text-body2 {
     @apply text-sm leading-[130%] font-normal;
+  }
+  .text-body3 {
+    @apply text-[10px] leading-[120%] font-normal;
+  }
+  .text-headline1 {
+    @apply text-2xl leading-[120%] font-semibold;
+  }
+  .text-headline2 {
+    @apply text-2xl leading-[120%] font-medium;
+  }
+  .text-headline3 {
+    @apply text-xl leading-[120%] font-semibold;
+  }
+  .text-headline4 {
+    @apply text-xl leading-[140%] font-semibold tracking-[-.02em];
+  }
+  .text-headline5 {
+    @apply text-sm leading-[130%] font-medium tracking-[-.02em];
+  }
+  .text-caption1 {
+    @apply text-base leading-[140%] font-medium tracking-[-.02em];
+  }
+  .text-caption2 {
+    @apply text-xs leading-[120%] font-medium;
+  }
+  .text-caption3 {
+    @apply text-xs leading-[130%] font-normal;
+  }
+  .text-caption4 {
+    @apply text-4xl leading-9 font-semibold;
+  }
+  .text-caption5 {
+    @apply text-base leading-[140%] font-semibold tracking-[-.02em];
   }
 }

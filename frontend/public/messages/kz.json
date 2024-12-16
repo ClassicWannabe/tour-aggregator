@@ -28,6 +28,10 @@
     "emailLabel": "Электронная почта kz",
     "passwordLabel": "Пароль",
     "tourAgency": "Тур агенство",
-    "tourGuide": "Гид"
+    "tourGuide": "Гид",
+    "toTravellers": "Путешественникам",
+    "toPartners": "Партнёрам",
+    "support": "Поддержка",
+    "enterAccount": "Войти"
   }
 }

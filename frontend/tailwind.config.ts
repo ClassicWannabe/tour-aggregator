@@ -14,6 +14,8 @@ export default {
         accentGreen: "#DEFFF6",
         primaryWhite: "#fff",
         primaryBlack: "#000",
+        secondaryBlack: "#000000E0",
+        tertiaryBlack: "#000000A6",
         borderColorSecondary: "#00000026",
         colorBgLayout: "#F5F5F5",
         background: "hsl(var(--background))",

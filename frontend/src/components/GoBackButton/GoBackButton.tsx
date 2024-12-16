@@ -13,7 +13,7 @@ const GoBackButton = () => {
   return (
     <button type="button" onClick={goBack} className="flex items-center gap-1">
       <ArrowLeft className="text-sm" height={14} width={14} />
-      <Typography as="span" variant="body2">
+      <Typography as="span" variant="body2" color="black2">
         {t("goBackBtnLabel")}
       </Typography>
     </button>

@@ -1,6 +1,5 @@
 "use client"
 import React from "react"
-import Typography from "@/components/ui/Typography"
 import Button from "@/components/ui/Button"
 import { useTranslations } from "next-intl"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/Tabs/Tabs"
@@ -50,10 +49,8 @@ export default function SingUpForm() {
         <CustomCheckbox label={t("agreeToTermPolicy")} />
         <CustomCheckbox label={t("agreeToReceiveUpdates")} />
       </Tabs>
-      <Button className="w-full" type="submit">
-        <Typography as="span" variant="body1">
-          {t("createAccount")}
-        </Typography>
+      <Button className="w-full text-body1 text-primaryWhite" type="submit">
+        {t("createAccount")}
       </Button>
     </Form>
   )
