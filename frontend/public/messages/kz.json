@@ -24,9 +24,9 @@
     "description": "en desc"
   },
   "Shared": {
-    "goBackBtnLabel": "Вернуться назад kz",
-    "emailLabel": "Электронная почта kz",
-    "passwordLabel": "Пароль",
+    "goBackBtnLabel": "Вернуться назад",
+    "email": "Электронная почта",
+    "password": "Пароль",
     "tourAgency": "Тур агенство",
     "tourGuide": "Гид",
     "toTravellers": "Путешественникам",
