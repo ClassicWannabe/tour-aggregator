@@ -32,6 +32,16 @@
     "toTravellers": "Путешественникам",
     "toPartners": "Партнёрам",
     "support": "Поддержка",
-    "enterAccount": "Войти"
+    "enterAccount": "Войти",
+    "lookThroughAllTours": "Смотреть все туры",
+    "allTours": "Все туры",
+    "fieldTrips": "Выездные",
+    "walkingTours": "Пешие",
+    "cityTours": "Городские"
+  },
+  "TopSection": {
+    "motto": "<company>movo</company> - маркетплейс туров напрямую от авторов туров и туристических услуг",
+    "whereWannaGo": "Куда хотите отправиться",
+    "find": "Найти"
   }
 }

@@ -2,9 +2,9 @@ import React, { JSX } from "react"
 import { cn } from "@/lib/utils"
 
 const variants = {
-  headline1: "text-2xl leading-[120%] font-semibold",
+  headline1: "text-[40px] leading-[120%] font-semibold",
   headline2: "text-2xl leading-[120%] font-medium",
-  headline3: "text-xl leading-[120%] font-semibold",
+  headline3: "text-2xl leading-[120%] font-semibold",
   headline4: "text-xl leading-[140%] font-semibold tracking-[-.02em]",
   headline5: "text-sm leading-[130%] font-medium tracking-[-.02em]",
 

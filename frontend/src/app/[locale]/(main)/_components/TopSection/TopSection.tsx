@@ -1,15 +1,33 @@
 import React from "react"
 import Image from "next/image"
+import Input from "@/components/ui/Input"
+import { getTranslations } from "next-intl/server"
+import Button from "@/components/ui/Button"
 
-const TopSection = () => {
+export default async function TopSection() {
+  const t = await getTranslations("TopSection")
+  const sT = await getTranslations("Shared")
   return (
-    <article className="relative md:absolute top-0 left-0 w-full h-fit z-10">
-      <div className="relative h-[464px] md:h-[600px] w-full">
+    <article className="relative md:absolute md:top-0 md:left-0 w-full h-[464px] md:h-[600px] flex flex-col justify-center">
+      <div className="absolute top-0 left-0 h-full w-full z-[-2]">
         <Image src="/static/images/top-section-bg.jpeg" alt="Dead lake image" layout="fill" objectFit="cover" />
-        <div className="w-full h-full bg-[#000000A6] absolute z-10" />
+        <div className="w-full h-full bg-[#000000A6] absolute" />
       </div>
+      <form action="" className="">
+        <div className="flex flex-col gap-4 px-8 sm:px-16 md:px-24 lg:px-48 xl:px-[240px]">
+          <h1 className="text-headline3 md:text-headline1 text-primaryWhite">
+            {t.rich("motto", {
+              company: (chunks) => <span className="text-headline3 md:text-headline1 text-primaryGreen">{chunks}</span>,
+            })}
+          </h1>
+          <div className="flex items-center gap-2">
+            <Input placeholder={t("whereWannaGo")} name="where_to" className="bg-white" />
+            <Button type="submit" className="w-[120px]">
+              {t("find")}
+            </Button>
+          </div>
+        </div>
+      </form>
     </article>
   )
 }
-
-export default TopSection

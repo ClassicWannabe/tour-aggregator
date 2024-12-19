@@ -15,10 +15,8 @@ const DesktopHeader: React.FC<Props> = ({ background }) => {
   const t = useTranslations("Shared")
 
   return (
-    <div
-      className={cn("px-[60px] lg:px-[120px] py-4 flex items-center justify-between z-30 relative", `bg-${background}`)}
-    >
-      <Logo />
+    <div className={cn("px-[60px] lg:px-[120px] py-4 flex items-center justify-between", `bg-${background}`)}>
+      <Logo color={background === "none" ? "white" : "#00BE8B"} />
       <div className="flex items-center gap-6">
         <Typography variant="body2" color="white" as="p">
           {t("toTravellers")}

@@ -84,13 +84,13 @@ body {
     @apply text-[10px] leading-[120%] font-normal;
   }
   .text-headline1 {
-    @apply text-2xl leading-[120%] font-semibold;
+    @apply text-[40px] leading-[120%] font-semibold;
   }
   .text-headline2 {
     @apply text-2xl leading-[120%] font-medium;
   }
   .text-headline3 {
-    @apply text-xl leading-[120%] font-semibold;
+    @apply text-2xl leading-[120%] font-semibold;
   }
   .text-headline4 {
     @apply text-xl leading-[140%] font-semibold tracking-[-.02em];
