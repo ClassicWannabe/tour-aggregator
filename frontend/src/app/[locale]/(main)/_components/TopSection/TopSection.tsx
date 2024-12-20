@@ -3,6 +3,7 @@ import Image from "next/image"
 import Input from "@/components/ui/Input"
 import { getTranslations } from "next-intl/server"
 import Button from "@/components/ui/Button"
+import { Link } from "@/i18n/routing"
 
 export default async function TopSection() {
   const t = await getTranslations("TopSection")
@@ -13,21 +14,25 @@ export default async function TopSection() {
         <Image src="/static/images/top-section-bg.jpeg" alt="Dead lake image" layout="fill" objectFit="cover" />
         <div className="w-full h-full bg-[#000000A6] absolute" />
       </div>
-      <form action="" className="">
-        <div className="flex flex-col gap-4 px-8 sm:px-16 md:px-24 lg:px-48 xl:px-[240px]">
-          <h1 className="text-headline3 md:text-headline1 text-primaryWhite">
-            {t.rich("motto", {
-              company: (chunks) => <span className="text-headline3 md:text-headline1 text-primaryGreen">{chunks}</span>,
-            })}
-          </h1>
-          <div className="flex items-center gap-2">
-            <Input placeholder={t("whereWannaGo")} name="where_to" className="bg-white" />
-            <Button type="submit" className="w-[120px]">
-              {t("find")}
-            </Button>
-          </div>
+      <form action="" className="flex flex-col gap-4 px-8 sm:px-16 md:px-24 lg:px-48 xl:px-[240px]">
+        <h1 className="text-headline3 md:text-headline1 text-primaryWhite">
+          {t.rich("motto", {
+            company: (chunks) => <span className="text-headline3 md:text-headline1 text-primaryGreen">{chunks}</span>,
+          })}
+        </h1>
+        <div className="flex flex-col md:flex-row items-center gap-4 md:gap-2">
+          <Input placeholder={t("whereWannaGo")} name="where_to" className="bg-white" />
+          <Button type="submit" className="w-full md:w-[120px]">
+            {t("find")}
+          </Button>
         </div>
       </form>
+      <Link
+        href="/search"
+        className="block text-body1 text-primaryWhite mt-4 md:text-right px-8 sm:px-16 md:px-24 lg:px-48 xl:px-[240px]"
+      >
+        {sT("lookThroughAllTours")}
+      </Link>
     </article>
   )
 }
