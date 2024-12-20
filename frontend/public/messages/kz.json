@@ -34,13 +34,13 @@
     "support": "Поддержка",
     "enterAccount": "Войти",
     "lookThroughAllTours": "Смотреть все туры",
-    "motto": "movo - маркетплейс туров напрямую от авторов туров и туристических услуг",
     "allTours": "Все туры",
     "fieldTrips": "Выездные",
     "walkingTours": "Пешие",
     "cityTours": "Городские"
   },
   "TopSection": {
+    "motto": "<company>movo</company> - маркетплейс туров напрямую от авторов туров и туристических услуг",
     "whereWannaGo": "Куда хотите отправиться",
     "find": "Найти"
   }
