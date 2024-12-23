@@ -1,5 +1,6 @@
 import React from "react"
 import { cn } from "@/lib/utils"
+import { Link } from "@/i18n/routing"
 
 type Variants = "filled" | "outlined" | "text"
 type Colors = "primary" | "secondary"
@@ -10,6 +11,7 @@ export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElemen
   className?: string
   size?: Sizes
   color?: Colors
+  href?: string
 }
 
 const variants: Record<Variants, string> = {
@@ -37,11 +39,12 @@ const Button: React.FC<ButtonProps> = ({
   color = "primary",
   size = "md",
   className,
+  href,
   ...rest
 }) => {
   return (
     <button className={cn(BaseStyles, variants[variant], colors[color], sizes[size], className ?? "")} {...rest}>
-      {children}
+      {href ? <Link href={href}>{children}</Link> : children}
     </button>
   )
 }

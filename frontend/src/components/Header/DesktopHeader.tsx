@@ -15,7 +15,12 @@ const DesktopHeader: React.FC<Props> = ({ background }) => {
   const t = useTranslations("Shared")
 
   return (
-    <div className={cn("px-[60px] lg:px-[120px] py-4 flex items-center justify-between", `bg-${background}`)}>
+    <div
+      className={cn(
+        "px-[60px] lg:px-[120px] py-4 flex items-center justify-between relative z-[1]",
+        `bg-${background}`,
+      )}
+    >
       <Logo color={background === "none" ? "white" : "#00BE8B"} />
       <div className="flex items-center gap-6">
         <Typography variant="body2" color="white" as="p">
@@ -28,7 +33,7 @@ const DesktopHeader: React.FC<Props> = ({ background }) => {
           {t("support")}
         </Typography>
         <Globe color="#fff" size={14} />
-        <Button variant="outlined" size="md" color="secondary" className="text-body2">
+        <Button variant="outlined" size="sm" color="secondary" className="text-body2" href="/sign-in">
           {t("enterAccount")}
         </Button>
       </div>
