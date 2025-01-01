@@ -56,7 +56,7 @@ export class ToursController {
   @Delete(':id')
   @ApiBearerAuth()
   @UseGuards(SupplierAuthGuard)
-  remove(@Param('id') id: string) {
-    return this.toursService.remove(id);
+  remove(@Param('id') id: string, @SupplierJwt() supplier: SupplierJwtBody) {
+    return this.toursService.remove(id, supplier.sub);
   }
 }

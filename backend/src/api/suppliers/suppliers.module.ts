@@ -4,6 +4,7 @@ import { SuppliersController } from './suppliers.controller';
 import { PrismaModule } from '../../prisma/prisma.module';
 import { JwtModule } from '@nestjs/jwt';
 import { SUPPLIER_JWT_EXPIRES_IN, SUPPLIER_JWT_SECRET } from './constants';
+import { MailerModule } from '../../mailer/mailer.module';
 
 @Module({
   imports: [
@@ -13,6 +14,7 @@ import { SUPPLIER_JWT_EXPIRES_IN, SUPPLIER_JWT_SECRET } from './constants';
       secret: SUPPLIER_JWT_SECRET,
       signOptions: { expiresIn: SUPPLIER_JWT_EXPIRES_IN },
     }),
+    MailerModule,
   ],
   controllers: [SuppliersController],
   providers: [SuppliersService],

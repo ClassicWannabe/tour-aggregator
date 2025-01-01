@@ -7,7 +7,7 @@ import {
   MemoryStoredFile,
   MaxFileSize,
 } from 'nestjs-form-data';
-import { TWO_MB_IN_BYTES } from '../constants';
+import { ALLOWED_PHOTO_MIME_TYPES, TWO_MB_IN_BYTES } from '../constants';
 
 export class CreateTourDto extends PickType(TourDto, [
   'title',
@@ -29,7 +29,7 @@ export class CreateTourDto extends PickType(TourDto, [
     format: 'binary',
   })
   @IsFiles()
-  @HasMimeType(['image/jpeg', 'image/png'], { each: true })
+  @HasMimeType(ALLOWED_PHOTO_MIME_TYPES, { each: true })
   @MaxFileSize(TWO_MB_IN_BYTES, { each: true })
   @IsOptional()
   photos: MemoryStoredFile[];

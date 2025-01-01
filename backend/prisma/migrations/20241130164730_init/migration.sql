@@ -83,7 +83,8 @@ CREATE TABLE "Tour" (
 CREATE TABLE "TourPhoto" (
     "id" UUID NOT NULL,
     "originalStorageLink" TEXT NOT NULL,
-    "optimizedStorageLink" TEXT NOT NULL,
+    "compressedMediumStorageLink" TEXT NOT NULL,
+    "compressedPreviewStorageLink" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "tourId" UUID NOT NULL,
 

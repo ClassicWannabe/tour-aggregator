@@ -1,6 +1,7 @@
 import { ApiPropertyOptional } from '@nestjs/swagger';
-import { IsInt, Max, Min, IsBoolean } from 'class-validator';
-import { Type } from 'class-transformer';
+import { IsInt, Max, Min, IsString, IsOptional } from 'class-validator';
+import { Type, Transform } from 'class-transformer';
+import { SanitizeString } from '../../../decorators/sanitize-string';
 
 export class FindAllToursDto {
   @ApiPropertyOptional({
@@ -23,34 +24,11 @@ export class FindAllToursDto {
   offset: number = 0;
 
   @ApiPropertyOptional({
-    description: 'Include photos in the response',
-    example: true,
+    description: 'Search tours',
+    example: 'Camping',
   })
-  @IsBoolean()
-  @Type(() => Boolean)
-  shouldIncludePhotos: boolean = false;
-
-  @ApiPropertyOptional({
-    description: 'Include contacts in the response',
-    example: true,
-  })
-  @IsBoolean()
-  @Type(() => Boolean)
-  shouldIncludeContacts: boolean = false;
-
-  @ApiPropertyOptional({
-    description: 'Include highlights in the response',
-    example: true,
-  })
-  @IsBoolean()
-  @Type(() => Boolean)
-  shouldIncludeHighlights: boolean = false;
-
-  @ApiPropertyOptional({
-    description: 'Include inclusions in the response',
-    example: true,
-  })
-  @IsBoolean()
-  @Type(() => Boolean)
-  shouldIncludeInclusions: boolean = false;
+  @IsOptional()
+  @IsString()
+  @SanitizeString()
+  search: string;
 }
