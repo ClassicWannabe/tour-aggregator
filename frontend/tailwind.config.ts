@@ -6,6 +6,9 @@ export default {
   content: ["./src/components/**/*.{js,ts,jsx,tsx,mdx}", "./src/app/**/*.{js,ts,jsx,tsx,mdx}"],
   theme: {
     extend: {
+      gridTemplateColumns: {
+        tourBoard: "repeat(auto-fit, 340px)",
+      },
       screens: {
         xs: "480px",
         xl: "1200px",

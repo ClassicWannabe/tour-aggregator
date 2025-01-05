@@ -10,9 +10,15 @@ export default async function TopSection() {
   const sT = await getTranslations("Shared")
 
   return (
-    <article className="relative md:absolute md:top-0 md:left-0 w-full h-[464px] md:h-[600px] flex flex-col justify-center">
+    <section className="relative w-full h-[464px] md:h-[600px] flex flex-col justify-center">
       <div className="absolute top-0 left-0 h-full w-full z-[-2]">
-        <Image src="/static/images/top-section-bg.jpeg" alt="Dead lake image" layout="fill" objectFit="cover" />
+        <Image
+          src="/static/images/top-section-bg.jpeg"
+          alt="Dead lake image"
+          fill
+          className="object-cover"
+          priority={false}
+        />
         <div className="w-full h-full bg-[#000000A6] absolute" />
       </div>
       <div className="flex flex-col gap-4 px-8 sm:px-16 md:px-24 lg:px-48 xl:px-[240px] mt-auto">
@@ -30,6 +36,6 @@ export default async function TopSection() {
         {sT("lookThroughAllTours")}
       </Link>
       <FilterTabs />
-    </article>
+    </section>
   )
 }

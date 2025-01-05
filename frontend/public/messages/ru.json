@@ -37,11 +37,15 @@
     "allTours": "Все туры",
     "fieldTrips": "Выездные",
     "walkingTours": "Пешие",
-    "cityTours": "Городские"
+    "cityTours": "Городские",
+    "perPerson": "за человека"
   },
   "TopSection": {
     "motto": "<company>movo</company> - маркетплейс туров напрямую от авторов туров и туристических услуг",
     "whereWannaGo": "Куда хотите отправиться",
     "find": "Найти"
+  },
+  "TourBoard": {
+    "popularTours": "Популярные туры"
   }
 }

@@ -1,0 +1,43 @@
+import React from "react"
+import { Link } from "@/i18n/routing"
+import { Tour } from "@/lib/interfaces"
+import Image from "next/image"
+import CurrencyText from "@/components/CurrencyText"
+import { getTranslations } from "next-intl/server"
+import Badge from "@/components/ui/Badge"
+import { formatDateToCustomString } from "@/lib/utils"
+
+interface Props {
+  tour: Tour
+}
+
+export default async function TourCard({ tour }: Props) {
+  const sT = await getTranslations("Shared")
+
+  return (
+    <Link href={`details/${tour.id}`} className="self-stretch">
+      <div className="h-full flex flex-col gap-2 rounded-[9px] bg-primaryWhite min-w-[340px] w-[340px] overflow-hidden">
+        <Image
+          src={tour.photos[0]}
+          height={180}
+          width={340}
+          loading="lazy"
+          style={{ objectFit: "cover" }}
+          alt="Tours Main Picture"
+        />
+        <div className="flex flex-col gap-1 px-2 py-1 flex-1">
+          <p className="text-body2 text-tertiaryBlack mb-1">Выездной тур</p>
+          <h4 className="text-headline5 text-secondaryBlack line-clamp-2">{tour.title}</h4>
+          <p className="text-body2 text-secondaryBlack line-clamp-3 mt-auto">{tour.description}</p>
+          <div className="flex gap-1 items-center">
+            <Badge text={formatDateToCustomString(tour.startDate)} />
+            <Badge text={formatDateToCustomString(tour.endDate)} variant="secondary" />
+          </div>
+          <div className="flex gap-2 items-center">
+            <CurrencyText amount={tour.pricePerPerson} /> <p>{sT("perPerson")}</p>
+          </div>
+        </div>
+      </div>
+    </Link>
+  )
+}

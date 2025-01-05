@@ -1,7 +1,7 @@
 "use client"
 
 import React from "react"
-import useMediaQuery from "@/hooks/useMediaQuery"
+import useMediaQuery from "@/lib/hooks/useMediaQuery"
 import MobileHeader from "@/components/Header/MobileHeader"
 import DesktopHeader from "@/components/Header/DesktopHeader"
 import { usePathname } from "@/i18n/routing"

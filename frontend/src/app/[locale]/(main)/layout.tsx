@@ -11,9 +11,9 @@ export default async function MainLayout({
   const { locale } = await params
   setRequestLocale(locale)
   return (
-    <section className="h-full">
+    <main className="h-full">
       <Header />
       {children}
-    </section>
+    </main>
   )
 }

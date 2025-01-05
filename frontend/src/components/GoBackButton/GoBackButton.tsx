@@ -2,7 +2,6 @@
 import React from "react"
 import { useRouter } from "@/i18n/routing"
 import { useTranslations } from "next-intl"
-import Typography from "@/components/ui/Typography"
 import { ArrowLeft } from "lucide-react"
 
 const GoBackButton = () => {
@@ -13,9 +12,7 @@ const GoBackButton = () => {
   return (
     <button type="button" onClick={goBack} className="flex items-center gap-1">
       <ArrowLeft className="text-sm" height={14} width={14} />
-      <Typography as="span" variant="body2" color="black2">
-        {t("goBackBtnLabel")}
-      </Typography>
+      <p className="text-body2 text-tertiaryBlack">{t("goBackBtnLabel")}</p>
     </button>
   )
 }

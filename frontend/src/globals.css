@@ -87,7 +87,7 @@ body {
     @apply text-[40px] leading-[120%] font-semibold;
   }
   .text-headline2 {
-    @apply text-2xl leading-[120%] font-medium;
+    @apply text-[30px] leading-[120%] font-semibold;
   }
   .text-headline3 {
     @apply text-2xl leading-[120%] font-semibold;
@@ -96,7 +96,7 @@ body {
     @apply text-xl leading-[140%] font-semibold tracking-[-.02em];
   }
   .text-headline5 {
-    @apply text-sm leading-[130%] font-medium tracking-[-.02em];
+    @apply text-base leading-[130%] font-semibold tracking-[-.02em];
   }
   .text-caption1 {
     @apply text-base leading-[140%] font-medium tracking-[-.02em];

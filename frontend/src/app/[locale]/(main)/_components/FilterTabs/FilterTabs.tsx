@@ -36,14 +36,14 @@ function FilterTab({ title, tourTypeKey }: FilterTabProps) {
     const currentParams = new URLSearchParams(window.location.search)
     currentParams.set("tourType", tourTypeKey)
     if (currentTourType !== tourTypeKey) {
-      router.push(`?${currentParams.toString()}`)
+      router.push(`?${currentParams.toString()}`, { scroll: false })
     }
   }
   return (
     <span
       role="button"
       className={cn(
-        "text-body1 text-primaryWhite flex items-center justify-center flex-1 px-4 py-2 rounded-t-md transition-colors",
+        "text-body1 text-primaryWhite flex items-center justify-center flex-1 px-1 sm:px-4 py-2 rounded-t-md transition-colors",
         currentTourType === tourTypeKey && "text-primaryGreen bg-primaryWhite",
       )}
       onClick={handleClick}
