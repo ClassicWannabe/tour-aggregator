@@ -14,7 +14,7 @@ export default function FilterTabs() {
     { key: "cityTours", label: t("cityTours") },
   ]
   return (
-    <div className="flex mt-auto px-4 md:px-[60px] lg:px-[120px] justify-center">
+    <div className="flex mt-auto px-4 sm:px-16 md:px-[60px] lg:px-[120px] justify-center">
       {filterTabs.map((tab) => (
         <FilterTab key={tab.key} title={tab.label} tourTypeKey={tab.key} />
       ))}
