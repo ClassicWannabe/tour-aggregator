@@ -25,7 +25,7 @@ export function formatDateToCustomString(isoDate: string, locale: string = "ru")
       months: ["янв", "фев", "мар", "апр", "май", "июн", "июл", "авг", "сен", "окт", "ноя", "дек"],
       days: ["вс", "пн", "вт", "ср", "чт", "пт", "сб"],
     },
-    kk: {
+    kz: {
       months: [
         "Қаңтар",
         "Ақпан",

@@ -3,7 +3,7 @@ import { Link } from "@/i18n/routing"
 import { Tour } from "@/lib/interfaces"
 import Image from "next/image"
 import CurrencyText from "@/components/CurrencyText"
-import { getTranslations } from "next-intl/server"
+import { getLocale, getTranslations } from "next-intl/server"
 import Badge from "@/components/ui/Badge"
 import { formatDateToCustomString } from "@/lib/utils"
 
@@ -13,6 +13,7 @@ interface Props {
 
 export default async function TourCard({ tour }: Props) {
   const sT = await getTranslations("Shared")
+  const locale = await getLocale()
 
   return (
     <Link href={`details/${tour.id}`} className="self-stretch">
@@ -30,8 +31,8 @@ export default async function TourCard({ tour }: Props) {
           <h4 className="text-headline5 text-secondaryBlack line-clamp-2">{tour.title}</h4>
           <p className="text-body2 text-secondaryBlack line-clamp-3 mt-auto">{tour.description}</p>
           <div className="flex gap-1 items-center">
-            <Badge text={formatDateToCustomString(tour.startDate)} />
-            <Badge text={formatDateToCustomString(tour.endDate)} variant="secondary" />
+            <Badge text={formatDateToCustomString(tour.startDate, locale)} />
+            <Badge text={formatDateToCustomString(tour.endDate, locale)} />
           </div>
           <div className="flex gap-2 items-center">
             <CurrencyText amount={tour.pricePerPerson} /> <p>{sT("perPerson")}</p>
