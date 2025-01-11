@@ -8,7 +8,7 @@ export default async function PopularToursSection() {
   const sT = await getTranslations("Shared")
 
   return (
-    <section className="py-4 md:py-8 px-4 sm:px-16 lg:py-12 lg:px-[120px] flex flex-col bg-colorBgLayout gap-4 lg:gap-8">
+    <section className="py-4 md:py-8 main-layout-padding-horizontal flex flex-col bg-colorBgLayout gap-4 lg:gap-8">
       <div className="flex justify-between items-end">
         <h2 className="text-headline4 sm:text-headline2 lg:text-headline1">{t("popularTours")}</h2>
         <Button href="/search" variant="outlined" color="secondary" size="sm" className="text-body2 hidden sm:block">
