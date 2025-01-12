@@ -48,6 +48,76 @@
   "TourBoard": {
     "popularTours": "Популярные туры"
   },
+  "MainInformationForm": {
+    "title": "Основная информация",
+    "subtitle": "Эта информация будет отображаться публично, поэтому будьте осторожны с тем, что вы делитесь.",
+    "input": {
+      "tourName": {
+        "label": "Название тура",
+        "placeholder": "Введите название тура"
+      },
+      "location": {
+        "label": "Локация/город",
+        "placeholder": "Выбрать"
+      },
+      "tourType": {
+        "label": "Тип тура",
+        "placeholder": "Выбрать"
+      },
+      "thesis": {
+        "label": "Тезис",
+        "placeholder": "Введите тезис",
+        "helperText": "Не менее {minSymbols} символов не более {maxSymbols} символов"
+      },
+      "description": {
+        "label": "Описание",
+        "placeholder": "Введите описание",
+        "helperText": "Не менее {minSymbols} символов не более {maxSymbols} символов"
+      },
+      "tourPrice": {
+        "label": "Стоимость тура за человека",
+        "placeholder": "Введите цену"
+      },
+      "isTourFree": {
+        "label": "Тур бесплатный"
+      },
+      "dateRange": {
+        "label": "Даты отправления и прибытия",
+        "placeholder": "Выберите начало и конец тура"
+      },
+      "numberOfPeople": {
+        "label": "Количество мест",
+        "placeholder": "Введите кол-во"
+      }
+    }
+  },
+  "AmenitiesForm": {
+    "title1": "Что включено в тур",
+    "subtitle1": "Услуги, которые будут предоставлены в рамках тура и включены в стоимость.",
+    "title2": "Не включено в тур",
+    "subtitle2": "Дополнительные расходы и услуги, которые туристам необходимо будет оплачивать отдельно.",
+    "input": {
+      "isTransportIncluded": {
+        "label": "Транспорт для туристов",
+        "yes": "Да",
+        "no": "Нет"
+      },
+      "inclusions": {
+        "value1": "Встреча в отеле и высадка",
+        "value2": "Входные билеты в горячие источники",
+        "value3": "Трехразовое питание"
+      }
+    }
+  },
+  "CreateTourForm": {
+    "button": {
+      "back": "Назад",
+      "next": "Далее",
+      "cancel": "Отмена",
+      "create": "Создать тур",
+      "preview": "Предпросмотр"
+    }
+  },
   "AboutUs": {
     "aboutUs": "О нас",
     "ourMission": "Наша миссия",
