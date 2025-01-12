@@ -113,4 +113,7 @@ body {
   .text-caption5 {
     @apply text-base leading-[140%] font-semibold tracking-[-.02em];
   }
+  .main-layout-padding-horizontal {
+    @apply px-4 sm:px-16 md:px-[60px] lg:px-[120px];
+  }
 }

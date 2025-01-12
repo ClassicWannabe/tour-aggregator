@@ -12,7 +12,7 @@ export default async function Home({ params }: { params: Promise<SearchParams> }
   setRequestLocale(locale)
 
   return (
-    <section className="h-full">
+    <section>
       <TopSection />
       <PopularToursSection />
       <AboutUsSection />
