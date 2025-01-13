@@ -1,7 +1,7 @@
 "use client"
 import Button from "@/components/ui/Button"
 import { useTranslations } from "next-intl"
-import { FormButtonsWrapper } from "@/app/[locale]/(main)/partners/tours/create/_components/FormButtons/FormButtonsWrapper"
+import { FormButtonsWrapper } from "@/app/[locale]/(main)/personal-account/create-tour/_components/FormButtons/FormButtonsWrapper"
 
 type FormButtonsProps = {
   isFirstStep: boolean
@@ -13,7 +13,7 @@ type FormButtonsProps = {
   onCreateClick(): void
 }
 
-export function FormButtons({
+export default function FormButtons({
   isLastStep,
   isFirstStep,
   onBackClick,

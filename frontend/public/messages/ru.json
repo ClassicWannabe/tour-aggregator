@@ -141,5 +141,12 @@
     "becomePartner": "Стать партнёром",
     "partnerCabinet": "Кабинет партнёра",
     "docs": "Документация"
+  },
+  "Breadcrumb": {
+    "personal-account": "Личный кабинет",
+    "create-tour": "Создание тура"
+  },
+  "CreateTourPage": {
+    "title": "Создание тура"
   }
 }

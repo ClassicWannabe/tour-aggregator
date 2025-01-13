@@ -1,12 +1,12 @@
 "use client"
 import { useTranslations } from "next-intl"
-import FormTitle from "@/app/[locale]/(main)/partners/tours/create/_components/FormTitle"
-import { mainInformationFormLimits } from "@/app/[locale]/(main)/partners/tours/create/_components/schema"
 import FormInput from "@/components/Form/FormInput"
 import FormSelect from "@/components/Form/FormSelect"
 import FormTextarea from "@/components/Form/FormTextarea"
 import FormCheckbox from "@/components/Form/FormCheckbox"
 import FormDateRangePicker from "@/components/Form/FormDateRangePicker"
+import { mainInformationFormLimits } from "@/app/[locale]/(main)/personal-account/create-tour/_components/schema"
+import FormTitle from "@/app/[locale]/(main)/personal-account/create-tour/_components/FormTitle"
 
 const options = new Array(100).fill(1).map((_, i) => ({ value: `value${i}`, text: `значение${i}` }))
 export default function MainInformationForm() {

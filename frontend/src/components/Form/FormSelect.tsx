@@ -25,7 +25,9 @@ export default function FormSelect({ name, label, helperText, options, placehold
               </FormControl>
               <SelectContent>
                 {options.map(({ value, text }) => (
-                  <SelectItem value={value}>{text ?? value}</SelectItem>
+                  <SelectItem key={value} value={value}>
+                    {text ?? value}
+                  </SelectItem>
                 ))}
               </SelectContent>
             </Select>
