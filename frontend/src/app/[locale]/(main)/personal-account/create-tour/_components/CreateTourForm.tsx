@@ -6,14 +6,18 @@ import useMultistepForm from "@/lib/hooks/useMultistepForm"
 import { Separator } from "@/components/ui/Separator"
 import {
   amenitiesFormSchema,
+  attachmentsFormSchema,
   formSchema,
   FormType,
   mainInformationFormSchema,
+  tourProgramFormSchema,
 } from "@/app/[locale]/(main)/personal-account/create-tour/_components/schema"
 import MainInformationForm from "@/app/[locale]/(main)/personal-account/create-tour/_components/MainInformationForm"
 import AmenitiesForm from "@/app/[locale]/(main)/personal-account/create-tour/_components/AmenitiesForm"
 import FormButtons from "@/app/[locale]/(main)/personal-account/create-tour/_components/FormButtons/FormButtons"
 import useBeforeunload from "@/lib/hooks/useBeforeunload"
+import TourProgramForm from "@/app/[locale]/(main)/personal-account/create-tour/_components/TourProgramForm"
+import AttachmentsForm from "@/app/[locale]/(main)/personal-account/create-tour/_components/AttachmentsForm"
 
 export default function CreateTourForm() {
   const form = useForm<FormType>({
@@ -33,6 +37,11 @@ export default function CreateTourForm() {
       isTourFree: false,
       inclusions: [],
       exclusions: [],
+      tourProgram: [
+        { time: "", location: "" },
+        { time: "", location: "" },
+      ],
+      images: [],
     },
     mode: "all",
   })
@@ -40,9 +49,12 @@ export default function CreateTourForm() {
   useBeforeunload(isFormDirty)
 
   const { steps, currentStepIndex, step, isFirstStep, isLastStep, back, next } = useMultistepForm([
-    <MainInformationForm />,
+    <AttachmentsForm />,
+    <TourProgramForm />,
     <AmenitiesForm />,
+    <MainInformationForm />,
   ])
+
   const handleSubmit = form.handleSubmit((formData) => {
     console.log(formData)
   })
@@ -56,6 +68,14 @@ export default function CreateTourForm() {
       }
       case AmenitiesForm: {
         isValid = await form.trigger(amenitiesFormSchema.keyof().options)
+        break
+      }
+      case TourProgramForm: {
+        isValid = await form.trigger(tourProgramFormSchema.keyof().options)
+        break
+      }
+      case AttachmentsForm: {
+        isValid = await form.trigger(attachmentsFormSchema.keyof().options)
         break
       }
       default: {

@@ -66,7 +66,6 @@ export default function FormDateRangePicker({
                   mode="range"
                   numberOfMonths={2}
                   selected={{ from, to }}
-                  initialFocus
                   onSelect={(dateRange) => {
                     field.onChange({ [startDateName]: dateRange?.from, [endDateName]: dateRange?.to })
                   }}

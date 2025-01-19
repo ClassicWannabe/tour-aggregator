@@ -1,7 +1,7 @@
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/Form"
 import Checkbox from "@/components/ui/CheckBox"
 
-interface FormCheckboxMultipleProps {
+export interface FormCheckboxMultipleProps {
   name: string
   items: { label: string; value: string }[]
 }
@@ -19,7 +19,7 @@ export default function FormCheckboxMultiple({ name, items }: FormCheckboxMultip
                 name={name}
                 render={({ field }) => {
                   return (
-                    <FormItem key={item.value} className="flex flex-row items-start space-x-3 space-y-0">
+                    <FormItem className="flex flex-row items-start space-x-3 space-y-0">
                       <FormControl>
                         <Checkbox
                           checked={field.value?.includes(item.value)}
@@ -36,7 +36,7 @@ export default function FormCheckboxMultiple({ name, items }: FormCheckboxMultip
                 }}
               />
             ))}
-            <FormMessage />
+            <FormMessage className="relative" />
           </FormItem>
         )
       }}

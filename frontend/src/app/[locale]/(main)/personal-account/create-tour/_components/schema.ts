@@ -45,13 +45,65 @@ export const amenitiesFormSchema = z.object({
       return val
     }, z.boolean())
     .transform((val) => !!val),
-  inclusions: z.array(z.string().trim().min(1)),
+  inclusions: z.array(z.string().trim().min(1)).min(1),
   exclusions: z.array(z.string().trim().min(1)),
 })
 
 export type AmenitiesFormType = z.infer<typeof amenitiesFormSchema>
 
-export const formSchema = mainInformationFormSchema.merge(amenitiesFormSchema)
+export const tourProgramFormLimits = {
+  tourProgram: {
+    min: 2,
+    max: 30,
+    location: { min: 50, max: 200 },
+  },
+} as const
+
+export const tourProgramFormSchema = z.object({
+  tourProgram: z
+    .array(
+      z.object({
+        time: z.string(),
+        location: z
+          .string()
+          .min(tourProgramFormLimits.tourProgram.location.min)
+          .max(tourProgramFormLimits.tourProgram.location.max),
+      }),
+    )
+    .min(tourProgramFormLimits.tourProgram.min)
+    .max(tourProgramFormLimits.tourProgram.max),
+  meetingPlace: z.string(),
+})
+
+export type TourProgramFormType = z.infer<typeof tourProgramFormSchema>
+
+const fileSizeLimit = 5 * 1024 * 1024 // 5MB
+const imageSchema = z
+  .instanceof(File)
+  .refine((file) => ["image/png", "image/jpeg", "image/jpg"].includes(file.type), {
+    message: "Invalid image file type",
+  })
+  .refine((file) => file.size <= fileSizeLimit, {
+    message: "File size should not exceed 5MB",
+  })
+
+export const attachmentsFormSchema = z.object({
+  images: z
+    .array(
+      z.object({
+        file: imageSchema,
+        link: z.string().url(),
+      }),
+    )
+    .min(2),
+})
+
+export type AttachmentsFormType = z.infer<typeof attachmentsFormSchema>
+
+export const formSchema = mainInformationFormSchema
+  .merge(amenitiesFormSchema)
+  .merge(tourProgramFormSchema)
+  .merge(attachmentsFormSchema)
 
 export type FormSchemaType = z.infer<typeof formSchema>
 

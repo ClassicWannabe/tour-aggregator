@@ -2,7 +2,7 @@ import React from "react"
 import { cn } from "@/lib/utils"
 import { Link } from "@/i18n/routing"
 
-type Variants = "filled" | "outlined" | "text"
+type Variants = "filled" | "outlined" | "text" | "dashed"
 type Colors = "primary" | "secondary"
 type Sizes = "sm" | "md" | "lg"
 
@@ -17,6 +17,7 @@ export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElemen
 const variants: Record<Variants, string> = {
   filled: "border-none rounded-lg",
   outlined: "border rounded-lg",
+  dashed: "border border-dashed rounded-lg",
   text: "bg-none border-none",
 }
 
