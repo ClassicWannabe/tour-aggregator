@@ -7,7 +7,11 @@ import DesktopFooter from "./DesktopFooter"
 
 const Footer = () => {
   const isMobileViewport = useMediaQuery("(max-width: 768px)")
-  return <footer>{isMobileViewport ? <MobileFooter /> : <DesktopFooter />}</footer>
+  return (
+    <footer className="mt-auto border-t border-solid border-[#0000001A]">
+      {isMobileViewport ? <MobileFooter /> : <DesktopFooter />}
+    </footer>
+  )
 }
 
 export default Footer

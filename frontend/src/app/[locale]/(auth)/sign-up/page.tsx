@@ -2,6 +2,7 @@ import { getTranslations, setRequestLocale } from "next-intl/server"
 import { Link } from "@/i18n/routing"
 import GuestFormWrapper from "@/app/[locale]/(auth)/_components/GuestFormWrapper"
 import SingUpForm from "@/app/[locale]/(auth)/sign-up/_components/SingUpForm"
+import RouteNames from "@/lib/consts/route-names"
 
 export default async function SignIn({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params
@@ -13,7 +14,7 @@ export default async function SignIn({ params }: { params: Promise<{ locale: str
         <SingUpForm />
         <div className="flex gap-1 justify-center">
           <p className="text-body2 text-primaryBlack">{t("accountExist")}</p>
-          <Link href="/sign-in" className="text-body2 txext-primaryGreen">
+          <Link href={RouteNames.SignIn} className="text-body2 txext-primaryGreen">
             {t("entry")}
           </Link>
         </div>

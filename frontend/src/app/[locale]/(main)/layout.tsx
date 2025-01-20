@@ -12,7 +12,7 @@ export default async function MainLayout({
   const { locale } = await params
   setRequestLocale(locale)
   return (
-    <main className="h-full">
+    <main className="min-h-full flex flex-col ">
       <Header />
       {children}
       <Footer />

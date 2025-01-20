@@ -21,7 +21,9 @@ export default {
         secondaryBlack: "#000000E0",
         tertiaryBlack: "#000000A6",
         borderColorSecondary: "#00000026",
+        lightGray: "#0000000F",
         colorBgLayout: "#F5F5F5",
+
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         card: {

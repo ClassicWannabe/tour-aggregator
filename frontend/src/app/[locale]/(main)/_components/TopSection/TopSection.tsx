@@ -4,6 +4,7 @@ import { getTranslations } from "next-intl/server"
 import { Link } from "@/i18n/routing"
 import FilterTabs from "../FilterTabs"
 import SearchForm from "../SearchForm"
+import RouteNames from "@/lib/consts/route-names"
 
 export default async function TopSection() {
   const t = await getTranslations("TopSection")
@@ -30,7 +31,7 @@ export default async function TopSection() {
         <SearchForm />
       </div>
       <Link
-        href="/search"
+        href={RouteNames.Category}
         className="block text-body1 text-primaryWhite mt-4 md:text-right px-8 sm:px-16 md:px-24 lg:px-48 xl:px-[240px]"
       >
         {sT("lookThroughAllTours")}

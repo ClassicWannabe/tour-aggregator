@@ -23,10 +23,16 @@ const DesktopHeader: React.FC<Props> = ({ background }) => {
     >
       <Logo color={background === "none" ? "white" : "#00BE8B"} />
       <div className="flex items-center gap-6">
-        <p className="text-body2 text-primaryWhite">{t("toTravellers")}</p>
-        <p className="text-body2 text-primaryWhite">{t("toPartners")}</p>
-        <p className="text-body2 text-primaryWhite">{t("support")}</p>
-        <Globe color="#fff" size={14} />
+        <p className={cn("text-body2", background === "none" ? "text-primaryWhite" : "text-primaryBlack")}>
+          {t("toTravellers")}
+        </p>
+        <p className={cn("text-body2", background === "none" ? "text-primaryWhite" : "text-primaryBlack")}>
+          {t("toPartners")}
+        </p>
+        <p className={cn("text-body2", background === "none" ? "text-primaryWhite" : "text-primaryBlack")}>
+          {t("support")}
+        </p>
+        <Globe color={background === "none" ? "#fff" : "#000"} size={14} />
         <Button variant="outlined" size="sm" color="secondary" className="text-body2" href="/sign-in">
           {t("enterAccount")}
         </Button>
