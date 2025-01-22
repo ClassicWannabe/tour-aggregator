@@ -3,10 +3,10 @@ import { Calendar } from "@/components/ui/Calendar"
 import { FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/Form"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/Popover"
 import { CalendarIcon } from "lucide-react"
-import { cn } from "@/lib/utils"
 import { format } from "date-fns"
 import { ControllerRenderProps, FieldValues } from "react-hook-form"
 import { DayPickerRangeProps } from "react-day-picker"
+import { cn } from "@/lib/utils/common"
 
 interface FormDateRangePickerProps {
   name: string

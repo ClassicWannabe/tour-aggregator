@@ -2,9 +2,9 @@
 import React from "react"
 import Logo from "@/components/Logo"
 import { useTranslations } from "next-intl"
-import { cn } from "@/lib/utils"
 import { Globe } from "lucide-react"
 import Button from "@/components/ui/Button"
+import { cn } from "@/lib/utils/common"
 
 type Props = {
   background: "none" | "white"

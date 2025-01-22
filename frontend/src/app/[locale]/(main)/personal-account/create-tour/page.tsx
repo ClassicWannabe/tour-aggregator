@@ -1,6 +1,6 @@
 import { getTranslations, setRequestLocale } from "next-intl/server"
-import CreateTourForm from "@/app/[locale]/(main)/personal-account/create-tour/_components/CreateTourForm"
 import Typography from "@/components/ui/Typography"
+import { CreateTourForm } from "@/app/[locale]/(main)/personal-account/create-tour/_components/CreateTourForm"
 
 export default async function CreateTourPage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params

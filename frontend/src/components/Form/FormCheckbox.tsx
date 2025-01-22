@@ -1,7 +1,7 @@
 import { FormControl, FormDescription, FormField, FormItem, FormLabel } from "@/components/ui/Form"
 import Checkbox from "@/components/ui/CheckBox"
 import { ComponentProps } from "react"
-import { cn } from "@/lib/utils"
+import { cn } from "@/lib/utils/common"
 
 interface FormCheckboxProps {
   name: string

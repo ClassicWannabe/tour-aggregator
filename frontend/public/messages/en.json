@@ -151,6 +151,42 @@
       "cancel": "Отмена",
       "create": "Создать тур",
       "preview": "Предпросмотр"
+    },
+    "zod": {
+      "default": {
+        "tooSmall": "Напишите не менее {minimum} {minimum, plural, =1 {символа} other {символов}}",
+        "tooBig": "Напишите не более {maximum} {maximum, plural, =1 {символа} other {символов}}",
+        "required": "Обязательное поле"
+      },
+      "tourType": {
+        "choose": "Выберите тип тура"
+      },
+      "location": {
+        "choose": "Выберите локацию/город"
+      },
+      "images": {
+        "tooSmall": "Добавьте не менее {minimum} фотографий",
+        "tooBig": "Добавьте не более {maximum} фотографий",
+        "invalidType": "Некорректный тип фотографий",
+        "tooBigSize": "Размер фотографии не может превышать {MB} MB"
+      },
+      "numberOfPeople": {
+        "tooSmall": "Укажите не менее {minimum} {minimum, plural, =1 {местa} other {мест}}",
+        "tooBig": "Укажите не более {maximum} мест"
+      },
+      "tourPrice": {
+        "empty": "Укажите цену за человека",
+        "tooSmall": "Укажите цену не менее {minimum} тенге за человека",
+        "tooBig": "Укажите цену не более {maximum} тенге за человека"
+      },
+      "inclusions": {
+        "tooSmall": "Выберите не менее {minimum} {minimum, plural, =1 {элемента} other {элементов}}",
+        "tooBig": "Выберите не более {maximum} {maximum, plural, =1 {элемента} other {элементов}}"
+      },
+      "tourProgram": {
+        "tooSmall": "Добавьте не менее {minimum} {minimum, plural, =1 {остановки} other {остановок}}",
+        "tooBig": "Добавьте не более {maximum} {maximum, plural, =1 {остановки} other {остановок}}"
+      }
     }
   },
   "AboutUs": {

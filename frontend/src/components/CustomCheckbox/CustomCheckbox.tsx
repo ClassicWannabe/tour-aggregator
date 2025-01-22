@@ -1,7 +1,7 @@
 import React, { RefAttributes } from "react"
 import Checkbox from "@/components/ui/CheckBox"
 import Label from "@/components/ui/Label"
-import { cn } from "@/lib/utils"
+import { cn } from "@/lib/utils/common"
 import { CheckboxProps } from "@radix-ui/react-checkbox"
 
 interface Props extends Omit<CheckboxProps & RefAttributes<HTMLButtonElement>, "ref"> {

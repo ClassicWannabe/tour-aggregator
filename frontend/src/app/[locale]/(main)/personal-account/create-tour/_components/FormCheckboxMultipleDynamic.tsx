@@ -3,8 +3,8 @@ import Input from "@/components/ui/Input"
 import FormCheckboxMultiple, { FormCheckboxMultipleProps } from "@/components/Form/FormCheckboxMultiple"
 import Button from "@/components/ui/Button"
 import React, { ComponentProps, useRef, useState } from "react"
-import { cn } from "@/lib/utils"
 import AddButton from "@/app/[locale]/(main)/personal-account/create-tour/_components/AddButton"
+import { cn } from "@/lib/utils/common"
 
 export interface FormCheckboxMultipleEditableProps {
   name: string
@@ -37,7 +37,7 @@ export default function FormCheckboxMultipleDynamic({
     }
   }
   const handleAddClick = () => {
-    if (!newItem) {
+    if (!newItem || items.includes(newItem)) {
       setIsNewItemError(true)
       inputRef.current?.focus()
       return

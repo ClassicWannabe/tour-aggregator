@@ -1,6 +1,15 @@
-import { FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/Form"
+import {
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+  useFormField,
+} from "@/components/ui/Form"
 import { ComponentProps } from "react"
 import { Textarea } from "@/components/ui/Textarea"
+import { cn } from "@/lib/utils/common"
 
 interface FormTextareaProps {
   name: string
@@ -14,11 +23,16 @@ export default function FormTextarea({ name, label, helperText, textareaProps }:
     <FormField
       name={name}
       render={({ field }) => {
+        const { error } = useFormField()
         return (
           <FormItem>
             {label && <FormLabel>{label}</FormLabel>}
             <FormControl>
-              <Textarea {...textareaProps} {...field} />
+              <Textarea
+                {...field}
+                {...textareaProps}
+                className={cn(error ? "border-destructive" : "", textareaProps?.className)}
+              />
             </FormControl>
             {helperText && <FormDescription>{helperText}</FormDescription>}
             <FormMessage />

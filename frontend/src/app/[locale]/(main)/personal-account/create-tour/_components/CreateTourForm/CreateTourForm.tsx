@@ -4,23 +4,21 @@ import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import useMultistepForm from "@/lib/hooks/useMultistepForm"
 import { Separator } from "@/components/ui/Separator"
-import {
-  amenitiesFormSchema,
-  attachmentsFormSchema,
-  formSchema,
-  FormType,
-  mainInformationFormSchema,
-  tourProgramFormSchema,
-} from "@/app/[locale]/(main)/personal-account/create-tour/_components/schema"
-import MainInformationForm from "@/app/[locale]/(main)/personal-account/create-tour/_components/MainInformationForm"
-import AmenitiesForm from "@/app/[locale]/(main)/personal-account/create-tour/_components/AmenitiesForm"
 import FormButtons from "@/app/[locale]/(main)/personal-account/create-tour/_components/FormButtons/FormButtons"
 import useBeforeunload from "@/lib/hooks/useBeforeunload"
-import TourProgramForm from "@/app/[locale]/(main)/personal-account/create-tour/_components/TourProgramForm"
-import AttachmentsForm from "@/app/[locale]/(main)/personal-account/create-tour/_components/AttachmentsForm"
+import { useTranslations } from "next-intl"
+import { FormTypeStringified, getSchemas } from "./schema"
+import { MainInformationForm } from "@/app/[locale]/(main)/personal-account/create-tour/_components/MainInformationForm"
+import { AttachmentsForm } from "@/app/[locale]/(main)/personal-account/create-tour/_components/AttachmentsForm"
+import { TourProgramForm } from "@/app/[locale]/(main)/personal-account/create-tour/_components/TourProgramForm"
+import { AmenitiesForm } from "@/app/[locale]/(main)/personal-account/create-tour/_components/AmenitiesForm"
+import { useMemo } from "react"
 
-export default function CreateTourForm() {
-  const form = useForm<FormType>({
+export function CreateTourForm() {
+  const t = useTranslations("CreateTourForm.zod")
+  const { formSchema, mainInformationFormSchema, amenitiesFormSchema, tourProgramFormSchema, attachmentsFormSchema } =
+    useMemo(() => getSchemas(t), [t])
+  const form = useForm<FormTypeStringified>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       tourType: "",
@@ -29,22 +27,26 @@ export default function CreateTourForm() {
         startDate: undefined,
         endDate: undefined,
       },
-      tourPrice: "",
       thesis: "",
       tourName: "",
       description: "",
       location: "",
-      isTourFree: false,
+      tourPrice: {
+        tourPrice: "",
+        isTourFree: false,
+      },
       inclusions: [],
       exclusions: [],
       tourProgram: [
         { time: "", location: "" },
         { time: "", location: "" },
       ],
+      meetingPlace: "",
       images: [],
     },
     mode: "all",
   })
+
   const isFormDirty = form.formState.isDirty
   useBeforeunload(isFormDirty)
 

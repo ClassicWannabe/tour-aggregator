@@ -1,6 +1,6 @@
 import React from "react"
-import { cn } from "@/lib/utils"
 import { Link } from "@/i18n/routing"
+import { cn } from "@/lib/utils/common"
 
 type Variants = "filled" | "outlined" | "text" | "dashed"
 type Colors = "primary" | "secondary"

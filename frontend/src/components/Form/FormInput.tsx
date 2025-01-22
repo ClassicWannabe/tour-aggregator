@@ -1,6 +1,15 @@
-import { FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/Form"
+import {
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+  useFormField,
+} from "@/components/ui/Form"
 import Input from "@/components/ui/Input"
 import { ComponentProps, RefObject } from "react"
+import { cn } from "@/lib/utils/common"
 
 interface FormInputProps {
   name: string
@@ -22,12 +31,18 @@ export default function FormInput({ name, label, helperText, inputProps, contain
             refObject.current = e
           }
         }
+        const { error } = useFormField()
 
         return (
           <FormItem {...containerProps}>
             {label && <FormLabel>{label}</FormLabel>}
             <FormControl>
-              <Input {...field} {...inputProps} ref={handleRefAssignment} />
+              <Input
+                {...field}
+                {...inputProps}
+                ref={handleRefAssignment}
+                className={cn(error ? "border-destructive" : "", inputProps?.className)}
+              />
             </FormControl>
             {helperText && <FormDescription>{helperText}</FormDescription>}
             <FormMessage />
