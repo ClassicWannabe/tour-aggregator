@@ -1,4 +1,4 @@
-import { convertNumberInPriceFormat } from "@/lib/utils"
+import { convertNumberInPriceFormat } from "@/lib/utils/common"
 
 interface Props {
   amount: number | string
