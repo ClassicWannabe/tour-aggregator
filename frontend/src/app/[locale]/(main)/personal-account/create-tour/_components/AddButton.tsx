@@ -1,7 +1,7 @@
-import { cn } from "@/lib/utils"
 import { Plus } from "lucide-react"
 import Button from "@/components/ui/Button"
 import React, { ComponentProps } from "react"
+import { cn } from "@/lib/utils/common"
 
 interface AddButtonProps {
   text?: string

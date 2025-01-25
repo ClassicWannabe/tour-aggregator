@@ -10,7 +10,6 @@ interface ImageAttachmentProps {
 export default function ImageAttachment({ link, onDeleteClick }: ImageAttachmentProps) {
   return (
     <div className="relative group h-24 w-36">
-      {/*<div></div>*/}
       <Image className="object-cover border p-1 rounded-lg" src={link} alt="The image selected by the user" fill />
       <div className="absolute w-full h-full group-hover:flex items-center justify-center gap-4 text-primaryWhite z-10 hidden">
         <a href={link} target="_blank">

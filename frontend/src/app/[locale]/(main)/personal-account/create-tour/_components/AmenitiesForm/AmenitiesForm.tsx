@@ -4,7 +4,7 @@ import FormRadioGroup from "@/components/Form/FormRadioGroup"
 import FormTitle from "@/app/[locale]/(main)/personal-account/create-tour/_components/FormTitle"
 import FormCheckboxMultipleDynamic from "@/app/[locale]/(main)/personal-account/create-tour/_components/FormCheckboxMultipleDynamic"
 
-export default function AmenitiesForm() {
+export function AmenitiesForm() {
   const t = useTranslations("AmenitiesForm")
 
   const initialInclusions = [t("input.inclusions.value1"), t("input.inclusions.value2"), t("input.inclusions.value3")]

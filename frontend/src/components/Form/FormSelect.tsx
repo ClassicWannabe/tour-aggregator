@@ -1,5 +1,14 @@
-import { FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/Form"
+import {
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+  useFormField,
+} from "@/components/ui/Form"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/Select"
+import { cn } from "@/lib/utils/common"
 
 interface FormSelectProps {
   name: string
@@ -14,12 +23,13 @@ export default function FormSelect({ name, label, helperText, options, placehold
     <FormField
       name={name}
       render={({ field }) => {
+        const { error } = useFormField()
         return (
           <FormItem>
             {label && <FormLabel>{label}</FormLabel>}
             <Select onValueChange={field.onChange} defaultValue={field.value}>
               <FormControl>
-                <SelectTrigger className="w-full">
+                <SelectTrigger className={cn("w-full", error ? "border-destructive" : "")}>
                   <SelectValue placeholder={placeholder} />
                 </SelectTrigger>
               </FormControl>

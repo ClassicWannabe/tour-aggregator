@@ -5,12 +5,28 @@ import FormSelect from "@/components/Form/FormSelect"
 import FormTextarea from "@/components/Form/FormTextarea"
 import FormCheckbox from "@/components/Form/FormCheckbox"
 import FormDateRangePicker from "@/components/Form/FormDateRangePicker"
-import { mainInformationFormLimits } from "@/app/[locale]/(main)/personal-account/create-tour/_components/schema"
 import FormTitle from "@/app/[locale]/(main)/personal-account/create-tour/_components/FormTitle"
+import { useFormContext, useWatch } from "react-hook-form"
+import { useEffect } from "react"
+import { mainInformationFormLimits } from "@/app/[locale]/(main)/personal-account/create-tour/_components/MainInformationForm/schema"
 
 const options = new Array(100).fill(1).map((_, i) => ({ value: `value${i}`, text: `значение${i}` }))
-export default function MainInformationForm() {
+export function MainInformationForm() {
   const t = useTranslations("MainInformationForm")
+  const isTourFree: boolean = useWatch({ name: "tourPrice.isTourFree" })
+  const form = useFormContext()
+
+  useEffect(() => {
+    const isFormTouched = Object.values(form.formState.touchedFields).length > 0
+    if (isFormTouched) {
+      form.trigger("tourPrice.tourPrice")
+    }
+
+    if (isTourFree) {
+      form.setValue("tourPrice.tourPrice", "")
+    }
+  }, [isTourFree])
+
   return (
     <>
       <FormTitle title={t("title")} subtitle={t("subtitle")} />
@@ -52,12 +68,16 @@ export default function MainInformationForm() {
           })}
         />
         <FormInput
-          name="tourPrice"
+          name="tourPrice.tourPrice"
           label={t("input.tourPrice.label")}
-          inputProps={{ placeholder: t("input.tourPrice.placeholder"), type: "number" }}
+          inputProps={{
+            placeholder: t("input.tourPrice.placeholder"),
+            type: "number",
+            disabled: isTourFree,
+          }}
         />
         <FormCheckbox
-          name="isTourFree"
+          name="tourPrice.isTourFree"
           label={t("input.isTourFree.label")}
           containerProps={{ className: "items-end" }}
         />

@@ -6,11 +6,14 @@ import { AlertCircle, Plus } from "lucide-react"
 import FormInput from "@/components/Form/FormInput"
 import React, { ChangeEvent, useRef } from "react"
 import Button from "@/components/ui/Button"
-import ImageAttachment from "@/app/[locale]/(main)/personal-account/create-tour/_components/ImageAttachment"
 import { useFormContext } from "react-hook-form"
-import { AttachmentsFormType } from "@/app/[locale]/(main)/personal-account/create-tour/_components/schema"
+import {
+  AttachmentsFormType,
+  imageMimeTypes,
+} from "@/app/[locale]/(main)/personal-account/create-tour/_components/AttachmentsForm/schema"
+import ImageAttachment from "@/app/[locale]/(main)/personal-account/create-tour/_components/AttachmentsForm/ImageAttachment"
 
-export default function AttachmentsForm() {
+export function AttachmentsForm() {
   const t = useTranslations("AttachmentsForm")
   const imagesInputName = "images"
   const inputRef = useRef<HTMLInputElement | null>(null)
@@ -69,7 +72,7 @@ export default function AttachmentsForm() {
           type: "file",
           ref: inputRef,
           className: "hidden",
-          accept: "image/png, image/jpeg",
+          accept: imageMimeTypes.join(", "),
           onChange: handleImageChange,
           value: "",
           multiple: true,

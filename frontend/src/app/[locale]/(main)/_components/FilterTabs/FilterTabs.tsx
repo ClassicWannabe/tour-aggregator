@@ -3,7 +3,7 @@ import React from "react"
 import { useTranslations } from "next-intl"
 import { useRouter } from "@/i18n/routing"
 import { useSearchParams } from "next/navigation"
-import { cn } from "@/lib/utils"
+import { cn } from "@/lib/utils/common"
 
 export default function FilterTabs() {
   const t = useTranslations("Shared")

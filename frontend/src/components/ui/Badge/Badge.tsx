@@ -1,5 +1,5 @@
 import React from "react"
-import { cn } from "@/lib/utils"
+import { cn } from "@/lib/utils/common"
 
 export default function Badge({ text, variant = "primary" }: { text: string; variant?: "primary" | "secondary" }) {
   return (

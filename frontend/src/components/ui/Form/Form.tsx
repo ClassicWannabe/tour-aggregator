@@ -5,7 +5,7 @@ import * as LabelPrimitive from "@radix-ui/react-label"
 import { Slot } from "@radix-ui/react-slot"
 import { Controller, ControllerProps, FieldPath, FieldValues, FormProvider, useFormContext } from "react-hook-form"
 
-import { cn } from "@/lib/utils"
+import { cn } from "@/lib/utils/common"
 import Label from "@/components/ui/Label"
 
 const Form = FormProvider
@@ -114,8 +114,10 @@ FormDescription.displayName = "FormDescription"
 
 const FormMessage = React.forwardRef<HTMLParagraphElement, React.HTMLAttributes<HTMLParagraphElement>>(
   ({ className, children, ...props }, ref) => {
-    const { error, formMessageId } = useFormField()
-    const body = error ? String(error?.message) : children
+    const { error, formMessageId, name } = useFormField()
+    const customErrorMessage = (error?.[name as keyof typeof error] as { message?: string })?.message
+    const errorMessage = error?.message ?? customErrorMessage
+    const body = errorMessage ? String(errorMessage) : children
 
     if (!body) {
       return null

@@ -1,5 +1,5 @@
 import React, { JSX } from "react"
-import { cn } from "@/lib/utils"
+import { cn } from "@/lib/utils/common"
 
 const variants = {
   headline1: "text-[40px] leading-[120%] font-semibold",
