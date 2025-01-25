@@ -9,6 +9,8 @@ import FormTitle from "@/app/[locale]/(main)/personal-account/create-tour/_compo
 import { useFormContext, useWatch } from "react-hook-form"
 import { useEffect } from "react"
 import { mainInformationFormLimits } from "@/app/[locale]/(main)/personal-account/create-tour/_components/MainInformationForm/schema"
+import dayjs from "dayjs"
+import { RecurringTourInputs } from "@/app/[locale]/(main)/personal-account/create-tour/_components/MainInformationForm/RecurringTourInputs"
 
 const options = new Array(100).fill(1).map((_, i) => ({ value: `value${i}`, text: `значение${i}` }))
 export function MainInformationForm() {
@@ -86,13 +88,18 @@ export function MainInformationForm() {
           startDateName="startDate"
           endDateName="endDate"
           label={t("input.dateRange.label")}
-          placeholder={t("input.dateRange.placeholder")}
+          datePickerProps={{
+            showTime: { minuteStep: 5 },
+            minDate: dayjs(),
+            format: "DD.MM.YYYY HH:mm",
+          }}
         />
         <FormInput
           name="numberOfPeople"
           label={t("input.numberOfPeople.label")}
           inputProps={{ placeholder: t("input.numberOfPeople.placeholder"), type: "number" }}
         />
+        <RecurringTourInputs />
       </div>
     </>
   )

@@ -2,9 +2,13 @@ import { Inter } from "next/font/google"
 import { NextIntlClientProvider } from "next-intl"
 import { getMessages, getTranslations, setRequestLocale } from "next-intl/server"
 import { notFound } from "next/navigation"
-import { Locale, routing } from "@/i18n/routing"
+import { routing } from "@/i18n/routing"
 import "../../globals.css"
 import { ReactNode } from "react"
+import { AntdRegistry } from "@ant-design/nextjs-registry"
+import { AntConfigProvider } from "@/components/AntConfigProvider"
+import { DayjsProvider } from "@/components/DayjsProvider"
+import { isLocale } from "@/lib/utils/common"
 
 const inter = Inter({
   subsets: ["latin", "cyrillic", "cyrillic-ext"],
@@ -34,7 +38,7 @@ export async function generateMetadata({ params }: Omit<Props, "children">) {
 
 export default async function RootLayout({ children, params }: Props) {
   const { locale } = await params
-  if (!routing.locales.includes(locale as Locale)) {
+  if (!isLocale(locale)) {
     notFound()
   }
   const messages = await getMessages()
@@ -42,7 +46,13 @@ export default async function RootLayout({ children, params }: Props) {
   return (
     <html lang={locale}>
       <body className={`${inter.variable} antialiased`}>
-        <NextIntlClientProvider messages={messages}>{children}</NextIntlClientProvider>
+        <DayjsProvider locale={locale}>
+          <AntConfigProvider locale={locale}>
+            <AntdRegistry layer>
+              <NextIntlClientProvider messages={messages}>{children}</NextIntlClientProvider>
+            </AntdRegistry>
+          </AntConfigProvider>
+        </DayjsProvider>
       </body>
     </html>
   )

@@ -1,6 +1,17 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@layer tailwind-base, tailwind-components, antd, antd-custom, tailwind-utilities, base, components, utilities;
+
+@layer tailwind-base {
+  @tailwind base;
+}
+
+@layer tailwind-components {
+  @tailwind components;
+
+}
+
+@layer tailwind-utilities {
+  @tailwind utilities;
+}
 
 html {
   height: 100%;
@@ -115,5 +126,45 @@ body {
   }
   .main-layout-padding-horizontal {
     @apply px-4 sm:px-16 md:px-[60px] lg:px-[120px];
+  }
+}
+
+
+@layer antd-custom {
+  .ant-picker {
+    @apply max-h-10 w-full py-2 px-3 rounded-md;
+  }
+  .ant-picker-dropdown .ant-picker-cell-in-view.ant-picker-cell-today .ant-picker-cell-inner::before {
+    @apply border-primaryGreen;
+  }
+  .ant-picker-dropdown .ant-picker-cell-in-view.ant-picker-cell-selected:not(.ant-picker-cell-disabled) .ant-picker-cell-inner, .ant-picker-dropdown .ant-picker-cell-in-view.ant-picker-cell-range-start:not(.ant-picker-cell-disabled) .ant-picker-cell-inner, .ant-picker-dropdown .ant-picker-cell-in-view.ant-picker-cell-range-end:not(.ant-picker-cell-disabled) .ant-picker-cell-inner {
+    @apply bg-primaryGreen
+  }
+  .ant-picker-dropdown .ant-picker-header-view >button:hover {
+    @apply text-primaryGreen
+  }
+  .ant-picker-dropdown .ant-picker-cell-in-view.ant-picker-cell-in-range:not(.ant-picker-cell-disabled):before, .ant-picker-dropdown .ant-picker-cell-in-view.ant-picker-cell-range-start:not(.ant-picker-cell-disabled):before, .ant-picker-dropdown .ant-picker-cell-in-view.ant-picker-cell-range-end:not(.ant-picker-cell-disabled):before {
+    @apply bg-primaryGreen/20
+  }
+  .ant-picker-dropdown .ant-picker-time-panel-column >li.ant-picker-time-panel-cell-selected .ant-picker-time-panel-cell-inner {
+    @apply bg-primaryGreen/20
+  }
+  .ant-btn-variant-solid {
+    @apply bg-primaryGreen;
+  }
+  .ant-btn-variant-solid:disabled, .ant-btn-variant-solid.ant-btn-disabled {
+    @apply bg-muted
+  }
+  .ant-picker-outlined:focus, .ant-picker-outlined:focus-within {
+    @apply border-primaryGreen;
+  }
+  .ant-picker-range .ant-picker-active-bar {
+    @apply bg-primaryGreen;
+  }
+  .ant-picker-outlined:hover {
+    @apply border-input
+  }
+  .ant-picker .ant-picker-input >input:placeholder-shown {
+    @apply placeholder-muted-foreground
   }
 }
