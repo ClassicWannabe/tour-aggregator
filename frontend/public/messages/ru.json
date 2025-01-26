@@ -221,6 +221,15 @@
       "tourProgram": {
         "tooSmall": "Добавьте не менее {minimum} {minimum, plural, =1 {остановки} other {остановок}}",
         "tooBig": "Добавьте не более {maximum} {maximum, plural, =1 {остановки} other {остановок}}"
+      },
+      "weekdays": {
+        "tooSmall": "Укажите не менее одного дня недели"
+      },
+      "repeatPattern": {
+        "choose": "Укажите повторение"
+      },
+      "endRecurringDate": {
+        "choose": "Укажите срок действия тура"
       }
     }
   },

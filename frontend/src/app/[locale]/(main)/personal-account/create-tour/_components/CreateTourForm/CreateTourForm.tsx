@@ -46,6 +46,7 @@ export function CreateTourForm() {
       recurringTour: {
         isRecurringTour: false,
         weekdays: [],
+        withoutEndDate: false,
       },
     },
     mode: "all",

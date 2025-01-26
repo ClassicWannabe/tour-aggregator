@@ -1,3 +1,4 @@
+"use client"
 import FormCheckboxMultiple from "@/components/Form/FormCheckboxMultiple"
 import { useTranslations } from "next-intl"
 import { useMemo } from "react"

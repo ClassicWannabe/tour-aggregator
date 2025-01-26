@@ -1,3 +1,4 @@
+"use client"
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/Form"
 import Checkbox from "@/components/ui/CheckBox"
 import { ComponentProps } from "react"

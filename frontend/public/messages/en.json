@@ -87,6 +87,37 @@
       "numberOfPeople": {
         "label": "Количество мест",
         "placeholder": "Введите кол-во"
+      },
+      "weekdays": {
+        "label": "Выберите дни повторения",
+        "value": {
+          "monday": "Пн",
+          "tuesday": "Вт",
+          "wednesday": "Ср",
+          "thursday": "Чт",
+          "friday": "Пт",
+          "saturday": "Сб",
+          "sunday": "Вс"
+        }
+      },
+      "isRecurringTour": {
+        "label": "Сделать тур повторяющимся"
+      },
+      "repeatPattern": {
+        "label": "Повторять каждую",
+        "placeholder": "Выбрать",
+        "value": {
+          "weekly": "Неделю",
+          "biweekly": "2 недели",
+          "threeWeekly": "3 недели",
+          "monthly": "Месяц"
+        }
+      },
+      "endRecurringDate": {
+        "label": "Срок действия тура"
+      },
+      "withoutEndDate": {
+        "label": "Без даты окончания"
       }
     }
   },
@@ -163,6 +194,11 @@
       "location": {
         "choose": "Выберите локацию/город"
       },
+      "dateRange": {
+        "missingStartDate": "Укажите начальную дату",
+        "missingEndDate": "Укажите конечную дату",
+        "missingDates": "Укажите начальную и конечную даты"
+      },
       "images": {
         "tooSmall": "Добавьте не менее {minimum} фотографий",
         "tooBig": "Добавьте не более {maximum} фотографий",
@@ -185,6 +221,15 @@
       "tourProgram": {
         "tooSmall": "Добавьте не менее {minimum} {minimum, plural, =1 {остановки} other {остановок}}",
         "tooBig": "Добавьте не более {maximum} {maximum, plural, =1 {остановки} other {остановок}}"
+      },
+      "weekdays": {
+        "tooSmall": "Укажите не менее одного дня недели"
+      },
+      "repeatPattern": {
+        "choose": "Укажите повторение"
+      },
+      "endRecurringDate": {
+        "choose": "Укажите срок действия тура"
       }
     }
   },

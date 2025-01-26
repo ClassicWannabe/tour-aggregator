@@ -130,13 +130,41 @@ export const getMainInformationFormSchema = (t: Translate) =>
         }
         return schema.tourPrice && schema.tourPrice >= mainInformationFormLimits.tourPrice.min
       }),
-    recurringTour: z.object({
-      isRecurringTour: z.boolean(),
-      weekdays: z.array(z.nativeEnum(Weekday)).max(7).optional(),
-      repeatPattern: z.nativeEnum(TourRepeatPattern).optional(),
-      endRecurringDate: z.date().optional(),
-      withoutEndDate: z.boolean(),
-    }),
+    recurringTour: z
+      .object({
+        isRecurringTour: z.boolean(),
+        weekdays: z.array(z.nativeEnum(Weekday)).max(7).optional(),
+        repeatPattern: z.nativeEnum(TourRepeatPattern).optional(),
+        endRecurringDate: z.date().optional(),
+        withoutEndDate: z.boolean(),
+      })
+      .superRefine((schema, ctx) => {
+        if (!schema.isRecurringTour) return
+
+        if (!schema.weekdays?.length) {
+          ctx.addIssue({
+            path: ["weekdays"],
+            code: z.ZodIssueCode.custom,
+            message: t("weekdays.tooSmall"),
+          })
+        }
+
+        if (!schema.repeatPattern) {
+          ctx.addIssue({
+            path: ["repeatPattern"],
+            code: z.ZodIssueCode.custom,
+            message: t("repeatPattern.choose"),
+          })
+        }
+
+        if (!schema.withoutEndDate && !schema.endRecurringDate) {
+          ctx.addIssue({
+            path: ["endRecurringDate"],
+            code: z.ZodIssueCode.custom,
+            message: t("endRecurringDate.choose"),
+          })
+        }
+      }),
   })
 
 export type MainInformationFormType = z.infer<ReturnType<typeof getMainInformationFormSchema>>

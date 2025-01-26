@@ -1,3 +1,4 @@
+"use client"
 import FormSelect from "@/components/Form/FormSelect"
 import { useTranslations } from "next-intl"
 import { useMemo } from "react"
