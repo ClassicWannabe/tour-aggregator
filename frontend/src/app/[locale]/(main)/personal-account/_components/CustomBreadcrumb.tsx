@@ -1,7 +1,5 @@
 "use client"
 
-import { usePathname } from "next/navigation"
-import Link from "next/link"
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -13,6 +11,7 @@ import {
 import { useTranslations } from "next-intl"
 import { Home } from "lucide-react"
 import { Fragment } from "react"
+import { Link, usePathname } from "@/i18n/routing"
 
 export default function CustomBreadcrumb() {
   const pathname = usePathname()
@@ -20,15 +19,13 @@ export default function CustomBreadcrumb() {
 
   const pathSegments = pathname.split("/").filter(Boolean)
 
-  const [locale, ...restSegments] = pathSegments
-
   return (
     <Breadcrumb>
       <BreadcrumbList>
-        {restSegments.map((segment, index) => {
+        {pathSegments.map((segment, index) => {
           const isFirstSegment = index === 0
-          const isLastSegment = index === restSegments.length - 1
-          const href = `/${locale}/${restSegments.slice(0, index + 1).join("/")}`
+          const isLastSegment = index === pathSegments.length - 1
+          const href = `/${pathSegments.slice(0, index + 1).join("/")}`
           const icon = isFirstSegment && <Home className="max-h-4" />
 
           if (isLastSegment) {

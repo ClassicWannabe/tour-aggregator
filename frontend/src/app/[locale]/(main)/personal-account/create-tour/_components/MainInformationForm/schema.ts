@@ -11,6 +11,23 @@ export const mainInformationFormLimits = {
   numberOfPeople: { min: 1, max: 100 },
 } as const
 
+export enum Weekday {
+  MONDAY = "monday",
+  TUESDAY = "tuesday",
+  WEDNESDAY = "wednesday",
+  THURSDAY = "thursday",
+  FRIDAY = "friday",
+  SATURDAY = "saturday",
+  SUNDAY = "sunday",
+}
+
+export enum TourRepeatPattern {
+  WEEKLY = "weekly",
+  BIWEEKLY = "biweekly",
+  THREE_WEEKLY = "threeWeekly",
+  MONTHLY = "monthly",
+}
+
 export const getMainInformationFormSchema = (t: Translate) =>
   z.object({
     tourName: z
@@ -48,10 +65,32 @@ export const getMainInformationFormSchema = (t: Translate) =>
         mainInformationFormLimits.description.max,
         t("default.tooBig", { maximum: mainInformationFormLimits.description.max }),
       ),
-    dateRange: z.object({
-      startDate: z.date(),
-      endDate: z.date(),
-    }),
+    dateRange: z
+      .object({
+        startDate: z.coerce.date().optional(),
+        endDate: z.coerce.date().optional(),
+      })
+      .superRefine(({ startDate, endDate }, ctx) => {
+        if (!startDate && !endDate) {
+          ctx.addIssue({
+            code: z.ZodIssueCode.custom,
+            message: t("dateRange.missingDates"),
+            path: ["dateRange"],
+          })
+        } else if (!startDate) {
+          ctx.addIssue({
+            code: z.ZodIssueCode.custom,
+            message: t("dateRange.missingStartDate"),
+            path: ["dateRange"],
+          })
+        } else if (!endDate) {
+          ctx.addIssue({
+            code: z.ZodIssueCode.custom,
+            message: t("dateRange.missingEndDate"),
+            path: ["dateRange"],
+          })
+        }
+      }),
     numberOfPeople: z.coerce
       .number()
       .min(
@@ -90,6 +129,41 @@ export const getMainInformationFormSchema = (t: Translate) =>
           }
         }
         return schema.tourPrice && schema.tourPrice >= mainInformationFormLimits.tourPrice.min
+      }),
+    recurringTour: z
+      .object({
+        isRecurringTour: z.boolean(),
+        weekdays: z.array(z.nativeEnum(Weekday)).max(7).optional(),
+        repeatPattern: z.nativeEnum(TourRepeatPattern).optional(),
+        endRecurringDate: z.date().optional(),
+        withoutEndDate: z.boolean(),
+      })
+      .superRefine((schema, ctx) => {
+        if (!schema.isRecurringTour) return
+
+        if (!schema.weekdays?.length) {
+          ctx.addIssue({
+            path: ["weekdays"],
+            code: z.ZodIssueCode.custom,
+            message: t("weekdays.tooSmall"),
+          })
+        }
+
+        if (!schema.repeatPattern) {
+          ctx.addIssue({
+            path: ["repeatPattern"],
+            code: z.ZodIssueCode.custom,
+            message: t("repeatPattern.choose"),
+          })
+        }
+
+        if (!schema.withoutEndDate && !schema.endRecurringDate) {
+          ctx.addIssue({
+            path: ["endRecurringDate"],
+            code: z.ZodIssueCode.custom,
+            message: t("endRecurringDate.choose"),
+          })
+        }
       }),
   })
 

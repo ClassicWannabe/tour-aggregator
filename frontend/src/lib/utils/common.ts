@@ -1,5 +1,6 @@
 import { clsx, type ClassValue } from "clsx"
 import { twMerge } from "tailwind-merge"
+import { Locale, routing } from "@/i18n/routing"
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
@@ -63,4 +64,8 @@ export function formatDateToCustomString(isoDate: string, locale: string = "ru")
   const minutes = date.getMinutes().toString().padStart(2, "0")
 
   return `${dayOfWeek}, ${day} ${month} в ${hours}:${minutes}`
+}
+
+export function isLocale(locale: string): locale is Locale {
+  return routing.locales.includes(locale as Locale)
 }
