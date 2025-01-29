@@ -9,33 +9,57 @@ import { PlusIcon } from "lucide-react"
 import CustomCheckbox from "@/components/CustomCheckbox"
 
 export default function SingUpForm() {
-  const sT = useTranslations("Shared")
-  const t = useTranslations("SignUpPage")
+  const t = useTranslations()
 
   return (
     <Form action={() => {}} className="flex-col flex gap-3">
       <Tabs defaultValue="tourAgency" className="w-full flex flex-col gap-3">
         <TabsList className="w-full">
-          <TabsTrigger value="tourAgency">{sT("tourAgency")}</TabsTrigger>
-          <TabsTrigger value="tourGuide">{sT("tourGuide")}</TabsTrigger>
+          <TabsTrigger value="tourAgency">{t("Shared.tourAgency")}</TabsTrigger>
+          <TabsTrigger value="tourGuide">{t("Shared.tourGuide")}</TabsTrigger>
         </TabsList>
-        <CustomInput id="email-input" label={sT("email")} placeholder={sT("email")} type="email" />
+        <CustomInput id="email-input" label={t("Shared.email")} placeholder={t("Shared.email")} type="email" />
         <TabsContent value="tourAgency" className="flex flex-col gap-3 mt-0">
-          <CustomInput id="company-name" label={t("companyName")} placeholder={t("companyName")} type="text" />
-          <CustomInput id="owner-full-name" label={t("ownerFullName")} placeholder={t("ownerFullName")} type="text" />
+          <CustomInput
+            id="company-name"
+            label={t("SignUpPage.companyName")}
+            placeholder={t("SignUpPage.companyName")}
+            type="text"
+          />
+          <CustomInput
+            id="owner-full-name"
+            label={t("SignUpPage.ownerFullName")}
+            placeholder={t("SignUpPage.ownerFullName")}
+            type="text"
+          />
         </TabsContent>
         <TabsContent value="tourGuide" className="flex flex-col gap-3 mt-0">
-          <CustomInput id="guide-name" label={t("name")} placeholder={t("name")} type="text" />
-          <CustomInput id="guide-surname" label={t("surname")} placeholder={t("surname")} type="text" />
+          <CustomInput id="guide-name" label={t("SignUpPage.name")} placeholder={t("SignUpPage.name")} type="text" />
+          <CustomInput
+            id="guide-surname"
+            label={t("SignUpPage.surname")}
+            placeholder={t("SignUpPage.surname")}
+            type="text"
+          />
         </TabsContent>
-        <CustomInput id="password-input" label={sT("password")} placeholder={sT("password")} type="password" />
         <CustomInput
-          id="password-confirm-input"
-          label={t("confirmPassword")}
-          placeholder={t("confirmPassword")}
+          id="password-input"
+          label={t("Shared.password")}
+          placeholder={t("Shared.password")}
           type="password"
         />
-        <CustomInput id="resources-links" label={t("resourcesLinks")} placeholder={t("resourcesLinks")} type="text" />
+        <CustomInput
+          id="password-confirm-input"
+          label={t("SignUpPage.confirmPassword")}
+          placeholder={t("SignUpPage.confirmPassword")}
+          type="password"
+        />
+        <CustomInput
+          id="resources-links"
+          label={t("SignUpPage.resourcesLinks")}
+          placeholder={t("SignUpPage.resourcesLinks")}
+          type="text"
+        />
         <Button
           className="w-fit px-1 text-body2 flex items-center gap-1"
           type="button"
@@ -44,13 +68,13 @@ export default function SingUpForm() {
           size="sm"
         >
           <PlusIcon size={14} />
-          {t("addOtherLink")}
+          {t("SignUpPage.addOtherLink")}
         </Button>
-        <CustomCheckbox label={t("agreeToTermPolicy")} />
-        <CustomCheckbox label={t("agreeToReceiveUpdates")} />
+        <CustomCheckbox label={t("SignUpPage.agreeToTermPolicy")} />
+        <CustomCheckbox label={t("SignUpPage.agreeToReceiveUpdates")} />
       </Tabs>
       <Button className="w-full text-body1 text-primaryWhite" type="submit">
-        {t("createAccount")}
+        {t("SignUpPage.createAccount")}
       </Button>
     </Form>
   )

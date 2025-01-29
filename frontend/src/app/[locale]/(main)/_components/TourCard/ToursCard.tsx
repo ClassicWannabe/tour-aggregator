@@ -12,7 +12,7 @@ interface Props {
 }
 
 export default async function TourCard({ tour }: Props) {
-  const sT = await getTranslations("Shared")
+  const t = await getTranslations("Shared")
   const locale = await getLocale()
 
   return (
@@ -35,7 +35,7 @@ export default async function TourCard({ tour }: Props) {
             <Badge text={formatDateToCustomString(tour.endDate, locale)} />
           </div>
           <div className="flex gap-2 items-center">
-            <CurrencyText amount={tour.pricePerPerson} /> <p>{sT("perPerson")}</p>
+            <CurrencyText amount={tour.pricePerPerson} /> <p>{t("perPerson")}</p>
           </div>
         </div>
       </div>

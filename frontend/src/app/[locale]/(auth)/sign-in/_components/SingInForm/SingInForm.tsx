@@ -4,15 +4,19 @@ import { getTranslations } from "next-intl/server"
 import CustomInput from "@/components/CustomInput/CustomInput"
 
 export default async function SingInForm() {
-  const sT = await getTranslations("Shared")
-  const t = await getTranslations("AuthPage")
+  const t = await getTranslations()
 
   return (
     <div className="flex-col flex gap-3">
-      <CustomInput id="email-input" label={sT("email")} placeholder={sT("email")} type="email" />
-      <CustomInput id="password-input" label={sT("password")} placeholder={sT("password")} type="password" />
+      <CustomInput id="email-input" label={t("Shared.email")} placeholder={t("Shared.email")} type="email" />
+      <CustomInput
+        id="password-input"
+        label={t("Shared.password")}
+        placeholder={t("Shared.password")}
+        type="password"
+      />
       <Button className="w-full text-body1 text-primaryWhite" type="submit">
-        {t("enterAccountBtn")}
+        {t("AuthPage.enterAccountBtn")}
       </Button>
     </div>
   )
