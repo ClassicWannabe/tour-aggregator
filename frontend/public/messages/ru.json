@@ -267,6 +267,7 @@
   },
   "Filter": {
     "filterTitle": "Фильтр",
+    "filtersTitle": "Фильтры",
     "toFilterBy": "Фильтровать по:",
     "reset": "Сбросить",
     "resetAll": "Сбросить все",
