@@ -41,9 +41,9 @@ export class SuppliersService {
         'Provide either company or individual supplier payload',
       );
     }
-    let supplierType: SupplierType = SupplierType.IndividualSupplier;
+    let supplierType: SupplierType = SupplierType.INDIVIDUAL_SUPPLIER;
     if (companySupplier) {
-      supplierType = SupplierType.CompanySupplier;
+      supplierType = SupplierType.COMPANY_SUPPLIER;
     }
 
     const newSupplier = await this.prismaService.supplier.create({

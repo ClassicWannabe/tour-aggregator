@@ -18,17 +18,16 @@ import { FindAllToursDto } from './dto/find-all-tours.dto';
 import { SupplierJwt } from '../suppliers/supplier-jwt.decorator';
 import { SupplierJwtBody } from '../suppliers/types';
 import { SupplierAuthGuard } from '../suppliers/supplier-auth.guard';
+import { UploadPhotoDto } from './dto/upload-photo.dto';
 
 @Controller('tours')
-@ApiTags('Tours Controller')
+@ApiTags('Tours')
 export class ToursController {
   constructor(private readonly toursService: ToursService) {}
 
   @Post()
   @ApiBearerAuth()
   @UseGuards(SupplierAuthGuard)
-  @FormDataRequest()
-  @ApiConsumes('multipart/form-data')
   create(
     @Body() createTourDto: CreateTourDto,
     @SupplierJwt() supplier: SupplierJwtBody,
@@ -58,5 +57,17 @@ export class ToursController {
   @UseGuards(SupplierAuthGuard)
   remove(@Param('id') id: string, @SupplierJwt() supplier: SupplierJwtBody) {
     return this.toursService.remove(id, supplier.sub);
+  }
+
+  @Post('upload-photo')
+  @ApiBearerAuth()
+  @UseGuards(SupplierAuthGuard)
+  @FormDataRequest()
+  @ApiConsumes('multipart/form-data')
+  uploadPhoto(
+    @Body() uploadPhotoDto: UploadPhotoDto,
+    @SupplierJwt() supplier: SupplierJwtBody,
+  ) {
+    return this.toursService.uploadPhoto(uploadPhotoDto.photo, supplier.sub);
   }
 }

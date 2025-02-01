@@ -1,36 +1,41 @@
-import { ApiProperty, PickType } from '@nestjs/swagger';
-import { TourDto } from './tour.dto';
-import { IsOptional } from 'class-validator';
 import {
-  HasMimeType,
-  IsFiles,
-  MemoryStoredFile,
-  MaxFileSize,
-} from 'nestjs-form-data';
-import { ALLOWED_PHOTO_MIME_TYPES, TWO_MB_IN_BYTES } from '../constants';
+  ApiProperty,
+  ApiPropertyOptional,
+  PickType,
+  IntersectionType,
+} from '@nestjs/swagger';
+import { TourDto } from './tour.dto';
+import { IsOptional, Length, ValidateNested } from 'class-validator';
+import { RecurringTourDto } from './recurring-tour.dto';
+import { Type } from 'class-transformer';
+import { TourProgramDto } from './tour-program.dto';
+import { TourPhotoFormDto } from './tour-photo-form.dto';
+import { TourProgramFormDto } from './tour-program-form.dto';
 
-export class CreateTourDto extends PickType(TourDto, [
-  'title',
-  'thesis',
-  'description',
-  'transportDescription',
-  'pricePerPerson',
-  'contacts',
-  'peopleCount',
-  'inclusions',
-  'exclusions',
-  'highlights',
-  'startDate',
-  'endDate',
-]) {
-  @ApiProperty({
-    description: 'Tour photos',
-    type: [String],
-    format: 'binary',
+export class CreateTourDto extends IntersectionType(
+  PickType(TourDto, [
+    'title',
+    'thesis',
+    'description',
+    'isTransportIncluded',
+    'locationId',
+    'pricePerPerson',
+    'contacts',
+    'peopleCount',
+    'inclusions',
+    'exclusions',
+    'startDate',
+    'endDate',
+    'type',
+  ]),
+  PickType(TourPhotoFormDto, ['photoIds']),
+  PickType(TourProgramFormDto, ['program']),
+) {
+  @ApiPropertyOptional({
+    description: 'Tour recurrence pattern',
   })
-  @IsFiles()
-  @HasMimeType(ALLOWED_PHOTO_MIME_TYPES, { each: true })
-  @MaxFileSize(TWO_MB_IN_BYTES, { each: true })
+  @ValidateNested()
+  @Type(() => RecurringTourDto)
   @IsOptional()
-  photos: MemoryStoredFile[];
+  recurrence?: RecurringTourDto;
 }

@@ -1,32 +1,47 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import {
   IsInt,
-  IsOptional,
   IsString,
   Length,
   Min,
   Max,
   IsPhoneNumber,
+  ArrayMinSize,
   ArrayMaxSize,
   IsDate,
+  IsBoolean,
+  IsOptional,
+  IsUUID,
+  Validate,
+  IsIn,
 } from 'class-validator';
 import { Transform, Type } from 'class-transformer';
+import { IsLocationExistsValidator } from '../../../validators/is-location-exists/is-location-exists.validator';
+import { TimestampDto } from './timestamp.dto';
+import { TourType } from '@prisma/client';
 
-export class TourDto {
+export class TourDto extends TimestampDto {
   @ApiProperty({
     description: 'UUID of a tour',
     example: '1f4b806b-8483-4ee2-a013-d12dc959165e',
   })
   id: string;
 
-  @ApiProperty({ description: 'Title', example: 'My Tour Title' })
+  @ApiProperty({
+    description: 'Title',
+    example: 'My Tour Title that is going to attract many people',
+  })
   @IsString()
-  @Length(3, 80)
+  @Length(10, 100)
   title: string;
 
-  @ApiProperty({ description: 'Thesis', example: 'My tour summary' })
+  @ApiProperty({
+    description: 'Thesis',
+    example:
+      'My tour summary: the best view in the whole world. Do not be late to get amazing experience in our tour',
+  })
   @IsString()
-  @Length(3, 200)
+  @Length(50, 200)
   thesis: string;
 
   @ApiProperty({
@@ -34,22 +49,29 @@ export class TourDto {
     example: 'Some tour description',
   })
   @IsString()
-  @Length(3, 1000)
+  @Length(50, 3000)
   description: string;
 
-  @ApiPropertyOptional({
-    description: 'Transport description',
-    example: 'Some transport description',
+  @ApiProperty({
+    description: 'Tour type',
+    // example: TourType.WALKING,
+    enum: TourType,
   })
-  @IsString()
-  @IsOptional()
-  @Length(3, 100)
-  transportDescription?: string;
+  @IsIn(Object.values(TourType))
+  type: TourType;
+
+  @ApiProperty({
+    description: 'Is transport included?',
+    example: true,
+  })
+  @IsBoolean()
+  isTransportIncluded: boolean;
 
   @ApiProperty({
     description: 'Phone number of the supplier',
     example: ['7778883412', '7778883412'],
   })
+  @ArrayMinSize(2)
   @ArrayMaxSize(10)
   @IsString({ each: true })
   @IsPhoneNumber('KZ', { each: true })
@@ -60,21 +82,10 @@ export class TourDto {
   contacts: string[];
 
   @ApiProperty({
-    description: 'Tour highlight text',
-    example: ['Best view in the city', 'Super experience and many more'],
-  })
-  @ArrayMaxSize(10)
-  @IsString({ each: true })
-  @Length(3, 80, { each: true })
-  @Transform(({ value }) => {
-    return value.split(',');
-  })
-  highlights: string[];
-
-  @ApiProperty({
     description: 'Tour inclusion text',
     example: ['Food'],
   })
+  @ArrayMinSize(2)
   @ArrayMaxSize(10)
   @IsString({ each: true })
   @Length(3, 80, { each: true })
@@ -95,15 +106,24 @@ export class TourDto {
   })
   exclusions: string[];
 
-  @ApiProperty({
-    description: 'Tour price per person',
+  @ApiPropertyOptional({
+    description: 'Tour price per person in tenge',
     example: 10_000,
   })
   @IsInt()
   @Min(1000)
   @Max(10_000_000)
   @Type(() => Number)
-  pricePerPerson: number;
+  @IsOptional()
+  pricePerPerson?: number;
+
+  @ApiProperty({
+    description: 'Tour location UUID',
+    example: '1f4b806b-8483-4ee2-a013-d12dc959165e',
+  })
+  @IsUUID()
+  @Validate(IsLocationExistsValidator)
+  locationId: string;
 
   @ApiProperty({
     description: 'Max number of people during tour',
@@ -111,7 +131,7 @@ export class TourDto {
   })
   @IsInt()
   @Min(1)
-  @Max(1000)
+  @Max(100)
   @Type(() => Number)
   peopleCount: number;
 
@@ -132,19 +152,7 @@ export class TourDto {
   endDate: Date;
 
   @ApiProperty({
-    description: 'Created date',
-    example: '2024-10-01T12:34:56.789Z',
-  })
-  createdAt: Date;
-
-  @ApiProperty({
-    description: 'Updated date',
-    example: '2024-10-01T12:34:56.789Z',
-  })
-  updatedAt: Date;
-
-  @ApiProperty({
-    description: 'Supplier who created the tour',
+    description: 'Supplier UUID who created the tour',
     example: '1f4b806b-8483-4ee2-a013-d12dc959165e',
   })
   supplierId: string;

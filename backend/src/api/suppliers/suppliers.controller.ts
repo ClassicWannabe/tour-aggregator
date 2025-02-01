@@ -18,7 +18,7 @@ import { VerifyEmailDto } from './dto/verify-email.dto';
 import { SendEmailVerificationDto } from './dto/send-email-verification.dto';
 
 @Controller('suppliers')
-@ApiTags('Suppliers Controller')
+@ApiTags('Suppliers')
 export class SuppliersController {
   constructor(private readonly suppliersService: SuppliersService) {}
 

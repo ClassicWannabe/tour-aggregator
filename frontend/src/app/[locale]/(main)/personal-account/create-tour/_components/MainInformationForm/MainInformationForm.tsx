@@ -34,9 +34,9 @@ export function MainInformationForm() {
       <FormTitle title={t("title")} subtitle={t("subtitle")} />
       <div className="grid lg:grid-cols-2 lg:gap-x-6 gap-y-10">
         <FormInput
-          name="tourName"
-          label={t("input.tourName.label")}
-          inputProps={{ placeholder: t("input.tourName.placeholder") }}
+          name="title"
+          label={t("input.title.label")}
+          inputProps={{ placeholder: t("input.title.placeholder") }}
           containerProps={{ className: "col-span-2" }}
         />
         <FormSelect
@@ -70,16 +70,16 @@ export function MainInformationForm() {
           })}
         />
         <FormInput
-          name="tourPrice.tourPrice"
-          label={t("input.tourPrice.label")}
+          name="priceInfo.pricePerPerson"
+          label={t("input.pricePerPerson.label")}
           inputProps={{
-            placeholder: t("input.tourPrice.placeholder"),
+            placeholder: t("input.pricePerPerson.placeholder"),
             type: "number",
             disabled: isTourFree,
           }}
         />
         <FormCheckbox
-          name="tourPrice.isTourFree"
+          name="priceInfo.isTourFree"
           label={t("input.isTourFree.label")}
           containerProps={{ className: "items-end" }}
         />
@@ -95,9 +95,9 @@ export function MainInformationForm() {
           }}
         />
         <FormInput
-          name="numberOfPeople"
-          label={t("input.numberOfPeople.label")}
-          inputProps={{ placeholder: t("input.numberOfPeople.placeholder"), type: "number" }}
+          name="peopleCount"
+          label={t("input.peopleCount.label")}
+          inputProps={{ placeholder: t("input.peopleCount.placeholder"), type: "number" }}
         />
         <RecurringTourInputs />
       </div>

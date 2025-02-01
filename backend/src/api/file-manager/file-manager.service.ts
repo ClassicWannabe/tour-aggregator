@@ -14,7 +14,6 @@ enum PhotoType {
 
 interface PhotoKeyParts {
   supplierId: string;
-  tourId: string;
   photoType: PhotoType;
   extension: string;
   uuid: string;
@@ -23,7 +22,6 @@ interface PhotoKeyParts {
 interface UploadPhotoParams {
   photo: MemoryStoredFile;
   supplierId: string;
-  tourId: string;
 }
 
 @Injectable()
@@ -44,11 +42,11 @@ export class FileManagerService implements OnModuleInit {
     );
   }
 
-  async uploadPhoto({ photo, tourId, supplierId }: UploadPhotoParams) {
+  async uploadPhoto({ photo, supplierId }: UploadPhotoParams) {
     const { mediumFileBuffer, previewFileBuffer } =
       await this.compressPhoto(photo);
 
-    const keys = this.getPhotoKeys({ photo, tourId, supplierId });
+    const keys = this.getPhotoKeys({ photo, supplierId });
 
     const [originalOutput, mediumOutput, previewOutput] = await Promise.all([
       this.storageService.uploadFile({
@@ -79,26 +77,23 @@ export class FileManagerService implements OnModuleInit {
     };
   }
 
-  private getPhotoKeys({ photo, tourId, supplierId }: UploadPhotoParams) {
+  private getPhotoKeys({ photo, supplierId }: UploadPhotoParams) {
     const fileNameUuid = crypto.randomUUID();
 
     const originalPhotoKey = this.constructPhotoKeyPath({
       supplierId,
-      tourId,
       photoType: PhotoType.ORIGINAL,
       extension: photo.extension,
       uuid: fileNameUuid,
     });
     const mediumPhotoKey = this.constructPhotoKeyPath({
       supplierId,
-      tourId,
       photoType: PhotoType.MEDIUM,
       extension: COMPRESS_OPTIONS.medium.extension,
       uuid: fileNameUuid,
     });
     const previewPhotoKey = this.constructPhotoKeyPath({
       supplierId,
-      tourId,
       photoType: PhotoType.PREVIEW,
       extension: COMPRESS_OPTIONS.preview.extension,
       uuid: fileNameUuid,
@@ -130,12 +125,11 @@ export class FileManagerService implements OnModuleInit {
 
   private constructPhotoKeyPath({
     supplierId,
-    tourId,
     extension,
     photoType,
     uuid,
   }: PhotoKeyParts) {
-    return `${this.tourFilePath}/suppliers/${supplierId}/tours/${tourId}/${photoType}-${uuid}.${extension}`;
+    return `${this.tourFilePath}/suppliers/${supplierId}/${photoType}-${uuid}.${extension}`;
   }
 
   async deletePhotos(urls: string[]) {

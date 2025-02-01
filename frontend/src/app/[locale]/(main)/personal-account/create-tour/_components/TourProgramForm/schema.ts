@@ -3,9 +3,9 @@ import { Translate } from "@/lib/interfaces/translation"
 
 export const tourProgramFormLimits = {
   tourProgram: {
-    min: 3,
+    min: 2,
     max: 30,
-    location: { min: 50, max: 200 },
+    description: { min: 20, max: 200 },
   },
 } as const
 
@@ -15,15 +15,15 @@ export const getTourProgramFormSchema = (t: Translate) =>
       .array(
         z.object({
           time: z.string(),
-          location: z
+          description: z
             .string()
             .min(
-              tourProgramFormLimits.tourProgram.location.min,
-              t("default.tooSmall", { minimum: tourProgramFormLimits.tourProgram.location.min }),
+              tourProgramFormLimits.tourProgram.description.min,
+              t("default.tooSmall", { minimum: tourProgramFormLimits.tourProgram.description.min }),
             )
             .max(
-              tourProgramFormLimits.tourProgram.location.max,
-              t("default.tooBig", { maximum: tourProgramFormLimits.tourProgram.location.max }),
+              tourProgramFormLimits.tourProgram.description.max,
+              t("default.tooBig", { maximum: tourProgramFormLimits.tourProgram.description.max }),
             ),
         }),
       )

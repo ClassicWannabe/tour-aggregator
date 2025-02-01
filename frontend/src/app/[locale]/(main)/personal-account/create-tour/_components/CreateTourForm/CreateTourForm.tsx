@@ -22,24 +22,23 @@ export function CreateTourForm() {
     resolver: zodResolver(formSchema),
     defaultValues: {
       tourType: "",
-      numberOfPeople: "",
+      peopleCount: "",
       dateRange: {
         startDate: undefined,
         endDate: undefined,
       },
       thesis: "",
-      tourName: "",
+      title: "",
       description: "",
-      location: "",
-      tourPrice: {
-        tourPrice: "",
+      priceInfo: {
+        pricePerPerson: "",
         isTourFree: false,
       },
       inclusions: [],
       exclusions: [],
       tourProgram: [
-        { time: "", location: "" },
-        { time: "", location: "" },
+        { time: "", description: "" },
+        { time: "", description: "" },
       ],
       meetingPlace: "",
       images: [],

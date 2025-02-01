@@ -2,13 +2,12 @@ import { z } from "zod"
 import { Translate } from "@/lib/interfaces/translation"
 
 export const mainInformationFormLimits = {
-  tourName: { min: 10, max: 100 },
+  title: { min: 10, max: 100 },
   location: { min: 1 },
-  tourType: { min: 1 },
   thesis: { min: 50, max: 200 },
   description: { min: 50, max: 3000 },
-  tourPrice: { min: 1000, max: 10_000_000 },
-  numberOfPeople: { min: 1, max: 100 },
+  pricePerPerson: { min: 1000, max: 10_000_000 },
+  peopleCount: { min: 1, max: 100 },
 } as const
 
 export enum Weekday {
@@ -28,21 +27,21 @@ export enum TourRepeatPattern {
   MONTHLY = "monthly",
 }
 
+export enum TourType {
+  WALKING = "WALKING",
+  CITY = "CITY",
+  FIELD = "FIELD",
+}
+
 export const getMainInformationFormSchema = (t: Translate) =>
   z.object({
-    tourName: z
+    title: z
       .string()
       .trim()
-      .min(
-        mainInformationFormLimits.tourName.min,
-        t("default.tooSmall", { minimum: mainInformationFormLimits.tourName.min }),
-      )
-      .max(
-        mainInformationFormLimits.tourName.max,
-        t("default.tooBig", { maximum: mainInformationFormLimits.tourName.max }),
-      ),
+      .min(mainInformationFormLimits.title.min, t("default.tooSmall", { minimum: mainInformationFormLimits.title.min }))
+      .max(mainInformationFormLimits.title.max, t("default.tooBig", { maximum: mainInformationFormLimits.title.max })),
     location: z.string().min(mainInformationFormLimits.location.min, t("location.choose")),
-    tourType: z.string().min(mainInformationFormLimits.tourType.min, t("tourType.choose")),
+    tourType: z.nativeEnum(TourType, { message: t("tourType.choose") }),
     thesis: z
       .string()
       .trim()
@@ -91,44 +90,44 @@ export const getMainInformationFormSchema = (t: Translate) =>
           })
         }
       }),
-    numberOfPeople: z.coerce
+    peopleCount: z.coerce
       .number()
       .min(
-        mainInformationFormLimits.numberOfPeople.min,
-        t("numberOfPeople.tooSmall", { minimum: mainInformationFormLimits.numberOfPeople.min }),
+        mainInformationFormLimits.peopleCount.min,
+        t("peopleCount.tooSmall", { minimum: mainInformationFormLimits.peopleCount.min }),
       )
       .max(
-        mainInformationFormLimits.numberOfPeople.max,
-        t("numberOfPeople.tooBig", { maximum: mainInformationFormLimits.numberOfPeople.max }),
+        mainInformationFormLimits.peopleCount.max,
+        t("peopleCount.tooBig", { maximum: mainInformationFormLimits.peopleCount.max }),
       ),
-    tourPrice: z
+    priceInfo: z
       .object({
-        tourPrice: z.coerce.number().optional(),
+        pricePerPerson: z.coerce.number().int().optional(),
         isTourFree: z.boolean(),
       })
       .superRefine((schema, ctx) => {
         if (!schema.isTourFree) {
-          if (!schema.tourPrice) {
+          if (!schema.pricePerPerson) {
             ctx.addIssue({
-              path: ["tourPrice"],
+              path: ["pricePerPerson"],
               code: z.ZodIssueCode.custom,
-              message: t("tourPrice.empty"),
+              message: t("pricePerPerson.empty"),
             })
-          } else if (schema.tourPrice < mainInformationFormLimits.tourPrice.min) {
+          } else if (schema.pricePerPerson < mainInformationFormLimits.pricePerPerson.min) {
             ctx.addIssue({
-              path: ["tourPrice"],
+              path: ["pricePerPerson"],
               code: z.ZodIssueCode.custom,
-              message: t("tourPrice.tooSmall", { minimum: mainInformationFormLimits.tourPrice.min }),
+              message: t("pricePerPerson.tooSmall", { minimum: mainInformationFormLimits.pricePerPerson.min }),
             })
-          } else if (schema.tourPrice > mainInformationFormLimits.tourPrice.max) {
+          } else if (schema.pricePerPerson > mainInformationFormLimits.pricePerPerson.max) {
             ctx.addIssue({
-              path: ["tourPrice"],
+              path: ["pricePerPerson"],
               code: z.ZodIssueCode.custom,
-              message: t("tourPrice.tooBig", { maximum: mainInformationFormLimits.tourPrice.max }),
+              message: t("pricePerPerson.tooBig", { maximum: mainInformationFormLimits.pricePerPerson.max }),
             })
           }
         }
-        return schema.tourPrice && schema.tourPrice >= mainInformationFormLimits.tourPrice.min
+        return schema.pricePerPerson && schema.pricePerPerson >= mainInformationFormLimits.pricePerPerson.min
       }),
     recurringTour: z
       .object({

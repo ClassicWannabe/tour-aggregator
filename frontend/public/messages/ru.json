@@ -52,7 +52,7 @@
     "title": "Основная информация",
     "subtitle": "Эта информация будет отображаться публично, поэтому будьте осторожны с тем, что вы делитесь.",
     "input": {
-      "tourName": {
+      "title": {
         "label": "Название тура",
         "placeholder": "Введите название тура"
       },
@@ -74,7 +74,7 @@
         "placeholder": "Введите описание",
         "helperText": "Не менее {minSymbols} символов не более {maxSymbols} символов"
       },
-      "tourPrice": {
+      "pricePerPerson": {
         "label": "Стоимость тура за человека",
         "placeholder": "Введите цену"
       },
@@ -84,7 +84,7 @@
       "dateRange": {
         "label": "Даты отправления и прибытия"
       },
-      "numberOfPeople": {
+      "peopleCount": {
         "label": "Количество мест",
         "placeholder": "Введите кол-во"
       },
@@ -205,11 +205,11 @@
         "invalidType": "Некорректный тип фотографий",
         "tooBigSize": "Размер фотографии не может превышать {MB} MB"
       },
-      "numberOfPeople": {
+      "peopleCount": {
         "tooSmall": "Укажите не менее {minimum} {minimum, plural, =1 {местa} other {мест}}",
         "tooBig": "Укажите не более {maximum} мест"
       },
-      "tourPrice": {
+      "pricePerPerson": {
         "empty": "Укажите цену за человека",
         "tooSmall": "Укажите цену не менее {minimum} тенге за человека",
         "tooBig": "Укажите цену не более {maximum} тенге за человека"

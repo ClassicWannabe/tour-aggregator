@@ -22,7 +22,7 @@ export function TourProgramForm() {
   const handleAddClick = () => {
     append({
       time: "",
-      location: "",
+      description: "",
     })
   }
   return (
@@ -46,13 +46,13 @@ export function TourProgramForm() {
                       inputProps={{ className: "max-w-36", placeholder: t("input.time.placeholder") }}
                     />
                     <FormTextarea
-                      name={`${inputName}.${index}.location`}
-                      label={t("input.location.label")}
-                      helperText={t("input.location.helperText", {
-                        minSymbols: tourProgramFormLimits.tourProgram.location.min,
-                        maxSymbols: tourProgramFormLimits.tourProgram.location.max,
+                      name={`${inputName}.${index}.description`}
+                      label={t("input.description.label")}
+                      helperText={t("input.description.helperText", {
+                        minSymbols: tourProgramFormLimits.tourProgram.description.min,
+                        maxSymbols: tourProgramFormLimits.tourProgram.description.max,
                       })}
-                      textareaProps={{ placeholder: t("input.location.placeholder"), rows: 4 }}
+                      textareaProps={{ placeholder: t("input.description.placeholder"), rows: 4 }}
                     />
                   </div>
                 </div>

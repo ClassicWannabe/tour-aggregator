@@ -39,8 +39,8 @@ model VerificationCode {
 }
 
 enum SupplierType {
-  CompanySupplier
-  IndividualSupplier
+  COMPANY_SUPPLIER
+  INDIVIDUAL_SUPPLIER
 }
 
 model CompanySupplier {
@@ -70,48 +70,86 @@ model SupplierUpload {
   supplier   Supplier @relation(fields: [supplierId], references: [id], onDelete: Cascade)
 }
 
-model Tour {
-  id                   String   @id @default(uuid()) @db.Uuid
-  title                String
-  thesis               String
-  description          String
-  transportDescription String?
-  pricePerPerson       Int
-  peopleCount          Int
-  contacts             String[]
-  highlights           String[]
-  inclusions           String[]
-  exclusions           String[]
-  startDate            DateTime
-  endDate              DateTime
-  createdAt            DateTime @default(now())
-  updatedAt            DateTime @updatedAt
+enum TourType {
+  WALKING
+  CITY
+  FIELD
+}
 
-  itineraries TourItinerary[]
-  photos      TourPhoto[]
+model Tour {
+  id                  String   @id @default(uuid()) @db.Uuid
+  title               String
+  thesis              String
+  description         String
+  isTransportIncluded Boolean
+  pricePerPerson      Int?
+  peopleCount         Int
+  type                TourType
+  inclusions          String[]
+  exclusions          String[]
+  contacts            String[]
+  startDate           DateTime
+  endDate             DateTime
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+  program             Json
+
+  photos TourPhoto[]
 
   supplierId String   @db.Uuid
   supplier   Supplier @relation(fields: [supplierId], references: [id])
+
+  locationId String   @db.Uuid
+  location   Location @relation(fields: [locationId], references: [id])
+
+  recurrence RecurringTour?
+}
+
+enum Weekday {
+  MONDAY
+  TUESDAY
+  WEDNESDAY
+  THURSDAY
+  FRIDAY
+  SATURDAY
+  SUNDAY
+}
+
+enum TourRepeatPattern {
+  WEEKLY
+  BIWEEKLY
+  THREE_WEEKLY
+  MONTHLY
+}
+
+model RecurringTour {
+  id            String            @id @default(uuid()) @db.Uuid
+  weekdays      Weekday[]
+  repeatPattern TourRepeatPattern
+  endDate       DateTime?
+  createdAt     DateTime          @default(now())
+  updatedAt     DateTime          @updatedAt
+
+  tourId String @unique @db.Uuid
+  tour   Tour   @relation(fields: [tourId], references: [id])
 }
 
 model TourPhoto {
-  id                           String   @id @default(uuid()) @db.Uuid
+  id                           String    @id @default(uuid()) @db.Uuid
   originalStorageLink          String
   compressedMediumStorageLink  String
   compressedPreviewStorageLink String
-  createdAt                    DateTime @default(now())
+  order                        Int?
+  createdAt                    DateTime  @default(now())
+  updatedAt                    DateTime  @updatedAt
+  deletedAt                    DateTime?
 
-  tourId String @db.Uuid
-  tour   Tour   @relation(fields: [tourId], references: [id], onDelete: Cascade)
+  tourId String? @db.Uuid
+  tour   Tour?   @relation(fields: [tourId], references: [id], onDelete: Cascade)
 }
 
-model TourItinerary {
-  id          String   @id @default(uuid()) @db.Uuid
-  time        String
-  description String
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-
-  tourId String @db.Uuid
-  tour   Tour   @relation(fields: [tourId], references: [id], onDelete: Cascade)
+model Location {
+  id   String @id @default(uuid()) @db.Uuid
+  name String
+  tour Tour[]
 }

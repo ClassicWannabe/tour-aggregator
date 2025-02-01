@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { CreateTourDto } from './dto/create-tour.dto';
 import { UpdateTourDto } from './dto/update-tour.dto';
 import { PrismaService } from '../../prisma/prisma.service';
@@ -6,7 +10,11 @@ import { FindAllToursDto } from './dto/find-all-tours.dto';
 import { MemoryStoredFile } from 'nestjs-form-data';
 import { FileManagerService } from '../file-manager/file-manager.service';
 import { Prisma } from '@prisma/client';
-import { SEARCH_SIMILARITY_MIN_THRESHOLD } from './constants';
+import {
+  SEARCH_SIMILARITY_MIN_THRESHOLD,
+  TEMP_IMAGE_STORAGE_DAYS,
+} from './constants';
+import { DateTime } from 'luxon';
 
 @Injectable()
 export class ToursService {
@@ -16,39 +24,65 @@ export class ToursService {
   ) {}
 
   async create(createTourDto: CreateTourDto, supplierId: string) {
-    const { photos = [], ...tourInfo } = createTourDto;
-    const tourId = crypto.randomUUID();
-    const uploadedPhotos = await this.uploadPhotos(photos, supplierId, tourId);
+    const { photoIds, recurrence, ...tourInfo } = createTourDto;
 
-    const tour = await this.prismaService.tour.create({
-      data: {
-        id: tourId,
-        supplierId: supplierId,
-        photos: { createMany: { data: uploadedPhotos } },
-        ...tourInfo,
-      },
-      include: { photos: true },
+    const createdTour = await this.prismaService.$transaction(async (tx) => {
+      const photos = await tx.tourPhoto.findMany({
+        select: { id: true },
+        where: {
+          id: { in: photoIds },
+          tourId: null,
+        },
+      });
+      if (photos.length !== photoIds.length) {
+        throw new BadRequestException('Wrong user input');
+      }
+      await Promise.all(
+        photoIds.map((photoId, idx) =>
+          tx.tourPhoto.update({
+            where: { id: photoId },
+            data: {
+              deletedAt: null,
+              order: idx + 1,
+            },
+          }),
+        ),
+      );
+
+      return tx.tour.create({
+        data: {
+          supplierId,
+          photos: {
+            connect: photoIds.map((photoId) => ({ id: photoId })),
+          },
+          recurrence: { create: recurrence },
+          ...tourInfo,
+        },
+        include: { photos: true, recurrence: true },
+      });
     });
 
-    return tour;
+    return createdTour;
   }
 
-  private async uploadPhotos(
-    photos: MemoryStoredFile[],
-    supplierId: string,
-    tourId: string,
-  ): Promise<Prisma.TourPhotoCreateManyTourInput[]> {
-    const uploadedPhotos = await Promise.all(
-      photos.map((photo) =>
-        this.fileManagerService.uploadPhoto({ photo, tourId, supplierId }),
-      ),
-    );
+  async uploadPhoto(photo: MemoryStoredFile, supplierId: string) {
+    const uploadedPhoto = await this.fileManagerService.uploadPhoto({
+      photo,
+      supplierId,
+    });
+    const deletedAt = DateTime.now()
+      .plus({ days: TEMP_IMAGE_STORAGE_DAYS })
+      .toJSDate();
 
-    return uploadedPhotos.map((photo) => ({
-      originalStorageLink: photo.original.url,
-      compressedMediumStorageLink: photo.medium.url,
-      compressedPreviewStorageLink: photo.preview.url,
-    }));
+    return this.prismaService.tourPhoto.create({
+      omit: { deletedAt: true },
+      data: {
+        deletedAt,
+        originalStorageLink: uploadedPhoto.original.url,
+        compressedMediumStorageLink: uploadedPhoto.medium.url,
+        compressedPreviewStorageLink: uploadedPhoto.preview.url,
+      },
+    });
   }
 
   async findAll(query: FindAllToursDto) {
