@@ -1,32 +1,32 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsString, IsDate, IsArray, ArrayUnique, IsIn } from 'class-validator';
+import {
+  IsArray,
+  ArrayUnique,
+  IsDateString,
+  IsEnum,
+  ArrayMinSize,
+} from 'class-validator';
 import { Type } from 'class-transformer';
-import { Weekday, TourRepeatPattern } from '@prisma/client';
-import { TimestampDto } from './timestamp.dto';
+import { TourRepeatPattern, Weekday } from '../types';
+import { DateTime } from 'luxon';
+import { IsDateBetween } from '../../../validators/is-date-between/is-date-between';
 
-export class RecurringTourDto extends TimestampDto {
-  @ApiProperty({
-    description: 'UUID of tour recurrence',
-    example: '1f4b806b-8483-4ee2-a013-d12dc959165e',
-  })
-  id: string;
-
+export class RecurringTourDto {
   @ApiProperty({
     description: 'Weekdays: Monday-Sunday',
     example: [Weekday.SATURDAY, Weekday.SUNDAY],
   })
   @IsArray()
   @ArrayUnique()
-  @IsIn(Object.values(Weekday), { each: true })
+  @ArrayMinSize(1)
+  @IsEnum(Weekday, { each: true })
   weekdays: Weekday[];
 
   @ApiProperty({
     description: 'Thesis',
-    example:
-      'My tour summary: the best view in the whole world. Do not be late to get amazing experience in our tour',
+    enum: TourRepeatPattern,
   })
-  @IsString()
-  @IsIn(Object.values(TourRepeatPattern))
+  @IsEnum(TourRepeatPattern)
   repeatPattern: TourRepeatPattern;
 
   @ApiProperty({
@@ -34,12 +34,10 @@ export class RecurringTourDto extends TimestampDto {
     example: '2024-10-02T12:34:56.789Z',
   })
   @Type(() => Date)
-  @IsDate()
-  endDate: Date;
-
-  @ApiProperty({
-    description: 'Tour ID',
-    example: '1f4b806b-8483-4ee2-a013-d12dc959165e',
+  @IsDateString()
+  @IsDateBetween({
+    min: () => DateTime.now(),
+    max: () => DateTime.now().plus({ day: 90 }),
   })
-  tourId: string;
+  endDate: Date;
 }

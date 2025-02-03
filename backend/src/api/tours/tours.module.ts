@@ -5,6 +5,7 @@ import { PrismaModule } from '../../prisma/prisma.module';
 import { NestjsFormDataModule } from 'nestjs-form-data';
 import { FileManagerModule } from '../file-manager/file-manager.module';
 import { IsLocationExistsModule } from '../../validators/is-location-exists/is-location-exists.module';
+import { RecurringTourService } from './recurring-tour.service';
 
 @Module({
   imports: [
@@ -14,6 +15,6 @@ import { IsLocationExistsModule } from '../../validators/is-location-exists/is-l
     IsLocationExistsModule,
   ],
   controllers: [ToursController],
-  providers: [ToursService],
+  providers: [ToursService, RecurringTourService],
 })
 export class ToursModule {}

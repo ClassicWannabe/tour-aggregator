@@ -6,6 +6,7 @@ import {
   Max,
   Matches,
   IsOptional,
+  Length,
 } from 'class-validator';
 
 export class TourProgramDto {
@@ -24,7 +25,9 @@ export class TourProgramDto {
     example: '11:00',
   })
   @IsString()
-  @Matches(/^(?:[01]\d|2[0-3]):[0-5]\d$/)
+  @Matches(/^(?:[01]\d|2[0-3]):[0-5]\d$/, {
+    message: 'Provide valid 24-hour format time: hh:mm',
+  })
   time: string;
 
   @ApiProperty({
@@ -32,7 +35,6 @@ export class TourProgramDto {
     example: 'Walking till the mountain near the lake',
   })
   @IsString()
-  @Min(20)
-  @Max(200)
+  @Length(20, 200)
   description: string;
 }

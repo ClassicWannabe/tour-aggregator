@@ -6,6 +6,7 @@ import {
   SimilarityArgs,
 } from './types';
 import { isComparator, isOperation, isOrder } from './utils';
+import { Prisma } from '@prisma/client/extension';
 
 async function similarity<T, A>(
   ctx: any,
@@ -16,64 +17,65 @@ async function similarity<T, A>(
     const model = args?.__meta?.tableName || ctx.$name; // model name is the table name!
 
     const selectList: string[] = ['']; // for handling comma. check the final query!
-    const whereList: string[] = [];
+    const whereSimilarityList: string[] = [];
     const orderList: string[] = [];
 
-    if (args?.where) {
-      Object.keys(args?.where).forEach((field: string) => {
-        if (!args.where) {
-          return;
-        }
-
-        const fieldQuery = args.where[field] ?? {};
-
-        Object.keys(fieldQuery).forEach((operation: string) => {
-          if (!isOperation(operation)) {
-            throw new Error(
-              `Invalid similarity operation. Valid operations: ${operations.join(', ')}`,
-            );
+    if (args?.whereSimilarity) {
+      Object.keys(args?.whereSimilarity).forEach(
+        (field: Prisma.Args<T, 'findFirst'>['distinct']) => {
+          if (!args.whereSimilarity) {
+            return;
           }
 
-          const operationQuery = fieldQuery[operation];
+          const fieldQuery = args.whereSimilarity[field] ?? {};
 
-          /**
-           * @example SIMILARITY(col_name, 'lorem')
-           */
-          const similarityOperation = `${operation}(${field}, '${operationQuery?.text}')`;
+          Object.keys(fieldQuery).forEach((operation: string) => {
+            if (!isOperation(operation)) {
+              throw new Error(
+                `Invalid similarity operation. Valid operations: ${operations.join(', ')}`,
+              );
+            }
 
-          /**
-           * selectting fields with alias, field is same as column names
-           * @example SIMILARITY(col_name, 'lorem') AS col_name_similarity_score
-           */
-          if (operationQuery?.select) {
-            const q = `${similarityOperation} AS ${field}_${operation}_score`;
-            selectList.push(q);
-          }
+            const operationQuery = fieldQuery[operation];
 
-          if (operationQuery?.threshold) {
-            Object.keys(operationQuery.threshold).forEach(
-              (comparator: string) => {
-                if (!isComparator(comparator) || !operationQuery?.threshold) {
-                  throw new Error(
-                    `Invalid threshold comparison. Valid comparators: ${comparators.join(', ')}`,
-                  );
-                }
+            /**
+             * @example SIMILARITY(col_name, 'lorem')
+             */
+            const similarityOperation = `${operation}(${field}, '${operationQuery?.text}')`;
 
-                const thresholdValue = operationQuery.threshold[comparator];
-                if (
-                  !thresholdValue ||
-                  thresholdValue < 0 ||
-                  thresholdValue > 1
-                ) {
-                  throw new Error(
-                    `Invalid threshold. Should be within 0 and 1`,
-                  );
-                }
+            /**
+             * selectting fields with alias, field is same as column names
+             * @example SIMILARITY(col_name, 'lorem') AS col_name_similarity_score
+             */
+            if (operationQuery?.select) {
+              const q = `${similarityOperation} AS ${field}_${operation}_score`;
+              selectList.push(q);
+            }
 
-                // converting comparitions to actual comparator operators
-                let compareOp = '';
-                // prettier-ignore
-                switch(comparator) {
+            if (operationQuery?.threshold) {
+              Object.keys(operationQuery.threshold).forEach(
+                (comparator: string) => {
+                  if (!isComparator(comparator) || !operationQuery?.threshold) {
+                    throw new Error(
+                      `Invalid threshold comparison. Valid comparators: ${comparators.join(', ')}`,
+                    );
+                  }
+
+                  const thresholdValue = operationQuery.threshold[comparator];
+                  if (
+                    !thresholdValue ||
+                    thresholdValue < 0 ||
+                    thresholdValue > 1
+                  ) {
+                    throw new Error(
+                      `Invalid threshold. Should be within 0 and 1`,
+                    );
+                  }
+
+                  // converting comparitions to actual comparator operators
+                  let compareOp = '';
+                  // prettier-ignore
+                  switch(comparator) {
                                 case 'gt': compareOp = ">"; break;
                                 case 'gte': compareOp = ">="; break;
                                 case 'lt': compareOp = "<"; break;
@@ -83,39 +85,50 @@ async function similarity<T, A>(
                                     throw new Error(`Invalid threshold comparison. Valid comparators: ${comparators.join(", ")}`);
                             }
 
-                /**
-                 * where queries based on similarity thresholds
-                 * @example SIMILARITY(col_name, 'lorem') > 0.25
-                 */
-                const q = `${similarityOperation} ${compareOp} ${thresholdValue}`;
+                  /**
+                   * where queries based on similarity thresholds
+                   * @example SIMILARITY(col_name, 'lorem') > 0.25
+                   */
+                  const q = `${similarityOperation} ${compareOp} ${thresholdValue}`;
 
-                whereList.push(q);
-              },
-            );
-          }
-
-          if (operationQuery?.order) {
-            if (!isOrder(operationQuery.order)) {
-              throw new Error(
-                `Invalid ordering. Valid ordering: ${orders.join(', ')}`,
+                  whereSimilarityList.push(q);
+                },
               );
             }
 
-            /**
-             * ordering based on the similarity scores
-             * @example SIMILARITY(col_name, 'lorem') DESC
-             */
-            const q = `${similarityOperation} ${operationQuery.order}`;
-            orderList.push(q);
-          }
-        });
-      });
+            if (operationQuery?.order) {
+              if (!isOrder(operationQuery.order)) {
+                throw new Error(
+                  `Invalid ordering. Valid ordering: ${orders.join(', ')}`,
+                );
+              }
+
+              /**
+               * ordering based on the similarity scores
+               * @example SIMILARITY(col_name, 'lorem') DESC
+               */
+              const q = `${similarityOperation} ${operationQuery.order}`;
+              orderList.push(q);
+            }
+          });
+        },
+      );
     }
 
     const selectQuery = selectList.join(', ');
-    const whereQuery = whereList.length
-      ? `WHERE ${whereList.join(' OR ')}`
-      : '';
+    const whereRawString = args.whereRaw?.join(' AND ');
+    const whereSimilarityString = whereSimilarityList.length
+      ? whereSimilarityList.join(' OR ')
+      : null;
+    const whereString =
+      whereRawString && whereSimilarityString
+        ? `${whereRawString} AND (${whereSimilarityString})`
+        : whereRawString
+          ? whereRawString
+          : whereSimilarityString
+            ? whereSimilarityString
+            : null;
+    const whereQuery = whereString ? `WHERE ${whereString}` : '';
     const orderQuery = orderList.length
       ? `ORDER BY ${orderList.join(', ')}`
       : '';

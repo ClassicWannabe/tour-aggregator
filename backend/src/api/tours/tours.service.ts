@@ -15,16 +15,25 @@ import {
   TEMP_IMAGE_STORAGE_DAYS,
 } from './constants';
 import { DateTime } from 'luxon';
+import { RecurringTourDto } from './dto/recurring-tour.dto';
+import { RecurringTourService } from './recurring-tour.service';
 
 @Injectable()
 export class ToursService {
   constructor(
     private readonly prismaService: PrismaService,
     private readonly fileManagerService: FileManagerService,
+    private readonly recurringTourService: RecurringTourService,
   ) {}
 
   async create(createTourDto: CreateTourDto, supplierId: string) {
-    const { photoIds, recurrence, ...tourInfo } = createTourDto;
+    const { photoIds, recurrence, startDate, endDate, ...tourInfo } =
+      createTourDto;
+
+    const tourDates = this.generateTourDatesFromRecurrence(
+      { startDate, endDate },
+      recurrence,
+    );
 
     const createdTour = await this.prismaService.$transaction(async (tx) => {
       const photos = await tx.tourPhoto.findMany({
@@ -55,14 +64,39 @@ export class ToursService {
           photos: {
             connect: photoIds.map((photoId) => ({ id: photoId })),
           },
-          recurrence: { create: recurrence },
+          dates: {
+            createMany: { data: tourDates },
+          },
           ...tourInfo,
         },
-        include: { photos: true, recurrence: true },
+        include: { photos: true },
       });
     });
 
     return createdTour;
+  }
+
+  private generateTourDatesFromRecurrence(
+    initialDates: Pick<CreateTourDto, 'startDate' | 'endDate'>,
+    recurrence?: RecurringTourDto,
+  ): Prisma.TourDateCreateManyTourInput[] {
+    if (!recurrence) {
+      return [initialDates];
+    }
+    const initialStart = DateTime.fromJSDate(initialDates.startDate);
+    const initialEnd = DateTime.fromJSDate(initialDates.endDate);
+    const recurrenceEnd = DateTime.fromJSDate(recurrence.endDate);
+    const dates = this.recurringTourService.generateRecurringDates(
+      initialStart,
+      initialEnd,
+      recurrenceEnd,
+      recurrence.weekdays,
+      recurrence.repeatPattern,
+    );
+    return dates.map(({ startDate, endDate }) => ({
+      startDate: startDate.toJSDate(),
+      endDate: endDate.toJSDate(),
+    }));
   }
 
   async uploadPhoto(photo: MemoryStoredFile, supplierId: string) {
@@ -78,6 +112,7 @@ export class ToursService {
       omit: { deletedAt: true },
       data: {
         deletedAt,
+        supplierId,
         originalStorageLink: uploadedPhoto.original.url,
         compressedMediumStorageLink: uploadedPhoto.medium.url,
         compressedPreviewStorageLink: uploadedPhoto.preview.url,
@@ -85,8 +120,45 @@ export class ToursService {
     });
   }
 
+  async deletePhoto(photoId: string, supplierId: string) {
+    const tourPhoto = await this.prismaService.tourPhoto.findUnique({
+      where: { id: photoId, supplierId },
+    });
+    if (!tourPhoto) {
+      throw new NotFoundException(`Couldn't find tour photo by ID: ${photoId}`);
+    }
+    const photoUrls = this.extractPhotoUrls([tourPhoto]);
+    await this.fileManagerService.deletePhotos(photoUrls);
+
+    return this.prismaService.tourPhoto.delete({ where: { id: photoId } });
+  }
+
   async findAll(query: FindAllToursDto) {
-    const whereClause = query.search
+    const whereClauses = this.constructFindAllWhereClauses(query);
+
+    const tours = await this.prismaService.tour.similarity({
+      ...whereClauses,
+      take: query.limit,
+      skip: query.offset,
+    });
+    const tourIds = tours.map((tour) => tour.id);
+    const tourPhotos = tourIds.length
+      ? await this.prismaService.tourPhoto.findMany({
+          where: { tourId: { in: tourIds } },
+        })
+      : [];
+
+    return tours.map((tour) => {
+      const relatedPhotos = tourPhotos.filter(
+        (tourPhoto) => tourPhoto.tourId === tour.id,
+      );
+
+      return { ...tour, photos: relatedPhotos };
+    });
+  }
+
+  private constructFindAllWhereClauses(query: FindAllToursDto) {
+    const whereSimilarity = query.search
       ? ({
           title: {
             word_similarity: {
@@ -112,23 +184,21 @@ export class ToursService {
         } as const)
       : undefined;
 
-    const tours = await this.prismaService.tour.similarity({
-      where: whereClause,
-      take: query.limit,
-      skip: query.offset,
-    });
-    const tourIds = tours.map((tour) => tour.id);
-    const tourPhotos = await this.prismaService.tourPhoto.findMany({
-      where: { tourId: { in: tourIds } },
-    });
+    const whereRaw: string[] = [];
+    if (query.locationId) {
+      whereRaw.push(`"locationId" = '${query.locationId}'`);
+    }
+    if (query.minPricePerPerson) {
+      whereRaw.push(`"pricePerPerson" >= ${query.minPricePerPerson}`);
+    }
+    if (query.maxPricePerPerson) {
+      whereRaw.push(`"pricePerPerson" <= ${query.maxPricePerPerson}`);
+    }
+    if (query.type) {
+      whereRaw.push(`"type" <= '${query.type}'`);
+    }
 
-    return tours.map((tour) => {
-      const relatedPhotos = tourPhotos.filter(
-        (tourPhoto) => tourPhoto.tourId === tour.id,
-      );
-
-      return { ...tour, photos: relatedPhotos };
-    });
+    return { whereRaw, whereSimilarity };
   }
 
   async findOne(id: string) {
@@ -136,6 +206,8 @@ export class ToursService {
       return await this.prismaService.tour.findFirstOrThrow({
         include: {
           photos: true,
+          location: true,
+          dates: true,
         },
         where: { id },
       });

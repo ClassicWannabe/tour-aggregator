@@ -1,7 +1,16 @@
 import { ApiPropertyOptional } from '@nestjs/swagger';
-import { IsInt, Max, Min, IsString, IsOptional } from 'class-validator';
-import { Type, Transform } from 'class-transformer';
+import {
+  IsInt,
+  Max,
+  Min,
+  IsString,
+  IsOptional,
+  IsEnum,
+  IsUUID,
+} from 'class-validator';
+import { Type } from 'class-transformer';
 import { SanitizeString } from '../../../decorators/sanitize-string';
+import { TourType } from '@prisma/client';
 
 export class FindAllToursDto {
   @ApiPropertyOptional({
@@ -31,4 +40,42 @@ export class FindAllToursDto {
   @IsString()
   @SanitizeString()
   search: string;
+
+  @ApiPropertyOptional({
+    description: 'Tour type',
+    enum: TourType,
+  })
+  @IsOptional()
+  @IsEnum(TourType)
+  type: TourType;
+
+  @ApiPropertyOptional({
+    description: 'Tour min price per person',
+    example: 1000,
+  })
+  @IsOptional()
+  @IsInt()
+  @Min(1000)
+  @Max(10_000_000)
+  @Type(() => Number)
+  minPricePerPerson?: number;
+
+  @ApiPropertyOptional({
+    description: 'Tour max price per person',
+    example: 10_000_000,
+  })
+  @IsOptional()
+  @IsInt()
+  @Min(1000)
+  @Max(10_000_000)
+  @Type(() => Number)
+  maxPricePerPerson?: number;
+
+  @ApiPropertyOptional({
+    description: 'Location ID',
+    example: '1f4b806b-8483-4ee2-a013-d12dc959165e',
+  })
+  @IsOptional()
+  @IsUUID()
+  locationId?: string;
 }

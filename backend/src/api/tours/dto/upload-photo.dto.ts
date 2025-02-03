@@ -1,4 +1,4 @@
-import { ApiPropertyOptional } from '@nestjs/swagger';
+import { ApiProperty } from '@nestjs/swagger';
 import {
   HasMimeType,
   IsFile,
@@ -8,7 +8,7 @@ import {
 import { ALLOWED_PHOTO_MIME_TYPES, FIVE_MB_IN_BYTES } from '../constants';
 
 export class UploadPhotoDto {
-  @ApiPropertyOptional({
+  @ApiProperty({
     description: 'Tour photo',
     type: String,
     format: 'binary',

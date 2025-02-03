@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Length, ValidateNested } from 'class-validator';
+import { ValidateNested, ArrayMinSize, ArrayMaxSize } from 'class-validator';
 import { TourProgramDto } from './tour-program.dto';
 import { Type } from 'class-transformer';
 
@@ -10,6 +10,7 @@ export class TourProgramFormDto {
   })
   @ValidateNested({ each: true })
   @Type(() => TourProgramDto)
-  @Length(2, 30)
+  @ArrayMinSize(2)
+  @ArrayMaxSize(20)
   program: TourProgramDto[];
 }

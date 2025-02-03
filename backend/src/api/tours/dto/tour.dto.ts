@@ -54,7 +54,6 @@ export class TourDto extends TimestampDto {
 
   @ApiProperty({
     description: 'Tour type',
-    // example: TourType.WALKING,
     enum: TourType,
   })
   @IsIn(Object.values(TourType))
@@ -68,20 +67,6 @@ export class TourDto extends TimestampDto {
   isTransportIncluded: boolean;
 
   @ApiProperty({
-    description: 'Phone number of the supplier',
-    example: ['7778883412', '7778883412'],
-  })
-  @ArrayMinSize(2)
-  @ArrayMaxSize(10)
-  @IsString({ each: true })
-  @IsPhoneNumber('KZ', { each: true })
-  @Length(10, 10, { each: true })
-  @Transform(({ value }) => {
-    return value.split(',');
-  })
-  contacts: string[];
-
-  @ApiProperty({
     description: 'Tour inclusion text',
     example: ['Food'],
   })
@@ -89,9 +74,6 @@ export class TourDto extends TimestampDto {
   @ArrayMaxSize(10)
   @IsString({ each: true })
   @Length(3, 80, { each: true })
-  @Transform(({ value }) => {
-    return value.split(',');
-  })
   inclusions: string[];
 
   @ApiProperty({
@@ -101,9 +83,6 @@ export class TourDto extends TimestampDto {
   @ArrayMaxSize(10)
   @IsString({ each: true })
   @Length(3, 80, { each: true })
-  @Transform(({ value }) => {
-    return value.split(',');
-  })
   exclusions: string[];
 
   @ApiPropertyOptional({

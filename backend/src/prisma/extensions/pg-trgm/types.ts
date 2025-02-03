@@ -26,17 +26,16 @@ export type FieldQuery = {
 
 export type SimilarityQuery<T> = {
   [field in Prisma.Args<T, 'findFirst'>['distinct']]?: FieldQuery;
-} & { [field: string]: FieldQuery };
+};
 
 export type SimilarityArgs<T> = {
-  where?: SimilarityQuery<T>;
+  whereSimilarity?: SimilarityQuery<T>;
+  whereRaw?: string[];
   take?: number;
   skip?: number;
   __meta?: { tableName: string };
 };
 
 export type SimilarityResult<T, A> = Array<
-  Prisma.Result<T, A, 'findFirst'> & { [key: `${string}_score`]: number } & {
-    [key: string]: any;
-  }
+  Prisma.Result<T, A, 'findFirst'> & { [key: `${string}_score`]: number }
 >;

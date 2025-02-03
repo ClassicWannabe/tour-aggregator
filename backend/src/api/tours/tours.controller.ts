@@ -19,6 +19,7 @@ import { SupplierJwt } from '../suppliers/supplier-jwt.decorator';
 import { SupplierJwtBody } from '../suppliers/types';
 import { SupplierAuthGuard } from '../suppliers/supplier-auth.guard';
 import { UploadPhotoDto } from './dto/upload-photo.dto';
+import { DeletePhotoDto } from './dto/delete-photo.dto';
 
 @Controller('tours')
 @ApiTags('Tours')
@@ -59,7 +60,7 @@ export class ToursController {
     return this.toursService.remove(id, supplier.sub);
   }
 
-  @Post('upload-photo')
+  @Post('photos')
   @ApiBearerAuth()
   @UseGuards(SupplierAuthGuard)
   @FormDataRequest()
@@ -69,5 +70,15 @@ export class ToursController {
     @SupplierJwt() supplier: SupplierJwtBody,
   ) {
     return this.toursService.uploadPhoto(uploadPhotoDto.photo, supplier.sub);
+  }
+
+  @Delete('photos/:id')
+  @ApiBearerAuth()
+  @UseGuards(SupplierAuthGuard)
+  deletePhoto(
+    @Param() params: DeletePhotoDto,
+    @SupplierJwt() supplier: SupplierJwtBody,
+  ) {
+    return this.toursService.deletePhoto(params.photoId, supplier.sub);
   }
 }
