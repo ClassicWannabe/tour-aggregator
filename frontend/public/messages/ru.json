@@ -38,7 +38,8 @@
     "fieldTrips": "Выездные",
     "walkingTours": "Пешие",
     "cityTours": "Городские",
-    "perPerson": "за человека"
+    "perPerson": "за человека",
+    "choose": "Выбрать"
   },
   "TopSection": {
     "motto": "<company>movo</company> - маркетплейс туров напрямую от авторов туров и туристических услуг",
@@ -263,5 +264,18 @@
   },
   "CreateTourPage": {
     "title": "Создание тура"
+  },
+  "Filter": {
+    "filterTitle": "Фильтр",
+    "filtersTitle": "Фильтры",
+    "toFilterBy": "Фильтровать по:",
+    "reset": "Сбросить",
+    "resetAll": "Сбросить все",
+    "apply": "Применить",
+    "price": "Цена",
+    "from": "От",
+    "to": "До",
+    "tourType": "Тип тура",
+    "location": "Локация"
   }
 }

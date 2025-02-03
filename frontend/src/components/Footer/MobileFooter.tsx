@@ -4,15 +4,14 @@ import Image from "next/image"
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/Accordion"
 
 export default function MobileFooter() {
-  const sT = useTranslations("Shared")
-  const t = useTranslations("Footer")
+  const t = useTranslations()
 
   return (
     <div className="main-layout-padding-horizontal py-6 flex flex-col bg-colorBgLayout">
       <Accordion type="multiple" className="w-full">
         <AccordionItem value="support">
           <AccordionTrigger>
-            <h5 className="text-headline5">{sT("support")}</h5>
+            <h5 className="text-headline5">{t("Shared.support")}</h5>
           </AccordionTrigger>
           <AccordionContent>
             <div className="flex flex-col gap-4">
@@ -28,38 +27,38 @@ export default function MobileFooter() {
         </AccordionItem>
         <AccordionItem value="toTravellers">
           <AccordionTrigger>
-            <h5 className="text-headline5">{sT("toTravellers")}</h5>
+            <h5 className="text-headline5">{t("Shared.toTravellers")}</h5>
           </AccordionTrigger>
           <AccordionContent>
             <div className="flex flex-col gap-4">
-              <p className="text-body2 cursor-pointer">{t("faq")}</p>
-              <p className="text-body2 cursor-pointer">{t("userConditions")}</p>
-              <p className="text-body2 cursor-pointer">{t("refundPolicy")}</p>
-              <p className="text-body2 cursor-pointer">{t("paymentsSafety")}</p>
+              <p className="text-body2 cursor-pointer">{t("Footer.faq")}</p>
+              <p className="text-body2 cursor-pointer">{t("Footer.userConditions")}</p>
+              <p className="text-body2 cursor-pointer">{t("Footer.refundPolicy")}</p>
+              <p className="text-body2 cursor-pointer">{t("Footer.paymentsSafety")}</p>
             </div>
           </AccordionContent>
         </AccordionItem>
         <AccordionItem value="toGuides">
           <AccordionTrigger>
-            <h5 className="text-headline5">{t("toGuides")}</h5>
+            <h5 className="text-headline5">{t("Footer.toGuides")}</h5>
           </AccordionTrigger>
           <AccordionContent>
             <div className="flex flex-col gap-4">
-              <p className="text-body2 cursor-pointer">{t("becomeGuide")}</p>
-              <p className="text-body2 cursor-pointer">{t("faq")}</p>
-              <p className="text-body2 cursor-pointer">{t("operatingRules")}</p>
+              <p className="text-body2 cursor-pointer">{t("Footer.becomeGuide")}</p>
+              <p className="text-body2 cursor-pointer">{t("Footer.faq")}</p>
+              <p className="text-body2 cursor-pointer">{t("Footer.operatingRules")}</p>
             </div>
           </AccordionContent>
         </AccordionItem>
         <AccordionItem value="becomePartner">
           <AccordionTrigger>
-            <h5 className="text-headline5">{sT("toPartners")}</h5>
+            <h5 className="text-headline5">{t("Shared.toPartners")}</h5>
           </AccordionTrigger>
           <AccordionContent>
             <div className="flex flex-col gap-4">
-              <p className="text-body2 cursor-pointer">{t("becomePartner")}</p>
-              <p className="text-body2 cursor-pointer">{t("partnerCabinet")}</p>
-              <p className="text-body2 cursor-pointer">{t("docs")}</p>
+              <p className="text-body2 cursor-pointer">{t("Footer.becomePartner")}</p>
+              <p className="text-body2 cursor-pointer">{t("Footer.partnerCabinet")}</p>
+              <p className="text-body2 cursor-pointer">{t("Footer.docs")}</p>
             </div>
           </AccordionContent>
         </AccordionItem>

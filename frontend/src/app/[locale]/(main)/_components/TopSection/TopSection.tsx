@@ -7,8 +7,7 @@ import SearchForm from "../SearchForm"
 import RouteNames from "@/lib/consts/route-names"
 
 export default async function TopSection() {
-  const t = await getTranslations("TopSection")
-  const sT = await getTranslations("Shared")
+  const t = await getTranslations()
 
   return (
     <section className="relative w-full h-[464px] md:h-[600px] flex flex-col justify-center">
@@ -24,7 +23,7 @@ export default async function TopSection() {
       </div>
       <div className="flex flex-col gap-4 px-8 sm:px-16 md:px-24 lg:px-48 xl:px-[240px] mt-auto">
         <h1 className="text-headline3 md:text-headline1 text-primaryWhite">
-          {t.rich("motto", {
+          {t.rich("TopSection.motto", {
             company: (chunks) => <span className="text-headline3 md:text-headline1 text-primaryGreen">{chunks}</span>,
           })}
         </h1>
@@ -34,7 +33,7 @@ export default async function TopSection() {
         href={RouteNames.Category}
         className="block text-body1 text-primaryWhite mt-4 md:text-right px-8 sm:px-16 md:px-24 lg:px-48 xl:px-[240px]"
       >
-        {sT("lookThroughAllTours")}
+        {t("Shared.lookThroughAllTours")}
       </Link>
       <FilterTabs />
     </section>
