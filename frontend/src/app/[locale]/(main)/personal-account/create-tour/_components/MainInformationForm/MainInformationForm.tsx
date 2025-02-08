@@ -7,16 +7,28 @@ import FormCheckbox from "@/components/Form/FormCheckbox"
 import FormDateRangePicker from "@/components/Form/FormDateRangePicker"
 import FormTitle from "@/app/[locale]/(main)/personal-account/create-tour/_components/FormTitle"
 import { useFormContext, useWatch } from "react-hook-form"
-import { useEffect } from "react"
+import { useEffect, useMemo } from "react"
 import { mainInformationFormLimits } from "@/app/[locale]/(main)/personal-account/create-tour/_components/MainInformationForm/schema"
 import dayjs from "dayjs"
 import { RecurringTourInputs } from "@/app/[locale]/(main)/personal-account/create-tour/_components/MainInformationForm/RecurringTourInputs"
+import { TourType } from "@/lib/interfaces"
+import { Location } from "@/actions/fetch-locations"
 
-const options = new Array(100).fill(1).map((_, i) => ({ value: `value${i}`, text: `значение${i}` }))
-export function MainInformationForm() {
+type MainInformationFormProps = {
+  locations: Location[]
+}
+
+export function MainInformationForm({ locations }: MainInformationFormProps) {
   const t = useTranslations("MainInformationForm")
+  const tShared = useTranslations("Shared")
   const isTourFree: boolean = useWatch({ name: "tourPrice.isTourFree" })
   const form = useFormContext()
+  const locationOptions = useMemo(() => {
+    return locations.map(({ id, name }) => ({ value: id, text: tShared(`location.${name}`) }))
+  }, [tShared])
+  const tourTypeOptions = useMemo(() => {
+    return Object.values(TourType).map((type) => ({ value: type, text: tShared(`tourType.${type}`) }))
+  }, [tShared])
 
   useEffect(() => {
     const isFormTouched = Object.values(form.formState.touchedFields).length > 0
@@ -43,13 +55,13 @@ export function MainInformationForm() {
           name="location"
           placeholder={t("input.location.placeholder")}
           label={t("input.location.label")}
-          options={options}
+          options={locationOptions}
         />
         <FormSelect
           name="tourType"
           placeholder={t("input.tourType.placeholder")}
           label={t("input.tourType.label")}
-          options={options}
+          options={tourTypeOptions}
         />
         <FormTextarea
           name="thesis"

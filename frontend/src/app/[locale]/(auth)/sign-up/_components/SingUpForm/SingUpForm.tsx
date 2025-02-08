@@ -1,5 +1,5 @@
 "use client"
-import React from "react"
+import React, { useActionState } from "react"
 import Button from "@/components/ui/Button"
 import { useTranslations } from "next-intl"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/Tabs/Tabs"
@@ -10,6 +10,7 @@ import CustomCheckbox from "@/components/CustomCheckbox"
 
 export default function SingUpForm() {
   const t = useTranslations()
+  const [state, formAction] = useActionState(increment, 0)
 
   return (
     <Form action={() => {}} className="flex-col flex gap-3">

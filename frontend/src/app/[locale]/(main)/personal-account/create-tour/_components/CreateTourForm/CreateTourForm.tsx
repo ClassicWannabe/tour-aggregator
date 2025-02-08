@@ -13,9 +13,17 @@ import { AttachmentsForm } from "@/app/[locale]/(main)/personal-account/create-t
 import { TourProgramForm } from "@/app/[locale]/(main)/personal-account/create-tour/_components/TourProgramForm"
 import { AmenitiesForm } from "@/app/[locale]/(main)/personal-account/create-tour/_components/AmenitiesForm"
 import { useMemo } from "react"
+import { useRouter } from "@/i18n/routing"
+import RouteNames from "@/lib/consts/route-names"
+import { Location } from "@/actions/fetch-locations"
 
-export function CreateTourForm() {
+type CreateTourFormProps = {
+  locations: Location[]
+}
+
+export function CreateTourForm({ locations }: CreateTourFormProps) {
   const t = useTranslations("CreateTourForm.zod")
+  const router = useRouter()
   const { formSchema, mainInformationFormSchema, amenitiesFormSchema, tourProgramFormSchema, attachmentsFormSchema } =
     useMemo(() => getSchemas(t), [t])
   const form = useForm<FormTypeStringified>({
@@ -57,7 +65,7 @@ export function CreateTourForm() {
   console.log(form.getValues())
 
   const { steps, currentStepIndex, step, isFirstStep, isLastStep, back, next } = useMultistepForm([
-    <MainInformationForm />,
+    <MainInformationForm locations={locations} />,
     <AmenitiesForm />,
     <TourProgramForm />,
     <AttachmentsForm />,
@@ -96,6 +104,10 @@ export function CreateTourForm() {
     }
   }
 
+  const handleCancelClick = () => {
+    router.push(RouteNames.PersonalAccount)
+  }
+
   return (
     <section className="my-10 lg:py-20 lg:px-16 p-2 bg-background">
       <Form {...form}>
@@ -106,7 +118,7 @@ export function CreateTourForm() {
             isFirstStep={isFirstStep}
             isLastStep={isLastStep}
             onCreateClick={() => {}}
-            onCancelClick={() => {}}
+            onCancelClick={handleCancelClick}
             onPreviewClick={() => {}}
             onBackClick={back}
             onNextClick={handleNextClick}

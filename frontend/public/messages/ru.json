@@ -39,7 +39,16 @@
     "walkingTours": "Пешие",
     "cityTours": "Городские",
     "perPerson": "за человека",
-    "choose": "Выбрать"
+    "choose": "Выбрать",
+    "tourType": {
+      "FIELD": "Выездной",
+      "CITY": "Городской",
+      "WALKING": "Пеший"
+    },
+    "location": {
+      "Almaty": "Алматы",
+      "Astana": "Астана"
+    }
   },
   "TopSection": {
     "motto": "<company>movo</company> - маркетплейс туров напрямую от авторов туров и туристических услуг",

@@ -17,3 +17,9 @@ export interface Tour {
   supplierId: string
   photos: string[]
 }
+
+export enum TourType {
+  WALKING = "WALKING",
+  CITY = "CITY",
+  FIELD = "FIELD",
+}

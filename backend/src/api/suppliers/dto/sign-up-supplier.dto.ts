@@ -7,6 +7,7 @@ import { Type } from 'class-transformer';
 
 export class SignUpSupplierDto extends PickType(SupplierDto, [
   'email',
+  'phone',
   'aboutMe',
   'socialLinks',
   'password',

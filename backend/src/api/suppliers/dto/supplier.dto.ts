@@ -8,6 +8,9 @@ import {
   IsStrongPassword,
   Length,
   ArrayMaxSize,
+  IsPhoneNumber,
+  Matches,
+  IsUrl,
 } from 'class-validator';
 
 export class SupplierDto {
@@ -40,20 +43,22 @@ export class SupplierDto {
   @IsEmail()
   email: string;
 
+  @ApiProperty({
+    description: 'Supplier Phone Number',
+    example: '+77000000000',
+  })
+  @IsPhoneNumber('KZ')
+  @Matches(/^\+77[0,7]\d{8}$/)
+  phone: string;
+
   @ApiPropertyOptional({
     description: 'Social Links',
     example: ['https://www.instagram.com/'],
   })
   @ArrayMaxSize(5)
   @IsOptional()
-  @IsString({ each: true })
+  @IsUrl(undefined, { each: true })
   socialLinks?: string[];
-
-  @ApiProperty({
-    description: 'Email verification date',
-    example: new Date(),
-  })
-  emailVerifiedAt: Date;
 
   @ApiProperty({
     description: 'Supplier password',

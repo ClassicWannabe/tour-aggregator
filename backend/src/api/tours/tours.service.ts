@@ -10,12 +10,7 @@ import { FindAllToursDto } from './dto/find-all-tours.dto';
 import { MemoryStoredFile } from 'nestjs-form-data';
 import { FileManagerService } from '../file-manager/file-manager.service';
 import { Prisma } from '@prisma/client';
-import {
-  SEARCH_SIMILARITY_MIN_THRESHOLD,
-  TEMP_IMAGE_STORAGE_DAYS,
-} from './constants';
-import { DateTime } from 'luxon';
-import { RecurringTourDto } from './dto/recurring-tour.dto';
+import { SEARCH_SIMILARITY_MIN_THRESHOLD } from './constants';
 import { RecurringTourService } from './recurring-tour.service';
 
 @Injectable()
@@ -27,12 +22,12 @@ export class ToursService {
   ) {}
 
   async create(createTourDto: CreateTourDto, supplierId: string) {
-    const { photoIds, recurrence, startDate, endDate, ...tourInfo } =
+    const { photoIds, recurrenceDates, startDate, endDate, ...tourInfo } =
       createTourDto;
 
     const tourDates = this.generateTourDatesFromRecurrence(
       { startDate, endDate },
-      recurrence,
+      recurrenceDates,
     );
 
     const createdTour = await this.prismaService.$transaction(async (tx) => {
@@ -40,18 +35,18 @@ export class ToursService {
         select: { id: true },
         where: {
           id: { in: photoIds },
+          supplierId,
           tourId: null,
         },
       });
       if (photos.length !== photoIds.length) {
-        throw new BadRequestException('Wrong user input');
+        throw new BadRequestException('Wrong user photo input');
       }
       await Promise.all(
         photoIds.map((photoId, idx) =>
           tx.tourPhoto.update({
             where: { id: photoId },
             data: {
-              deletedAt: null,
               order: idx + 1,
             },
           }),
@@ -78,25 +73,13 @@ export class ToursService {
 
   private generateTourDatesFromRecurrence(
     initialDates: Pick<CreateTourDto, 'startDate' | 'endDate'>,
-    recurrence?: RecurringTourDto,
+    recurrenceDates: Date[],
   ): Prisma.TourDateCreateManyTourInput[] {
-    if (!recurrence) {
-      return [initialDates];
-    }
-    const initialStart = DateTime.fromJSDate(initialDates.startDate);
-    const initialEnd = DateTime.fromJSDate(initialDates.endDate);
-    const recurrenceEnd = DateTime.fromJSDate(recurrence.endDate);
-    const dates = this.recurringTourService.generateRecurringDates(
-      initialStart,
-      initialEnd,
-      recurrenceEnd,
-      recurrence.weekdays,
-      recurrence.repeatPattern,
+    return this.recurringTourService.generateRecurringDates(
+      initialDates.startDate,
+      initialDates.endDate,
+      recurrenceDates,
     );
-    return dates.map(({ startDate, endDate }) => ({
-      startDate: startDate.toJSDate(),
-      endDate: endDate.toJSDate(),
-    }));
   }
 
   async uploadPhoto(photo: MemoryStoredFile, supplierId: string) {
@@ -104,14 +87,9 @@ export class ToursService {
       photo,
       supplierId,
     });
-    const deletedAt = DateTime.now()
-      .plus({ days: TEMP_IMAGE_STORAGE_DAYS })
-      .toJSDate();
 
     return this.prismaService.tourPhoto.create({
-      omit: { deletedAt: true },
       data: {
-        deletedAt,
         supplierId,
         originalStorageLink: uploadedPhoto.original.url,
         compressedMediumStorageLink: uploadedPhoto.medium.url,
