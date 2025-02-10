@@ -1,5 +1,20 @@
 -- CreateExtension
-CREATE EXTENSION IF NOT EXISTS "pg_trgm";
+DO $$
+BEGIN
+BEGIN
+    CREATE EXTENSION IF NOT EXISTS "pg_trgm";
+EXCEPTION
+    WHEN OTHERS THEN
+      -- Check if the error is due to insufficient privilege (SQLSTATE '42501')
+      IF SQLSTATE = '42501' THEN
+        RAISE NOTICE 'Insufficient privileges to create extension "pg_trgm". Skipping.';
+ELSE
+        -- Re-raise if it’s any other error
+        RAISE;
+END IF;
+END;
+END
+$$;
 
 -- CreateEnum
 CREATE TYPE "SupplierContactType" AS ENUM ('EMAIL', 'PHONE');
@@ -66,6 +81,9 @@ CREATE TABLE "SupplierProfilePhotoUpload" (
     "originalStorageLink" TEXT NOT NULL,
     "compressedMediumStorageLink" TEXT NOT NULL,
     "compressedPreviewStorageLink" TEXT NOT NULL,
+    "originalStorageKey" TEXT NOT NULL,
+    "compressedMediumStorageKey" TEXT NOT NULL,
+    "compressedPreviewStorageKey" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
     "supplierId" UUID NOT NULL,
@@ -77,6 +95,8 @@ CREATE TABLE "SupplierProfilePhotoUpload" (
 CREATE TABLE "SupplierCertificateUpload" (
     "id" UUID NOT NULL,
     "storageLink" TEXT NOT NULL,
+    "storageKey" TEXT NOT NULL,
+    "order" INTEGER,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
     "supplierId" UUID,
@@ -134,6 +154,9 @@ CREATE TABLE "TourPhoto" (
     "originalStorageLink" TEXT NOT NULL,
     "compressedMediumStorageLink" TEXT NOT NULL,
     "compressedPreviewStorageLink" TEXT NOT NULL,
+    "originalStorageKey" TEXT NOT NULL,
+    "compressedMediumStorageKey" TEXT NOT NULL,
+    "compressedPreviewStorageKey" TEXT NOT NULL,
     "order" INTEGER,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,

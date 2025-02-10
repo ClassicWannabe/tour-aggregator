@@ -3,7 +3,7 @@ import { Injectable } from '@nestjs/common';
 
 @Injectable()
 export class CustomConfigService extends ConfigService {
-  getOrFail<T>(propertyPath: string) {
+  getOrFail<T = string>(propertyPath: string) {
     const value = this.get<T>(propertyPath);
 
     if (!value) {

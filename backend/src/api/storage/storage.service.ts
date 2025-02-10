@@ -5,6 +5,9 @@ import {
   DeleteObjectCommand,
   DeleteObjectsCommand,
   ObjectIdentifier,
+  PutObjectTaggingCommand,
+  DeleteObjectTaggingCommand,
+  Tag,
 } from '@aws-sdk/client-s3';
 import { CustomConfigService } from '../../config/custom-config.service';
 
@@ -12,6 +15,13 @@ interface UploadFileParams {
   file: Buffer;
   mimeType: string;
   key: string;
+}
+
+type LowercaseTag = { [key in keyof Tag as Lowercase<keyof Tag>]: Tag[key] };
+
+interface AddFileTagParams {
+  key: string;
+  tags: LowercaseTag[];
 }
 
 @Injectable()
@@ -23,11 +33,10 @@ export class StorageService implements OnModuleInit {
   constructor(private readonly configService: CustomConfigService) {}
 
   onModuleInit() {
-    const accessKeyId = this.configService.getOrFail<string>('ACCESS_KEY_ID');
-    const secretAccessKey =
-      this.configService.getOrFail<string>('SECRET_ACCESS_KEY');
-    this.endpoint = this.configService.getOrFail<string>('S3_ENDPOINT');
-    const region = this.configService.getOrFail<string>('S3_REGION');
+    const accessKeyId = this.configService.getOrFail('ACCESS_KEY_ID');
+    const secretAccessKey = this.configService.getOrFail('SECRET_ACCESS_KEY');
+    this.endpoint = this.configService.getOrFail('S3_ENDPOINT');
+    const region = this.configService.getOrFail('S3_REGION');
     const forcePathStyle = this.configService.getOrFailBool(
       'S3_FORCE_PATH_STYLE',
     );
@@ -72,6 +81,29 @@ export class StorageService implements OnModuleInit {
     const command = new DeleteObjectsCommand({
       Bucket: this.bucket,
       Delete: { Objects: deleteRequests },
+    });
+
+    return this.s3.send(command);
+  }
+
+  async addFileTag(params: AddFileTagParams) {
+    const tags: Tag[] = params.tags.map((tag) => ({
+      Key: tag.key,
+      Value: tag.value,
+    }));
+    const command = new PutObjectTaggingCommand({
+      Bucket: this.bucket,
+      Key: params.key,
+      Tagging: { TagSet: tags },
+    });
+
+    return this.s3.send(command);
+  }
+
+  async deleteFileTag(key: string) {
+    const command = new DeleteObjectTaggingCommand({
+      Bucket: this.bucket,
+      Key: key,
     });
 
     return this.s3.send(command);

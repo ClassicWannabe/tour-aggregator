@@ -19,15 +19,26 @@ interface PhotoKeyParts {
   uuid: string;
 }
 
+interface FileKeyParts {
+  supplierId: string;
+  extension: string;
+  name: string;
+}
+
 interface UploadPhotoParams {
   photo: MemoryStoredFile;
   supplierId: string;
 }
 
+interface UploadFileParams {
+  file: MemoryStoredFile;
+  supplierId: string;
+}
+
 @Injectable()
 export class FileManagerService implements OnModuleInit {
-  private tourFilePath: string;
   private supplierFilePath: string;
+  private bucketName: string;
 
   constructor(
     private readonly configService: CustomConfigService,
@@ -35,11 +46,10 @@ export class FileManagerService implements OnModuleInit {
   ) {}
 
   onModuleInit() {
-    this.tourFilePath =
-      this.configService.getOrFail<string>('S3_TOUR_FILE_PATH');
-    this.supplierFilePath = this.configService.getOrFail<string>(
+    this.supplierFilePath = this.configService.getOrFail(
       'S3_SUPPLIER_FILE_PATH',
     );
+    this.bucketName = this.configService.getOrFail('S3_BUCKET');
   }
 
   async uploadPhoto({ photo, supplierId }: UploadPhotoParams) {
@@ -71,9 +81,13 @@ export class FileManagerService implements OnModuleInit {
     const previewUrl = `${this.storageService.baseUrl}/${keys.preview}`;
 
     return {
-      original: { url: originalUrl, output: originalOutput },
-      medium: { url: mediumUrl, output: mediumOutput },
-      preview: { url: previewUrl, output: previewOutput },
+      original: {
+        url: originalUrl,
+        key: keys.original,
+        output: originalOutput,
+      },
+      medium: { url: mediumUrl, key: keys.medium, output: mediumOutput },
+      preview: { url: previewUrl, key: keys.preview, output: previewOutput },
     };
   }
 
@@ -129,16 +143,76 @@ export class FileManagerService implements OnModuleInit {
     photoType,
     uuid,
   }: PhotoKeyParts) {
-    return `${this.tourFilePath}/suppliers/${supplierId}/${photoType}-${uuid}.${extension}`;
+    return this.constructFileKeyPath({
+      supplierId,
+      extension,
+      name: `${photoType}-${uuid}`,
+    });
   }
 
-  async deletePhotos(urls: string[]) {
-    const bucketName = this.configService.getOrFail<string>('S3_BUCKET');
+  async uploadFile({ file, supplierId }: UploadFileParams) {
+    const fileNameUuid = crypto.randomUUID();
+    const key = this.constructFileKeyPath({
+      name: fileNameUuid,
+      extension: file.extension,
+      supplierId,
+    });
+    const url = `${this.storageService.baseUrl}/${key}`;
+    const output = await this.storageService.uploadFile({
+      file: file.buffer,
+      key,
+      mimeType: file.mimeType,
+    });
+
+    return { url, key, output };
+  }
+
+  private constructFileKeyPath({ supplierId, extension, name }: FileKeyParts) {
+    return `${this.supplierFilePath}/suppliers/${supplierId}/${name}.${extension}`;
+  }
+
+  async deleteFilesByUrl(urls: string[]) {
     const keys = urls.map((url) => {
-      const parsedUrl = new URL(url);
-      return parsedUrl.pathname.replace(`/${bucketName}`, ''); // remove the first symbol `/` and bucket name
+      return this.extractKeyFromUrl(url);
     });
 
     return this.storageService.deleteFiles(keys);
+  }
+
+  async deleteFileByUrl(url: string) {
+    const key = this.extractKeyFromUrl(url);
+
+    return this.storageService.deleteFile(key);
+  }
+
+  async deleteFiles(keys: string[]) {
+    return this.storageService.deleteFiles(keys);
+  }
+
+  async deleteFile(key: string) {
+    return this.storageService.deleteFile(key);
+  }
+
+  private extractKeyFromUrl(url: string) {
+    const parsedUrl = new URL(url);
+    return parsedUrl.pathname.replace(`/${this.bucketName}`, ''); // remove the first symbol `/` and bucket name
+  }
+
+  async scheduleFilesDeletions(keys: string[]) {
+    return Promise.all(keys.map((key) => this.scheduleFileDeletion(key)));
+  }
+
+  async scheduleFileDeletion(key: string) {
+    const tagKey = this.configService.getOrFail('S3_DELETE_OBJECT_TAG_KEY');
+    const tagValue = this.configService.getOrFail('S3_DELETE_OBJECT_TAG_VALUE');
+
+    return this.storageService.addFileTag({
+      key,
+      tags: [{ key: tagKey, value: tagValue }],
+    });
+  }
+
+  async cancelFileDeletionSchedule(key: string) {
+    return this.storageService.deleteFileTag(key);
   }
 }

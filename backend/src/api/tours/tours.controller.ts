@@ -33,31 +33,31 @@ export class ToursController {
     @Body() createTourDto: CreateTourDto,
     @SupplierJwt() supplier: SupplierJwtBody,
   ) {
-    return this.toursService.create(createTourDto, supplier.sub);
+    return this.toursService.createTour(createTourDto, supplier.sub);
   }
 
   @Get()
   findAll(@Query() query: FindAllToursDto) {
-    return this.toursService.findAll(query);
+    return this.toursService.findAllTours(query);
   }
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.toursService.findOne(id);
+    return this.toursService.findOneTour(id);
   }
 
   @Patch(':id')
   @ApiBearerAuth()
   @UseGuards(SupplierAuthGuard)
   update(@Param('id') id: string, @Body() updateTourDto: UpdateTourDto) {
-    return this.toursService.update(+id, updateTourDto);
+    return this.toursService.updateTour(+id, updateTourDto);
   }
 
   @Delete(':id')
   @ApiBearerAuth()
   @UseGuards(SupplierAuthGuard)
   remove(@Param('id') id: string, @SupplierJwt() supplier: SupplierJwtBody) {
-    return this.toursService.remove(id, supplier.sub);
+    return this.toursService.deleteTour(id, supplier.sub);
   }
 
   @Post('photos')

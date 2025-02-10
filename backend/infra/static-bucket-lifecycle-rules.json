@@ -1,0 +1,17 @@
+{
+  "lifecycleRules": [
+    {
+      "id": "DeleteTaggedObjects",
+      "enabled": true,
+      "filter": {
+        "tag": {
+            "key": "AUTO_DELETE",
+            "value": "true"
+          }
+      },
+      "expiration": {
+        "days": "7"
+      }
+    }
+  ]
+}

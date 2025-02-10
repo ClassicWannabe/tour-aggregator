@@ -21,7 +21,7 @@ export class ToursService {
     private readonly recurringTourService: RecurringTourService,
   ) {}
 
-  async create(createTourDto: CreateTourDto, supplierId: string) {
+  async createTour(createTourDto: CreateTourDto, supplierId: string) {
     const { photoIds, recurrenceDates, startDate, endDate, ...tourInfo } =
       createTourDto;
 
@@ -92,8 +92,17 @@ export class ToursService {
       data: {
         supplierId,
         originalStorageLink: uploadedPhoto.original.url,
+        originalStorageKey: uploadedPhoto.original.key,
         compressedMediumStorageLink: uploadedPhoto.medium.url,
+        compressedMediumStorageKey: uploadedPhoto.medium.key,
         compressedPreviewStorageLink: uploadedPhoto.preview.url,
+        compressedPreviewStorageKey: uploadedPhoto.preview.key,
+      },
+      select: {
+        id: true,
+        originalStorageLink: true,
+        compressedMediumStorageLink: true,
+        compressedPreviewStorageLink: true,
       },
     });
   }
@@ -106,12 +115,12 @@ export class ToursService {
       throw new NotFoundException(`Couldn't find tour photo by ID: ${photoId}`);
     }
     const photoUrls = this.extractPhotoUrls([tourPhoto]);
-    await this.fileManagerService.deletePhotos(photoUrls);
+    await this.fileManagerService.deleteFilesByUrl(photoUrls);
 
     return this.prismaService.tourPhoto.delete({ where: { id: photoId } });
   }
 
-  async findAll(query: FindAllToursDto) {
+  async findAllTours(query: FindAllToursDto) {
     const whereClauses = this.constructFindAllWhereClauses(query);
 
     const tours = await this.prismaService.tour.similarity({
@@ -179,7 +188,7 @@ export class ToursService {
     return { whereRaw, whereSimilarity };
   }
 
-  async findOne(id: string) {
+  async findOneTour(id: string) {
     try {
       return await this.prismaService.tour.findFirstOrThrow({
         include: {
@@ -194,18 +203,18 @@ export class ToursService {
     }
   }
 
-  update(id: number, updateTourDto: UpdateTourDto) {
+  updateTour(id: number, updateTourDto: UpdateTourDto) {
     return `This action updates a #${id} tour`;
   }
 
-  async remove(id: string, supplierId: string) {
+  async deleteTour(id: string, supplierId: string) {
     try {
       const tour = await this.prismaService.tour.findUniqueOrThrow({
         where: { id, supplierId },
         include: { photos: true },
       });
       const photoUrls = this.extractPhotoUrls(tour.photos);
-      await this.fileManagerService.deletePhotos(photoUrls);
+      await this.fileManagerService.deleteFilesByUrl(photoUrls);
 
       return await this.prismaService.tour.delete({ where: { id } });
     } catch (e) {

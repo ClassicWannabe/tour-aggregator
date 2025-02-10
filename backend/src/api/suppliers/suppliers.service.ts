@@ -13,10 +13,12 @@ import { JwtService } from '@nestjs/jwt';
 import { SupplierJwtPayload } from './types';
 import { SUPPLIER_PASSWORD_SALT_ROUNDS } from './constants';
 import { SignInSupplierDto } from './dto/sign-in-supplier.dto';
-import { SupplierContactType, SupplierType } from '@prisma/client';
+import { Prisma, SupplierContactType, SupplierType } from '@prisma/client';
 import { VerifyEmailDto } from './dto/verify-email.dto';
 import { CustomConfigService } from '../../config/custom-config.service';
 import { MailerService } from '../../mailer/mailer.service';
+import { FileManagerService } from '../file-manager/file-manager.service';
+import { MemoryStoredFile } from 'nestjs-form-data';
 
 @Injectable()
 export class SuppliersService {
@@ -25,6 +27,7 @@ export class SuppliersService {
     private readonly jwtService: JwtService,
     private readonly configService: CustomConfigService,
     private readonly mailerService: MailerService,
+    private readonly fileManagerService: FileManagerService,
   ) {}
 
   async signUp(signUpSupplierDto: SignUpSupplierDto) {
@@ -183,7 +186,7 @@ export class SuppliersService {
     };
   }
 
-  async findOne(id: string) {
+  async findOneSupplier(id: string) {
     return this.prismaService.supplier.findUnique({
       where: { id },
       include: { individualSupplier: true, companySupplier: true },
@@ -228,6 +231,107 @@ export class SuppliersService {
         contactVerifiedAt: new Date(),
         supplier: { update: { email: verifyEmailDto.email } },
       },
+    });
+  }
+
+  async uploadProfilePhoto(photo: MemoryStoredFile, supplierId: string) {
+    const existingPhoto =
+      await this.prismaService.supplierProfilePhotoUpload.findUnique({
+        where: { supplierId },
+        select: { id: true },
+      });
+    if (existingPhoto) {
+      await this.deleteProfilePhoto(existingPhoto.id, supplierId);
+    }
+
+    const uploadedPhoto = await this.fileManagerService.uploadPhoto({
+      photo,
+      supplierId,
+    });
+
+    return this.prismaService.supplierProfilePhotoUpload.create({
+      data: {
+        supplierId,
+        originalStorageLink: uploadedPhoto.original.url,
+        originalStorageKey: uploadedPhoto.original.key,
+        compressedMediumStorageLink: uploadedPhoto.medium.url,
+        compressedMediumStorageKey: uploadedPhoto.medium.key,
+        compressedPreviewStorageLink: uploadedPhoto.preview.url,
+        compressedPreviewStorageKey: uploadedPhoto.preview.key,
+      },
+      select: {
+        id: true,
+        originalStorageLink: true,
+        compressedMediumStorageLink: true,
+        compressedPreviewStorageLink: true,
+      },
+    });
+  }
+
+  async deleteProfilePhoto(photoId: string, supplierId: string) {
+    const profilePhoto =
+      await this.prismaService.supplierProfilePhotoUpload.findUnique({
+        where: { id: photoId, supplierId },
+        select: {
+          originalStorageKey: true,
+          compressedMediumStorageKey: true,
+          compressedPreviewStorageKey: true,
+        },
+      });
+    if (!profilePhoto) {
+      throw new NotFoundException(
+        `Couldn't find profile photo by ID: ${photoId}`,
+      );
+    }
+    const keys = [
+      profilePhoto.originalStorageKey,
+      profilePhoto.compressedMediumStorageKey,
+      profilePhoto.compressedPreviewStorageKey,
+    ];
+    await this.fileManagerService.deleteFiles(keys);
+
+    return this.prismaService.supplierProfilePhotoUpload.delete({
+      where: { id: photoId },
+      select: { id: true },
+    });
+  }
+
+  async uploadCertificate(certificate: MemoryStoredFile, supplierId: string) {
+    const uploadedCertificate = await this.fileManagerService.uploadFile({
+      file: certificate,
+      supplierId,
+    });
+
+    return this.prismaService.supplierCertificateUpload.create({
+      data: {
+        storageLink: uploadedCertificate.url,
+        storageKey: uploadedCertificate.key,
+      },
+      select: {
+        id: true,
+        storageLink: true,
+      },
+    });
+  }
+
+  async deleteCertificates(certificateIds: string[], supplierId: string) {
+    const certificates =
+      await this.prismaService.supplierCertificateUpload.findMany({
+        where: { id: { in: certificateIds }, supplierId },
+        select: {
+          storageKey: true,
+        },
+      });
+    if (certificates.length !== certificateIds.length) {
+      throw new NotFoundException(
+        `Couldn't find certificates by ID: ${certificateIds.join(', ')}`,
+      );
+    }
+    const keys = certificates.map((certificate) => certificate.storageKey);
+    await this.fileManagerService.deleteFiles(keys);
+
+    return this.prismaService.supplierProfilePhotoUpload.deleteMany({
+      where: { id: { in: certificateIds } },
     });
   }
 }

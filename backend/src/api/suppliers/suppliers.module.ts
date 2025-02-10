@@ -5,6 +5,8 @@ import { PrismaModule } from '../../prisma/prisma.module';
 import { JwtModule } from '@nestjs/jwt';
 import { SUPPLIER_JWT_EXPIRES_IN, SUPPLIER_JWT_SECRET } from './constants';
 import { MailerModule } from '../../mailer/mailer.module';
+import { FileManagerModule } from '../file-manager/file-manager.module';
+import { NestjsFormDataModule } from 'nestjs-form-data';
 
 @Module({
   imports: [
@@ -15,6 +17,8 @@ import { MailerModule } from '../../mailer/mailer.module';
       signOptions: { expiresIn: SUPPLIER_JWT_EXPIRES_IN },
     }),
     MailerModule,
+    FileManagerModule,
+    NestjsFormDataModule,
   ],
   controllers: [SuppliersController],
   providers: [SuppliersService],
