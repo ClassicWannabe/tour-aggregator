@@ -37,7 +37,7 @@ export class SuppliersController {
   sendEmailVerification(
     @Body() sendEmailVerificationDto: SendEmailVerificationDto,
   ) {
-    return this.suppliersService.sendEmailVerification(
+    return this.suppliersService.resendEmailVerification(
       sendEmailVerificationDto.email,
     );
   }

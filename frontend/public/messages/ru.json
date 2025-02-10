@@ -40,6 +40,15 @@
     "cityTours": "Городские",
     "perPerson": "за человека",
     "choose": "Выбрать",
+    "tourType": {
+      "FIELD": "Выездной",
+      "CITY": "Городской",
+      "WALKING": "Пеший"
+    },
+    "location": {
+      "Almaty": "Алматы",
+      "Astana": "Астана"
+    },
     "phone": "Телефон"
   },
   "TopSection": {

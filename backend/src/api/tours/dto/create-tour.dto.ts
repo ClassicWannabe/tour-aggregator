@@ -4,9 +4,7 @@ import {
   IntersectionType,
 } from '@nestjs/swagger';
 import { TourDto } from './tour.dto';
-import { IsOptional, ValidateNested } from 'class-validator';
 import { RecurringTourDto } from './recurring-tour.dto';
-import { Type } from 'class-transformer';
 import { TourPhotoFormDto } from './tour-photo-form.dto';
 import { TourProgramFormDto } from './tour-program-form.dto';
 
@@ -27,12 +25,5 @@ export class CreateTourDto extends IntersectionType(
   ]),
   PickType(TourPhotoFormDto, ['photoIds']),
   PickType(TourProgramFormDto, ['program']),
-) {
-  @ApiPropertyOptional({
-    description: 'Tour recurrence pattern',
-  })
-  @ValidateNested()
-  @Type(() => RecurringTourDto)
-  @IsOptional()
-  recurrence?: RecurringTourDto;
-}
+  PickType(RecurringTourDto, ['recurrenceDates']),
+) {}

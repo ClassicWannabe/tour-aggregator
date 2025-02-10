@@ -6,10 +6,9 @@ export class MailerService {
   constructor(private readonly mailerService: NestMailerService) {}
 
   async sendVerificationEmail(email: string, code: string) {
-    console.log({ email, code });
     await this.mailerService.sendMail({
       to: email,
-      subject: 'Email Verification',
+      subject: 'Код подтверждения почты',
       template: './verification',
       context: {
         code,

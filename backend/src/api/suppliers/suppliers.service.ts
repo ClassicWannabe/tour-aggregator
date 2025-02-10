@@ -13,7 +13,7 @@ import { JwtService } from '@nestjs/jwt';
 import { SupplierJwtPayload } from './types';
 import { SUPPLIER_PASSWORD_SALT_ROUNDS } from './constants';
 import { SignInSupplierDto } from './dto/sign-in-supplier.dto';
-import { SupplierType } from '@prisma/client';
+import { SupplierContactType, SupplierType } from '@prisma/client';
 import { VerifyEmailDto } from './dto/verify-email.dto';
 import { CustomConfigService } from '../../config/custom-config.service';
 import { MailerService } from '../../mailer/mailer.service';
@@ -46,9 +46,28 @@ export class SuppliersService {
       supplierType = SupplierType.COMPANY_SUPPLIER;
     }
 
+    const existingSupplier = await this.prismaService.supplier.findFirst({
+      where: {
+        OR: [
+          {
+            email: signUpSupplierDto.email,
+          },
+          { phone: signUpSupplierDto.phone },
+        ],
+      },
+      select: {
+        email: true,
+        phone: true,
+      },
+    });
+    if (existingSupplier) {
+      throw new BadRequestException('Duplicate email/phone');
+    }
+
     const newSupplier = await this.prismaService.supplier.create({
       data: {
         ...supplierInfo,
+        email: null,
         password,
         companySupplier: { create: companySupplier },
         individualSupplier: { create: individualSupplier },
@@ -57,30 +76,35 @@ export class SuppliersService {
       include: { individualSupplier: true, companySupplier: true },
     });
 
-    await this.sendEmailVerification(newSupplier.email);
+    await this.sendEmailVerification(signUpSupplierDto.email, newSupplier.id);
 
     return newSupplier;
   }
 
-  async sendEmailVerification(email: string) {
-    const supplier = await this.prismaService.supplier.findUnique({
+  async resendEmailVerification(email: string) {
+    const supplier = await this.prismaService.supplier.findFirst({
       where: { email },
       select: {
         id: true,
-        emailVerifiedAt: true,
-        verificationCodes: {
-          select: { createdAt: true },
-          where: { expireAt: { gt: new Date() } },
-        },
       },
     });
 
-    if (!supplier) {
-      throw new NotFoundException('Supplier not found');
+    if (supplier) {
+      throw new BadRequestException('Email is verified/occupied');
     }
 
-    if (supplier.emailVerifiedAt) {
-      throw new BadRequestException('Email is already verified');
+    const verificationCode =
+      await this.prismaService.supplierContactVerification.findFirst({
+        where: { contact: email },
+        select: {
+          id: true,
+          createdAt: true,
+          supplier: { select: { id: true } },
+        },
+      });
+
+    if (!verificationCode) {
+      throw new BadRequestException('Email does not exist');
     }
 
     const resendSeconds = this.configService.getOrFailNumber(
@@ -88,23 +112,33 @@ export class SuppliersService {
     );
     const minDate = DateTime.now().minus({ second: resendSeconds });
 
-    const isRecentVerificationCodeExists = supplier.verificationCodes.some(
-      (verificationCode) =>
-        DateTime.fromJSDate(verificationCode.createdAt) > minDate,
-    );
+    const isRecentVerificationCodeExists =
+      DateTime.fromJSDate(verificationCode.createdAt) > minDate;
 
     if (isRecentVerificationCodeExists) {
       throw new BadRequestException('Cannot send email verification code yet');
     }
 
+    await this.sendEmailVerification(email, verificationCode.supplier.id);
+  }
+
+  private async sendEmailVerification(email: string, supplierId: string) {
     const expireSeconds = this.configService.getOrFailNumber(
       'SUPPLIER_VERIFICATION_CODE_EXPIRATION_SECONDS',
     );
-    const expireAt = DateTime.now().plus({ second: expireSeconds }).toJSDate();
+    const codeExpiresAt = DateTime.now()
+      .plus({ second: expireSeconds })
+      .toJSDate();
     const newCode = this.generateOTP();
 
-    await this.prismaService.verificationCode.create({
-      data: { expireAt, supplierId: supplier.id, code: newCode },
+    await this.prismaService.supplierContactVerification.create({
+      data: {
+        supplierId: supplierId,
+        code: newCode,
+        contact: email,
+        type: SupplierContactType.EMAIL,
+        codeExpiresAt,
+      },
     });
 
     await this.mailerService.sendVerificationEmail(email, newCode);
@@ -122,17 +156,13 @@ export class SuppliersService {
   async signIn(
     signInSupplierDto: SignInSupplierDto,
   ): Promise<{ access_token: string }> {
-    const supplier = await this.prismaService.supplier.findUnique({
-      select: { id: true, email: true, password: true, emailVerifiedAt: true },
+    const supplier = await this.prismaService.supplier.findFirst({
+      select: { id: true, email: true, password: true },
       where: { email: signInSupplierDto.email },
     });
 
     if (!supplier) {
       throw new NotFoundException('Supplier not found');
-    }
-
-    if (!supplier.emailVerifiedAt) {
-      throw new BadRequestException('Email not verified');
     }
 
     const passwordMatch = await bcrypt.compare(
@@ -146,7 +176,7 @@ export class SuppliersService {
 
     const payload: SupplierJwtPayload = {
       sub: supplier.id,
-      email: supplier.email,
+      email: signInSupplierDto.email,
     };
     return {
       access_token: await this.jwtService.signAsync(payload),
@@ -161,37 +191,43 @@ export class SuppliersService {
   }
 
   async verifyEmail(verifyEmailDto: VerifyEmailDto) {
-    const supplier = await this.prismaService.supplier.findUnique({
+    const supplier = await this.prismaService.supplier.findFirst({
       where: { email: verifyEmailDto.email },
-      select: {
-        id: true,
-        emailVerifiedAt: true,
-        verificationCodes: {
-          select: { code: true },
-          where: { expireAt: { gt: new Date() } },
-        },
-      },
     });
-
-    if (!supplier) {
-      throw new NotFoundException('Supplier not found');
-    }
-
-    if (supplier.emailVerifiedAt) {
+    if (supplier) {
       throw new BadRequestException('Email is already verified');
     }
 
-    const verificationCodeExists = supplier.verificationCodes.some(
-      (verificationCode) => verificationCode.code === verifyEmailDto.code,
-    );
+    const verificationCode =
+      await this.prismaService.supplierContactVerification.findFirst({
+        where: {
+          contact: verifyEmailDto.email,
+          codeExpiresAt: { gt: new Date() },
+          contactVerifiedAt: null,
+        },
+        select: {
+          id: true,
+          code: true,
+        },
+        orderBy: { createdAt: 'desc' },
+      });
 
-    if (!verificationCodeExists) {
+    if (!verificationCode) {
+      throw new NotFoundException('Not found');
+    }
+
+    const isCodeValid = verificationCode.code === verifyEmailDto.code;
+
+    if (!isCodeValid) {
       throw new BadRequestException('Wrong verification code');
     }
 
-    await this.prismaService.supplier.update({
-      where: { id: supplier.id },
-      data: { emailVerifiedAt: new Date() },
+    await this.prismaService.supplierContactVerification.update({
+      where: { id: verificationCode.id },
+      data: {
+        contactVerifiedAt: new Date(),
+        supplier: { update: { email: verifyEmailDto.email } },
+      },
     });
   }
 }

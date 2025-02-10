@@ -10,33 +10,48 @@ datasource db {
 }
 
 model Supplier {
-  id              String       @id @default(uuid()) @db.Uuid
-  type            SupplierType
-  email           String       @unique
-  emailVerifiedAt DateTime?
-  password        String
-  socialLinks     String[]
-  aboutMe         String?
-  createdAt       DateTime     @default(now())
-  updatedAt       DateTime     @updatedAt
+  id          String       @id @default(uuid()) @db.Uuid
+  type        SupplierType
+  email       String?
+  phone       String?
+  password    String
+  socialLinks String[]
+  aboutMe     String?
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
 
   tours             Tour[]
-  supplierUploads   SupplierUpload[]
-  verificationCodes VerificationCode[]
+  certificates      SupplierCertificateUpload[]
+  verificationCodes SupplierContactVerification[]
 
   companySupplier    CompanySupplier?
   individualSupplier IndividualSupplier?
-  TourPhoto          TourPhoto[]
+  photo              SupplierProfilePhotoUpload?
+  tourPhotos         TourPhoto[]
+
+  @@index([email])
+  @@index([phone])
 }
 
-model VerificationCode {
-  id        String   @id @default(uuid()) @db.Uuid
-  code      String
-  expireAt  DateTime
-  createdAt DateTime @default(now())
+enum SupplierContactType {
+  EMAIL
+  PHONE
+}
+
+model SupplierContactVerification {
+  id                String              @id @default(uuid()) @db.Uuid
+  code              String
+  codeExpiresAt     DateTime
+  contact           String
+  type              SupplierContactType
+  contactVerifiedAt DateTime?
+  createdAt         DateTime            @default(now())
+  updatedAt         DateTime            @updatedAt
 
   supplierId String   @db.Uuid
   supplier   Supplier @relation(fields: [supplierId], references: [id])
+
+  @@index([contact])
 }
 
 enum SupplierType {
@@ -50,7 +65,7 @@ model CompanySupplier {
   companyName String
 
   supplierId String   @unique @db.Uuid
-  supplier   Supplier @relation(fields: [supplierId], references: [id])
+  supplier   Supplier @relation(fields: [supplierId], references: [id], onDelete: Cascade)
 }
 
 model IndividualSupplier {
@@ -59,16 +74,29 @@ model IndividualSupplier {
   lastName  String
 
   supplierId String   @unique @db.Uuid
-  supplier   Supplier @relation(fields: [supplierId], references: [id])
+  supplier   Supplier @relation(fields: [supplierId], references: [id], onDelete: Cascade)
 }
 
-model SupplierUpload {
+model SupplierProfilePhotoUpload {
+  id                           String   @id @default(uuid()) @db.Uuid
+  originalStorageLink          String
+  compressedMediumStorageLink  String
+  compressedPreviewStorageLink String
+  createdAt                    DateTime @default(now())
+  updatedAt                    DateTime @updatedAt
+
+  supplierId String   @unique @db.Uuid
+  supplier   Supplier @relation(fields: [supplierId], references: [id], onDelete: Cascade)
+}
+
+model SupplierCertificateUpload {
   id          String   @id @default(uuid()) @db.Uuid
   storageLink String
   createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 
-  supplierId String   @db.Uuid
-  supplier   Supplier @relation(fields: [supplierId], references: [id], onDelete: Cascade)
+  supplierId String?   @db.Uuid
+  supplier   Supplier? @relation(fields: [supplierId], references: [id], onDelete: Cascade)
 }
 
 enum TourType {
@@ -127,14 +155,13 @@ model TourReservation {
 }
 
 model TourPhoto {
-  id                           String    @id @default(uuid()) @db.Uuid
+  id                           String   @id @default(uuid()) @db.Uuid
   originalStorageLink          String
   compressedMediumStorageLink  String
   compressedPreviewStorageLink String
   order                        Int?
-  createdAt                    DateTime  @default(now())
-  updatedAt                    DateTime  @updatedAt
-  deletedAt                    DateTime?
+  createdAt                    DateTime @default(now())
+  updatedAt                    DateTime @updatedAt
 
   tourId String? @db.Uuid
   tour   Tour?   @relation(fields: [tourId], references: [id], onDelete: Cascade)
@@ -144,8 +171,10 @@ model TourPhoto {
 }
 
 model Location {
-  id   String @id @default(uuid()) @db.Uuid
-  name String
+  id        String   @id @default(uuid()) @db.Uuid
+  name      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   tour Tour[]
 }

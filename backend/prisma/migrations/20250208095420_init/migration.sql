@@ -2,6 +2,9 @@
 CREATE EXTENSION IF NOT EXISTS "pg_trgm";
 
 -- CreateEnum
+CREATE TYPE "SupplierContactType" AS ENUM ('EMAIL', 'PHONE');
+
+-- CreateEnum
 CREATE TYPE "SupplierType" AS ENUM ('COMPANY_SUPPLIER', 'INDIVIDUAL_SUPPLIER');
 
 -- CreateEnum
@@ -11,8 +14,8 @@ CREATE TYPE "TourType" AS ENUM ('WALKING', 'CITY', 'FIELD');
 CREATE TABLE "Supplier" (
     "id" UUID NOT NULL,
     "type" "SupplierType" NOT NULL,
-    "email" TEXT NOT NULL,
-    "emailVerifiedAt" TIMESTAMP(3),
+    "email" TEXT,
+    "phone" TEXT,
     "password" TEXT NOT NULL,
     "socialLinks" TEXT[],
     "aboutMe" TEXT,
@@ -23,14 +26,18 @@ CREATE TABLE "Supplier" (
 );
 
 -- CreateTable
-CREATE TABLE "VerificationCode" (
+CREATE TABLE "SupplierContactVerification" (
     "id" UUID NOT NULL,
     "code" TEXT NOT NULL,
-    "expireAt" TIMESTAMP(3) NOT NULL,
+    "codeExpiresAt" TIMESTAMP(3) NOT NULL,
+    "contact" TEXT NOT NULL,
+    "type" "SupplierContactType" NOT NULL,
+    "contactVerifiedAt" TIMESTAMP(3),
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
     "supplierId" UUID NOT NULL,
 
-    CONSTRAINT "VerificationCode_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "SupplierContactVerification_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -54,13 +61,27 @@ CREATE TABLE "IndividualSupplier" (
 );
 
 -- CreateTable
-CREATE TABLE "SupplierUpload" (
+CREATE TABLE "SupplierProfilePhotoUpload" (
+    "id" UUID NOT NULL,
+    "originalStorageLink" TEXT NOT NULL,
+    "compressedMediumStorageLink" TEXT NOT NULL,
+    "compressedPreviewStorageLink" TEXT NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+    "supplierId" UUID NOT NULL,
+
+    CONSTRAINT "SupplierProfilePhotoUpload_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "SupplierCertificateUpload" (
     "id" UUID NOT NULL,
     "storageLink" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "supplierId" UUID NOT NULL,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+    "supplierId" UUID,
 
-    CONSTRAINT "SupplierUpload_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "SupplierCertificateUpload_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -116,7 +137,6 @@ CREATE TABLE "TourPhoto" (
     "order" INTEGER,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
-    "deletedAt" TIMESTAMP(3),
     "tourId" UUID,
     "supplierId" UUID NOT NULL,
 
@@ -127,12 +147,20 @@ CREATE TABLE "TourPhoto" (
 CREATE TABLE "Location" (
     "id" UUID NOT NULL,
     "name" TEXT NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
 
     CONSTRAINT "Location_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateIndex
-CREATE UNIQUE INDEX "Supplier_email_key" ON "Supplier"("email");
+CREATE INDEX "Supplier_email_idx" ON "Supplier"("email");
+
+-- CreateIndex
+CREATE INDEX "Supplier_phone_idx" ON "Supplier"("phone");
+
+-- CreateIndex
+CREATE INDEX "SupplierContactVerification_contact_idx" ON "SupplierContactVerification"("contact");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "CompanySupplier_supplierId_key" ON "CompanySupplier"("supplierId");
@@ -140,17 +168,23 @@ CREATE UNIQUE INDEX "CompanySupplier_supplierId_key" ON "CompanySupplier"("suppl
 -- CreateIndex
 CREATE UNIQUE INDEX "IndividualSupplier_supplierId_key" ON "IndividualSupplier"("supplierId");
 
--- AddForeignKey
-ALTER TABLE "VerificationCode" ADD CONSTRAINT "VerificationCode_supplierId_fkey" FOREIGN KEY ("supplierId") REFERENCES "Supplier"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+-- CreateIndex
+CREATE UNIQUE INDEX "SupplierProfilePhotoUpload_supplierId_key" ON "SupplierProfilePhotoUpload"("supplierId");
 
 -- AddForeignKey
-ALTER TABLE "CompanySupplier" ADD CONSTRAINT "CompanySupplier_supplierId_fkey" FOREIGN KEY ("supplierId") REFERENCES "Supplier"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "SupplierContactVerification" ADD CONSTRAINT "SupplierContactVerification_supplierId_fkey" FOREIGN KEY ("supplierId") REFERENCES "Supplier"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "IndividualSupplier" ADD CONSTRAINT "IndividualSupplier_supplierId_fkey" FOREIGN KEY ("supplierId") REFERENCES "Supplier"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "CompanySupplier" ADD CONSTRAINT "CompanySupplier_supplierId_fkey" FOREIGN KEY ("supplierId") REFERENCES "Supplier"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "SupplierUpload" ADD CONSTRAINT "SupplierUpload_supplierId_fkey" FOREIGN KEY ("supplierId") REFERENCES "Supplier"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "IndividualSupplier" ADD CONSTRAINT "IndividualSupplier_supplierId_fkey" FOREIGN KEY ("supplierId") REFERENCES "Supplier"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "SupplierProfilePhotoUpload" ADD CONSTRAINT "SupplierProfilePhotoUpload_supplierId_fkey" FOREIGN KEY ("supplierId") REFERENCES "Supplier"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "SupplierCertificateUpload" ADD CONSTRAINT "SupplierCertificateUpload_supplierId_fkey" FOREIGN KEY ("supplierId") REFERENCES "Supplier"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Tour" ADD CONSTRAINT "Tour_supplierId_fkey" FOREIGN KEY ("supplierId") REFERENCES "Supplier"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
