@@ -23,7 +23,7 @@ export default {
         borderColorSecondary: "#00000026",
         lightGray: "#0000000F",
         colorBgLayout: "#F5F5F5",
-
+        errorBase: "#ff4d4f",
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         primaryBlue: "#0958D9",
