@@ -136,8 +136,17 @@ export default function SingUpForm() {
         {/*  <PlusIcon size={14} />*/}
         {/*  {t("SignUpPage.addOtherLink")}*/}
         {/*</Button>*/}
-        <CustomCheckbox label={t("SignUpPage.agreeToTermPolicy")} />
-        <CustomCheckbox label={t("SignUpPage.agreeToReceiveUpdates")} />
+        <CustomCheckbox
+          label={t("SignUpPage.agreeToTermPolicy")}
+          name="agreeToTermPolicy"
+          errorText={getErrorsTranslation(state?.errors?.agreeToTermPolicy)}
+        />
+        <CustomCheckbox
+          label={t("SignUpPage.agreeToReceiveUpdates")}
+          name="agreeToReceiveUpdates"
+          // checked={state?.payload.agreeToReceiveUpdates}
+          errorText={getErrorsTranslation(state?.errors?.agreeToReceiveUpdates)}
+        />
       </Tabs>
       <Button className="w-full text-body1 text-primaryWhite" type="submit" disabled={pending}>
         {t("SignUpPage.createAccount")}

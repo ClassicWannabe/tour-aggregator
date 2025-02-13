@@ -20,6 +20,11 @@ export const SignUpSchema = z.object({
     }),
   confirmPassword: z.string().min(1, { message: "SignUpErrors.confirmPasswordRequired" }),
   socialLinks: z.array(z.string().url({ message: "SignUpErrors.notValidUrl" })).optional(),
+  agreeToTermPolicy: z
+    .string()
+    .transform((val) => val === "on")
+    .refine((val) => val === true, { message: "SignUpErrors.agreeToTermPolicyRequired" }),
+  agreeToReceiveUpdates: z.boolean().optional(),
 })
 
 export const SignUpAgencyFieldsSchema = SignUpSchema.merge(

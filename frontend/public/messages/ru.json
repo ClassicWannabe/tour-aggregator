@@ -300,6 +300,7 @@
     "companyNameRequired": "Поле \"Название компании\" обязательно для заполнения",
     "ownerNameRequired": "Поле \"ФИО владельца\" обязательно для заполнения",
     "firstNameRequired": "Поле \"Имя\" обязательно для заполнения",
-    "lastNameRequired": "Поле \"Фамилия\" обязательно для заполнения"
+    "lastNameRequired": "Поле \"Фамилия\" обязательно для заполнения",
+    "agreeToTermPolicyRequired": "You must agree to the terms and policy"
   }
 }
