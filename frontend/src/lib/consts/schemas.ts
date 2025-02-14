@@ -22,9 +22,10 @@ export const SignUpSchema = z.object({
   socialLinks: z.array(z.string().url({ message: "SignUpErrors.notValidUrl" })).optional(),
   agreeToTermPolicy: z
     .string()
+    .min(1, { message: "SignUpErrors.agreeToTermPolicyRequired" })
     .transform((val) => val === "on")
-    .refine((val) => val === true, { message: "SignUpErrors.agreeToTermPolicyRequired" }),
-  agreeToReceiveUpdates: z.boolean().optional(),
+    .refine((val) => val, { message: "SignUpErrors.agreeToTermPolicyRequired" }),
+  agreeToReceiveUpdates: z.string().optional(),
 })
 
 export const SignUpAgencyFieldsSchema = SignUpSchema.merge(

@@ -18,10 +18,14 @@ type SignUpErrors = {
 
 export async function signUp(prevState: any, formData: FormData) {
   const data = Object.fromEntries(formData)
-  console.log("data", data)
+  if (!data.hasOwnProperty("agreeToTermPolicy")) {
+    data.agreeToTermPolicy = "off"
+  }
+  if (!data.hasOwnProperty("agreeToReceiveUpdates")) {
+    data.agreeToReceiveUpdates = "off"
+  }
   const isGuideData = data.hasOwnProperty("firstName")
   const result = isGuideData ? SignUpGuideFieldsSchema.safeParse(data) : SignUpAgencyFieldsSchema.safeParse(data)
-
   if (!result.success) {
     return {
       errors: result.error.flatten().fieldErrors as SignUpErrors,
