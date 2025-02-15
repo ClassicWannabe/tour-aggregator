@@ -9,9 +9,10 @@ import { PrismaService } from '../../prisma/prisma.service';
 import { FindAllToursDto } from './dto/find-all-tours.dto';
 import { MemoryStoredFile } from 'nestjs-form-data';
 import { FileManagerService } from '../file-manager/file-manager.service';
-import { Prisma } from '@prisma/client';
+import { Prisma, TourType } from '@prisma/client';
 import { SEARCH_SIMILARITY_MIN_THRESHOLD } from './constants';
 import { RecurringTourService } from './recurring-tour.service';
+import { LocationService } from '../location/location.service';
 
 @Injectable()
 export class ToursService {
@@ -19,12 +20,18 @@ export class ToursService {
     private readonly prismaService: PrismaService,
     private readonly fileManagerService: FileManagerService,
     private readonly recurringTourService: RecurringTourService,
+    private readonly locationService: LocationService,
   ) {}
 
   async createTour(createTourDto: CreateTourDto, supplierId: string) {
-    const { photoIds, recurrenceDates, startDate, endDate, ...tourInfo } =
-      createTourDto;
-
+    const {
+      photoIds,
+      recurrenceDates: rawRecurrenceDates,
+      startDate,
+      endDate,
+      ...tourInfo
+    } = createTourDto;
+    const recurrenceDates = rawRecurrenceDates.map((date) => new Date(date));
     const tourDates = this.generateTourDatesFromRecurrence(
       { startDate, endDate },
       recurrenceDates,
@@ -186,6 +193,27 @@ export class ToursService {
     }
 
     return { whereRaw, whereSimilarity };
+  }
+
+  async getTourFilters() {
+    const [pricesRaw, locations] = await Promise.all([
+      this.prismaService.tour.aggregate({
+        _min: {
+          pricePerPerson: true,
+        },
+        _max: {
+          pricePerPerson: true,
+        },
+      }),
+      this.locationService.getLocations(),
+    ]);
+    const prices = {
+      min: pricesRaw._min.pricePerPerson ?? 0,
+      max: pricesRaw._max.pricePerPerson ?? 0,
+    };
+    const types = Object.values(TourType);
+
+    return { prices, types, locations };
   }
 
   async findOneTour(id: string) {

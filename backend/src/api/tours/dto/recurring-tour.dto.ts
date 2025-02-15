@@ -1,6 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { ArrayUnique, IsDateString } from 'class-validator';
-import { Type } from 'class-transformer';
+import { ArrayUnique, IsISO8601 } from 'class-validator';
 import { DateTime } from 'luxon';
 import { IsDateBetween } from '../../../validators/is-date-between/is-date-between';
 
@@ -11,8 +10,7 @@ export class RecurringTourDto {
     description: 'Recurrence dates',
     example: ['2024-10-02T12:34:56.789Z'],
   })
-  @Type(() => Date)
-  @IsDateString(undefined, { each: true })
+  @IsISO8601({ strict: true }, { each: true })
   @ArrayUnique()
   @IsDateBetween(
     {
@@ -21,5 +19,5 @@ export class RecurringTourDto {
     },
     { each: true },
   )
-  recurrenceDates: Date[] = [];
+  recurrenceDates: string[] = [];
 }

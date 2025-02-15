@@ -116,7 +116,7 @@ model Tour {
   thesis              String
   description         String
   isTransportIncluded Boolean
-  pricePerPerson      Int?
+  pricePerPerson      Int
   peopleCount         Int
   type                TourType
   inclusions          String[]

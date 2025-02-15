@@ -33,7 +33,7 @@ export type SimilarityArgs<T> = {
   whereRaw?: string[];
   take?: number;
   skip?: number;
-  __meta?: { tableName: string };
+  __meta?: { tableName?: string; schema?: string };
 };
 
 export type SimilarityResult<T, A> = Array<
