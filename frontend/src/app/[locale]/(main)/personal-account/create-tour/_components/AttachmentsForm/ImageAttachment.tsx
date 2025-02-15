@@ -9,6 +9,7 @@ interface ImageAttachmentProps {
 }
 
 export default function ImageAttachment({ link, onDeleteClick }: ImageAttachmentProps) {
+  console.log(link)
   return (
     <div className="relative group h-24 w-36">
       <Image className="object-cover border p-1 rounded-lg" src={link} alt="The image selected by the user" fill />

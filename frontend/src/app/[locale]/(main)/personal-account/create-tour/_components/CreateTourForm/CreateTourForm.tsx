@@ -45,15 +45,16 @@ export function CreateTourForm({ locations }: CreateTourFormProps) {
       inclusions: [],
       exclusions: [],
       tourProgram: [
-        { time: "", description: "" },
-        { time: "", description: "" },
+        [
+          { time: undefined, description: "" },
+          { time: undefined, description: "" },
+        ],
       ],
       meetingPlace: "",
       images: [],
       recurringTour: {
         isRecurringTour: false,
-        weekdays: [],
-        withoutEndDate: false,
+        recurringDates: [],
       },
     },
     mode: "all",
@@ -65,10 +66,10 @@ export function CreateTourForm({ locations }: CreateTourFormProps) {
   console.log(form.getValues())
 
   const { steps, currentStepIndex, step, isFirstStep, isLastStep, back, next } = useMultistepForm([
-    <MainInformationForm locations={locations} />,
-    <AmenitiesForm />,
-    <TourProgramForm />,
-    <AttachmentsForm />,
+    <MainInformationForm key={MainInformationForm.name} locations={locations} />,
+    <AmenitiesForm key={AmenitiesForm.name} />,
+    <TourProgramForm key={TourProgramForm.name} />,
+    <AttachmentsForm key={AttachmentsForm.name} />,
   ])
 
   const handleSubmit = form.handleSubmit((formData) => {

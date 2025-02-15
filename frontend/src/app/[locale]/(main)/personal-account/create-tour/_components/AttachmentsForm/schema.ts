@@ -21,6 +21,7 @@ export const getAttachmentsFormSchema = (t: Translate) =>
     images: z
       .array(
         z.object({
+          id: z.string().uuid(),
           file: imageSchema,
           link: z.string().url(),
         }),

@@ -21,7 +21,7 @@ type MainInformationFormProps = {
 export function MainInformationForm({ locations }: MainInformationFormProps) {
   const t = useTranslations("MainInformationForm")
   const tShared = useTranslations("Shared")
-  const isTourFree: boolean = useWatch({ name: "tourPrice.isTourFree" })
+  const isTourFree: boolean = useWatch({ name: "priceInfo.isTourFree" })
   const form = useFormContext()
   const locationOptions = useMemo(() => {
     return locations.map(({ id, name }) => ({ value: id, text: tShared(`location.${name}`) }))
@@ -33,11 +33,11 @@ export function MainInformationForm({ locations }: MainInformationFormProps) {
   useEffect(() => {
     const isFormTouched = Object.values(form.formState.touchedFields).length > 0
     if (isFormTouched) {
-      form.trigger("tourPrice.tourPrice")
+      form.trigger("priceInfo.pricePerPerson")
     }
 
     if (isTourFree) {
-      form.setValue("tourPrice.tourPrice", "")
+      form.setValue("priceInfo.pricePerPerson", "")
     }
   }, [isTourFree])
 
@@ -49,7 +49,11 @@ export function MainInformationForm({ locations }: MainInformationFormProps) {
           name="title"
           label={t("input.title.label")}
           inputProps={{ placeholder: t("input.title.placeholder") }}
-          containerProps={{ className: "col-span-2" }}
+        />
+        <FormInput
+          name="peopleCount"
+          label={t("input.peopleCount.label")}
+          inputProps={{ placeholder: t("input.peopleCount.placeholder"), type: "number" }}
         />
         <FormSelect
           name="location"
@@ -106,11 +110,7 @@ export function MainInformationForm({ locations }: MainInformationFormProps) {
             format: "DD.MM.YYYY HH:mm",
           }}
         />
-        <FormInput
-          name="peopleCount"
-          label={t("input.peopleCount.label")}
-          inputProps={{ placeholder: t("input.peopleCount.placeholder"), type: "number" }}
-        />
+
         <RecurringTourInputs />
       </div>
     </>

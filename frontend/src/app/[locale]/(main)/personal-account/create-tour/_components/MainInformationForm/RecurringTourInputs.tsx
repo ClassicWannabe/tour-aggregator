@@ -1,24 +1,21 @@
 "use client"
-import { WeekdaysCheckboxMultiple } from "@/app/[locale]/(main)/personal-account/create-tour/_components/MainInformationForm/WeekdaysCheckboxMultiple"
 import FormCheckbox from "@/components/Form/FormCheckbox"
 import { useTranslations } from "next-intl"
-import { RepeatPatternSelect } from "@/app/[locale]/(main)/personal-account/create-tour/_components/MainInformationForm/RepeatPatternSelect"
 import FormDatePicker from "@/components/Form/FormDatePicker"
 import { useFormContext } from "react-hook-form"
+import { MainInformationFormType } from "@/app/[locale]/(main)/personal-account/create-tour/_components/MainInformationForm/schema"
+import dayjs from "dayjs"
 import { useEffect } from "react"
 
 export function RecurringTourInputs() {
   const t = useTranslations("MainInformationForm")
   const form = useFormContext()
   const isRecurringTour: boolean = form.watch("recurringTour.isRecurringTour")
-  const withoutEndDate: boolean = form.watch("recurringTour.withoutEndDate")
+  const dateRange: Partial<MainInformationFormType["dateRange"]> = form.watch("dateRange")
 
   useEffect(() => {
-    if (withoutEndDate) {
-      form.setValue("recurringTour.endRecurringDate", undefined)
-      form.trigger("recurringTour.endRecurringDate")
-    }
-  }, [withoutEndDate])
+    form.resetField("recurringTour.recurringDates")
+  }, [dateRange])
 
   return (
     <>
@@ -28,21 +25,16 @@ export function RecurringTourInputs() {
         containerProps={{ className: "items-end" }}
       />
       {isRecurringTour && (
-        <>
-          <WeekdaysCheckboxMultiple />
-          <RepeatPatternSelect />
-          <br />
-          <FormDatePicker
-            name="recurringTour.endRecurringDate"
-            label={t("input.endRecurringDate.label")}
-            datePickerProps={{ disabled: withoutEndDate, format: "DD.MM.YYYY" }}
-          />
-          <FormCheckbox
-            name="recurringTour.withoutEndDate"
-            label={t("input.withoutEndDate.label")}
-            containerProps={{ className: "items-end" }}
-          />
-        </>
+        <FormDatePicker
+          name="recurringTour.recurringDates"
+          label={t("input.recurringDates.label")}
+          datePickerProps={{
+            format: "DD.MM.YYYY",
+            multiple: true,
+            maxTagCount: "responsive",
+            minDate: dayjs(dateRange.endDate),
+          }}
+        />
       )}
     </>
   )

@@ -11,30 +11,32 @@ export const tourProgramFormLimits = {
 
 export const getTourProgramFormSchema = (t: Translate) =>
   z.object({
-    tourProgram: z
-      .array(
-        z.object({
-          time: z.string(),
-          description: z
-            .string()
-            .min(
-              tourProgramFormLimits.tourProgram.description.min,
-              t("default.tooSmall", { minimum: tourProgramFormLimits.tourProgram.description.min }),
-            )
-            .max(
-              tourProgramFormLimits.tourProgram.description.max,
-              t("default.tooBig", { maximum: tourProgramFormLimits.tourProgram.description.max }),
-            ),
-        }),
-      )
-      .min(
-        tourProgramFormLimits.tourProgram.min,
-        t("tourProgram.tooSmall", { minimum: tourProgramFormLimits.tourProgram.min }),
-      )
-      .max(
-        tourProgramFormLimits.tourProgram.max,
-        t("tourProgram.tooBig", { maximum: tourProgramFormLimits.tourProgram.max }),
-      ),
+    tourProgram: z.array(
+      z
+        .array(
+          z.object({
+            time: z.date({ required_error: t("default.required"), invalid_type_error: t("default.required") }),
+            description: z
+              .string()
+              .min(
+                tourProgramFormLimits.tourProgram.description.min,
+                t("default.tooSmall", { minimum: tourProgramFormLimits.tourProgram.description.min }),
+              )
+              .max(
+                tourProgramFormLimits.tourProgram.description.max,
+                t("default.tooBig", { maximum: tourProgramFormLimits.tourProgram.description.max }),
+              ),
+          }),
+        )
+        .min(
+          tourProgramFormLimits.tourProgram.min,
+          t("tourProgram.tooSmall", { minimum: tourProgramFormLimits.tourProgram.min }),
+        )
+        .max(
+          tourProgramFormLimits.tourProgram.max,
+          t("tourProgram.tooBig", { maximum: tourProgramFormLimits.tourProgram.max }),
+        ),
+    ),
     meetingPlace: z.string(),
   })
 

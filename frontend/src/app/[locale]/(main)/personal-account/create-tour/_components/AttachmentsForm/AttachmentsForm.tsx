@@ -12,6 +12,7 @@ import {
   imageMimeTypes,
 } from "@/app/[locale]/(main)/personal-account/create-tour/_components/AttachmentsForm/schema"
 import ImageAttachment from "@/app/[locale]/(main)/personal-account/create-tour/_components/AttachmentsForm/ImageAttachment"
+import { uploadPhoto } from "@/actions/upload-photo"
 
 export function AttachmentsForm() {
   const t = useTranslations("AttachmentsForm")
@@ -28,11 +29,13 @@ export function AttachmentsForm() {
     if (!files) {
       return
     }
-    const images = [...files].map((file) => {
-      const fileUrl = URL.createObjectURL(file)
+    const images = await Promise.all(
+      [...files].map(async (file) => {
+        const response = await uploadPhoto(file)
 
-      return { file, link: fileUrl }
-    })
+        return { id: response.id, file, link: response.compressedMediumStorageLink }
+      }),
+    )
 
     const prevImages = getValues(imagesInputName)
     setValue(imagesInputName, [...prevImages, ...images])
@@ -45,11 +48,7 @@ export function AttachmentsForm() {
   const handleImageDeletionClick = (link: string) => {
     const prevImages: AttachmentsFormType["images"] = getValues(imagesInputName)
     const filteredImages = prevImages.filter((image) => {
-      if (image.link !== link) {
-        return true
-      }
-      URL.revokeObjectURL(link)
-      return false
+      return image.link !== link
     })
     setValue(imagesInputName, filteredImages)
   }
@@ -82,7 +81,7 @@ export function AttachmentsForm() {
         {images.length > 0 &&
           images.map((image) => (
             <ImageAttachment
-              key={image.link}
+              key={image.id}
               link={image.link}
               onDeleteClick={() => handleImageDeletionClick(image.link)}
             />
