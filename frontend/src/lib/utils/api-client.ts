@@ -11,8 +11,6 @@ export class FetchClient {
   constructor(baseUrl: string, defaultHeaders: HeadersInit = {}) {
     this.baseUrl = baseUrl
     this.headers = {
-      Authorization:
-        "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIzYzU4ZTFlNy0xYzgzLTQ5YjMtOWU3NS1hZDczNzdlZTAwNmYiLCJlbWFpbCI6InJ1c2xhbmVsZXVzaW5vdkBnbWFpbC5jb20iLCJpYXQiOjE3Mzk2MjIwOTcsImV4cCI6MTc0MDIyNjg5N30.2i6ERIbWS7nq_C00llW5tOhKKic97jOMdBV9FZZnoOU",
       ...defaultHeaders,
     }
   }
