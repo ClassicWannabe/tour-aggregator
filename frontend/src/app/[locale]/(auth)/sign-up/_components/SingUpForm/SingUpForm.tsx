@@ -18,6 +18,7 @@ const SignUpInitialState = {
     lastName: "",
     companyName: "",
     ownerName: "",
+    agreeToTermPolicy: "off",
   },
   errors: {},
 }
@@ -26,6 +27,8 @@ export default function SingUpForm() {
   const [state, actionState, pending] = useActionState(signUp, SignUpInitialState)
   const t = useTranslations()
   const getErrorsTranslation = useFormErrorsTranslation()
+
+  console.log(state.payload)
 
   return (
     <form action={actionState} className="flex-col flex gap-3">
@@ -42,7 +45,6 @@ export default function SingUpForm() {
           name="email"
           defaultValue={state?.payload.email as string}
           errorText={getErrorsTranslation(state?.errors?.email)}
-          required
         />
         <CustomInput
           id="phone-input"
@@ -52,7 +54,6 @@ export default function SingUpForm() {
           name="phone"
           defaultValue={state?.payload.phone as string}
           errorText={getErrorsTranslation(state?.errors?.phone)}
-          required
         />
         <TabsContent value="tourAgency" className="flex flex-col gap-3 mt-0">
           <CustomInput
@@ -136,8 +137,19 @@ export default function SingUpForm() {
         {/*  <PlusIcon size={14} />*/}
         {/*  {t("SignUpPage.addOtherLink")}*/}
         {/*</Button>*/}
-        <CustomCheckbox label={t("SignUpPage.agreeToTermPolicy")} />
-        <CustomCheckbox label={t("SignUpPage.agreeToReceiveUpdates")} />
+        <CustomCheckbox
+          label={t("SignUpPage.agreeToTermPolicy")}
+          id="agreeToTermPolicy"
+          name="agreeToTermPolicy"
+          defaultChecked={state?.payload.agreeToTermPolicy === "on"}
+          errorText={getErrorsTranslation(state?.errors?.agreeToTermPolicy)}
+        />
+        <CustomCheckbox
+          label={t("SignUpPage.agreeToReceiveUpdates")}
+          id="agreeToReceiveUpdates"
+          name="agreeToReceiveUpdates"
+          defaultChecked={state?.payload.agreeToReceiveUpdates === "on"}
+        />
       </Tabs>
       <Button className="w-full text-body1 text-primaryWhite" type="submit" disabled={pending}>
         {t("SignUpPage.createAccount")}
