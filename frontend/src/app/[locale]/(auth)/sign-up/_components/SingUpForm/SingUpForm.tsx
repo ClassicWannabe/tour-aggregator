@@ -5,7 +5,7 @@ import { useTranslations } from "next-intl"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/Tabs/Tabs"
 import CustomInput from "@/components/CustomInput/CustomInput"
 import CustomCheckbox from "@/components/CustomCheckbox"
-import { signUp } from "@/app/[locale]/(auth)/sign-up/_components/SingUpForm/actions"
+import { signUp } from "./actions"
 import useFormErrorsTranslation from "@/lib/hooks/useFormErrorsTranslation"
 
 const SignUpInitialState = {
@@ -27,8 +27,6 @@ export default function SingUpForm() {
   const [state, actionState, pending] = useActionState(signUp, SignUpInitialState)
   const t = useTranslations()
   const getErrorsTranslation = useFormErrorsTranslation()
-
-  console.log(state.payload)
 
   return (
     <form action={actionState} className="flex-col flex gap-3">
