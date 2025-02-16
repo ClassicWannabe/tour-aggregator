@@ -12,6 +12,9 @@ export class IsLocationExistsValidator implements ValidatorConstraintInterface {
   constructor(private readonly prisma: PrismaService) {}
 
   async validate(locationId: string) {
+    if (!locationId) {
+      return false;
+    }
     const location = await this.prisma.location.findUnique({
       select: { id: true },
       where: { id: locationId },

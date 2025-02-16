@@ -36,6 +36,7 @@ export class ToursService {
       { startDate, endDate },
       recurrenceDates,
     );
+    console.log(createTourDto);
 
     const createdTour = await this.prismaService.$transaction(async (tx) => {
       const photos = await tx.tourPhoto.findMany({

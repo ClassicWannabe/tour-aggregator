@@ -11,8 +11,19 @@ import {
   AttachmentsFormType,
   imageMimeTypes,
 } from "@/app/[locale]/(main)/personal-account/create-tour/_components/AttachmentsForm/schema"
-import ImageAttachment from "@/app/[locale]/(main)/personal-account/create-tour/_components/AttachmentsForm/ImageAttachment"
 import { uploadPhoto } from "@/actions/upload-photo"
+import {
+  DndContext,
+  KeyboardSensor,
+  MouseSensor,
+  TouchSensor,
+  useSensor,
+  useSensors,
+  type DragEndEvent,
+} from "@dnd-kit/core"
+import { SortableContext, arrayMove } from "@dnd-kit/sortable"
+import OverlayImageAttachment from "@/app/[locale]/(main)/personal-account/create-tour/_components/AttachmentsForm/OverlayImageAttachment"
+import SortableImageAttachment from "@/app/[locale]/(main)/personal-account/create-tour/_components/AttachmentsForm/SortableImageAttachment"
 
 export function AttachmentsForm() {
   const t = useTranslations("AttachmentsForm")
@@ -53,6 +64,22 @@ export function AttachmentsForm() {
     setValue(imagesInputName, filteredImages)
   }
 
+  const sensors = useSensors(
+    useSensor(MouseSensor, { activationConstraint: { distance: 5 } }),
+    useSensor(TouchSensor),
+    useSensor(KeyboardSensor),
+  )
+
+  const handleImageDragEnd = (event: DragEndEvent) => {
+    const { active, over } = event
+    if (!over || active.id === over.id) return
+    const currentImages = [...images]
+    const activeImageIdx = currentImages.findIndex((img) => img.id === active.id)
+    const overImageIdx = currentImages.findIndex((img) => img.id === over.id)
+
+    setValue(imagesInputName, arrayMove(currentImages, activeImageIdx, overImageIdx))
+  }
+
   return (
     <>
       <FormTitle title={t("title")} subtitle={t("subtitle")} />
@@ -78,14 +105,25 @@ export function AttachmentsForm() {
         }}
       />
       <div className="flex flex-wrap gap-1.5 mt-8">
-        {images.length > 0 &&
-          images.map((image) => (
-            <ImageAttachment
-              key={image.id}
-              link={image.link}
-              onDeleteClick={() => handleImageDeletionClick(image.link)}
-            />
-          ))}
+        <DndContext sensors={sensors} onDragEnd={handleImageDragEnd}>
+          <SortableContext items={images}>
+            {images.length > 0 &&
+              images.map((image, index) => {
+                return (
+                  <SortableImageAttachment
+                    key={image.id}
+                    id={image.id}
+                    attachmentProps={{
+                      link: image.link,
+                      onDeleteClick: () => handleImageDeletionClick(image.link),
+                      isMainImage: index === 0,
+                    }}
+                  />
+                )
+              })}
+          </SortableContext>
+          <OverlayImageAttachment images={images} />
+        </DndContext>
 
         <Button
           variant="dashed"

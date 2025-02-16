@@ -1,8 +1,4 @@
-import {
-  ApiPropertyOptional,
-  PickType,
-  IntersectionType,
-} from '@nestjs/swagger';
+import { PickType, IntersectionType } from '@nestjs/swagger';
 import { TourDto } from './tour.dto';
 import { RecurringTourDto } from './recurring-tour.dto';
 import { TourPhotoFormDto } from './tour-photo-form.dto';

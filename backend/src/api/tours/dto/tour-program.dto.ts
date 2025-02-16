@@ -1,23 +1,12 @@
 import { ApiProperty } from '@nestjs/swagger';
-import {
-  IsInt,
-  IsString,
-  Min,
-  Max,
-  Matches,
-  IsOptional,
-  Length,
-} from 'class-validator';
+import { IsString, Length, IsISO8601 } from 'class-validator';
 
 export class TourProgramDto {
   @ApiProperty({
     description: 'Event time',
     example: '11:00',
   })
-  @IsString()
-  @Matches(/^(?:[01]\d|2[0-3]):[0-5]\d$/, {
-    message: 'Provide valid 24-hour format time: hh:mm',
-  })
+  @IsISO8601({ strict: true })
   time: string;
 
   @ApiProperty({

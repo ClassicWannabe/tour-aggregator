@@ -14,8 +14,10 @@ export function RecurringTourInputs() {
   const dateRange: Partial<MainInformationFormType["dateRange"]> = form.watch("dateRange")
 
   useEffect(() => {
-    form.resetField("recurringTour.recurringDates")
-  }, [dateRange])
+    if (!isRecurringTour) {
+      form.resetField("recurringTour.recurringDates")
+    }
+  }, [isRecurringTour])
 
   return (
     <>

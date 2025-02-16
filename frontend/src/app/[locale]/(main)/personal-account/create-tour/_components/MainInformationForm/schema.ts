@@ -23,7 +23,9 @@ export const getMainInformationFormSchema = (t: Translate) =>
       .trim()
       .min(mainInformationFormLimits.title.min, t("default.tooSmall", { minimum: mainInformationFormLimits.title.min }))
       .max(mainInformationFormLimits.title.max, t("default.tooBig", { maximum: mainInformationFormLimits.title.max })),
-    location: z.string().min(mainInformationFormLimits.location.min, t("location.choose")),
+    location: z
+      .string({ message: t("location.choose") })
+      .min(mainInformationFormLimits.location.min, t("location.choose")),
     tourType: z.nativeEnum(TourType, { message: t("tourType.choose") }),
     thesis: z
       .string()
@@ -74,7 +76,7 @@ export const getMainInformationFormSchema = (t: Translate) =>
         }
       }),
     peopleCount: z.coerce
-      .number()
+      .number({ message: t("peopleCount.tooSmall", { minimum: mainInformationFormLimits.peopleCount.min }) })
       .min(
         mainInformationFormLimits.peopleCount.min,
         t("peopleCount.tooSmall", { minimum: mainInformationFormLimits.peopleCount.min }),

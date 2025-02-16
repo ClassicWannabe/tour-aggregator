@@ -10,7 +10,6 @@ type FormButtonsProps = {
   onBackClick(): void
   onNextClick(): void
   onPreviewClick(): void
-  onCreateClick(): void
 }
 
 export default function FormButtons({
@@ -18,7 +17,6 @@ export default function FormButtons({
   isFirstStep,
   onBackClick,
   onPreviewClick,
-  onCreateClick,
   onCancelClick,
   onNextClick,
 }: FormButtonsProps) {
@@ -39,11 +37,7 @@ export default function FormButtons({
       {t("back")}
     </Button>
   )
-  const renderCreateButton = () => (
-    <Button type="submit" onClick={onCreateClick}>
-      {t("create")}
-    </Button>
-  )
+  const renderCreateButton = () => <Button type="submit">{t("create")}</Button>
   const renderPreviewButton = () => (
     <Button type="button" onClick={onPreviewClick}>
       {t("preview")}

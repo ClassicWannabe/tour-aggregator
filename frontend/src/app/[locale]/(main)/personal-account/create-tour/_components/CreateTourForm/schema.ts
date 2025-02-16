@@ -16,11 +16,6 @@ export const getFormSchema = (t: Translate) => {
 
 export type FormType = z.infer<ReturnType<typeof getFormSchema>>
 
-type TransformToString<T> =
-  T extends Record<string, unknown> ? { [key in keyof T]: TransformToString<T[key]> } : T | string
-
-export type FormTypeStringified = { [key in keyof FormType]: TransformToString<FormType[key]> }
-
 export const getSchemas = (t: Translate) => {
   const formSchema = getFormSchema(t)
   const mainInformationFormSchema = getMainInformationFormSchema(t)

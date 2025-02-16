@@ -30,7 +30,7 @@ export class FetchClient {
 
       const response = await fetch(url.toString(), {
         method,
-        headers: this.headers,
+        headers: this.getHeaders(body),
         body: this.getBody(body),
       })
 
@@ -43,6 +43,14 @@ export class FetchClient {
       console.error("FetchClient error:", error)
       throw error
     }
+  }
+
+  private getHeaders(body?: unknown) {
+    if (body instanceof FormData) {
+      return this.headers
+    }
+
+    return { ...this.headers, "Content-Type": "application/json" }
   }
 
   private getBody(body?: unknown) {
@@ -79,4 +87,7 @@ export class FetchClient {
   }
 }
 
-export const apiClient = new FetchClient(CONFIG.api.baseUrl)
+export const apiClient = new FetchClient(CONFIG.api.baseUrl, {
+  Authorization:
+    "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIzYzU4ZTFlNy0xYzgzLTQ5YjMtOWU3NS1hZDczNzdlZTAwNmYiLCJlbWFpbCI6InJ1c2xhbmVsZXVzaW5vdkBnbWFpbC5jb20iLCJpYXQiOjE3Mzk2NDYwMzQsImV4cCI6MTc0MDI1MDgzNH0.D8QIKVX1nPWfzmOadn7D5Plt0PnizlPtEd5y9rKrDm4",
+})
