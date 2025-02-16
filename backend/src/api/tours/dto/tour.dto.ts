@@ -5,12 +5,10 @@ import {
   Length,
   Min,
   Max,
-  IsPhoneNumber,
   ArrayMinSize,
   ArrayMaxSize,
   IsDate,
   IsBoolean,
-  IsOptional,
   IsUUID,
   Validate,
   IsIn,
@@ -89,12 +87,12 @@ export class TourDto extends TimestampDto {
     description: 'Tour price per person in tenge',
     example: 10_000,
   })
+  @Transform(({ value }) => (value === null ? 0 : value))
   @IsInt()
-  @Min(1000)
+  @Min(0)
   @Max(10_000_000)
   @Type(() => Number)
-  @IsOptional()
-  pricePerPerson?: number;
+  pricePerPerson: number;
 
   @ApiProperty({
     description: 'Tour location UUID',

@@ -20,7 +20,7 @@ export default function FormCheckboxMultiple({ name, items, containerProps, labe
         return (
           <FormItem {...containerProps}>
             {label && <FormLabel>{label}</FormLabel>}
-            <div className={cn(row ? "flex space-y-0 gap-x-3" : "")}>
+            <div className={cn(row ? "flex space-y-0 gap-x-3" : "space-y-2")}>
               {items.map((item) => (
                 <FormField
                   key={item.value}

@@ -6,6 +6,7 @@ import { NestjsFormDataModule } from 'nestjs-form-data';
 import { FileManagerModule } from '../file-manager/file-manager.module';
 import { IsLocationExistsModule } from '../../validators/is-location-exists/is-location-exists.module';
 import { RecurringTourService } from './recurring-tour.service';
+import { LocationModule } from '../location/location.module';
 
 @Module({
   imports: [
@@ -13,6 +14,7 @@ import { RecurringTourService } from './recurring-tour.service';
     NestjsFormDataModule,
     FileManagerModule,
     IsLocationExistsModule,
+    LocationModule,
   ],
   controllers: [ToursController],
   providers: [ToursService, RecurringTourService],

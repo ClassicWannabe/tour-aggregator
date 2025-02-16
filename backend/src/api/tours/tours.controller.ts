@@ -41,6 +41,11 @@ export class ToursController {
     return this.toursService.findAllTours(query);
   }
 
+  @Get('/filters')
+  getTourFilters() {
+    return this.toursService.getTourFilters();
+  }
+
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.toursService.findOneTour(id);

@@ -29,6 +29,7 @@ export class StorageService implements OnModuleInit {
   private s3: S3Client;
   private bucket: string;
   private endpoint: string;
+  private publicEndpoint?: string;
 
   constructor(private readonly configService: CustomConfigService) {}
 
@@ -36,6 +37,7 @@ export class StorageService implements OnModuleInit {
     const accessKeyId = this.configService.getOrFail('ACCESS_KEY_ID');
     const secretAccessKey = this.configService.getOrFail('SECRET_ACCESS_KEY');
     this.endpoint = this.configService.getOrFail('S3_ENDPOINT');
+    this.publicEndpoint = this.configService.get<string>('S3_PUBLIC_ENDPOINT');
     const region = this.configService.getOrFail('S3_REGION');
     const forcePathStyle = this.configService.getOrFailBool(
       'S3_FORCE_PATH_STYLE',
@@ -54,7 +56,7 @@ export class StorageService implements OnModuleInit {
   }
 
   get baseUrl() {
-    return `${this.endpoint}/${this.bucket}`;
+    return `${this.publicEndpoint ?? this.endpoint}/${this.bucket}`;
   }
 
   async uploadFile({ file, key, mimeType }: UploadFileParams) {

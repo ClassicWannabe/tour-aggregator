@@ -10,23 +10,6 @@ export const mainInformationFormLimits = {
   peopleCount: { min: 1, max: 100 },
 } as const
 
-export enum Weekday {
-  MONDAY = "monday",
-  TUESDAY = "tuesday",
-  WEDNESDAY = "wednesday",
-  THURSDAY = "thursday",
-  FRIDAY = "friday",
-  SATURDAY = "saturday",
-  SUNDAY = "sunday",
-}
-
-export enum TourRepeatPattern {
-  WEEKLY = "weekly",
-  BIWEEKLY = "biweekly",
-  THREE_WEEKLY = "threeWeekly",
-  MONTHLY = "monthly",
-}
-
 export enum TourType {
   WALKING = "WALKING",
   CITY = "CITY",
@@ -132,35 +115,16 @@ export const getMainInformationFormSchema = (t: Translate) =>
     recurringTour: z
       .object({
         isRecurringTour: z.boolean(),
-        weekdays: z.array(z.nativeEnum(Weekday)).max(7).optional(),
-        repeatPattern: z.nativeEnum(TourRepeatPattern).optional(),
-        endRecurringDate: z.date().optional(),
-        withoutEndDate: z.boolean(),
+        recurringDates: z.array(z.date()),
       })
       .superRefine((schema, ctx) => {
         if (!schema.isRecurringTour) return
 
-        if (!schema.weekdays?.length) {
+        if (!schema.recurringDates?.length) {
           ctx.addIssue({
-            path: ["weekdays"],
+            path: ["recurringDates"],
             code: z.ZodIssueCode.custom,
-            message: t("weekdays.tooSmall"),
-          })
-        }
-
-        if (!schema.repeatPattern) {
-          ctx.addIssue({
-            path: ["repeatPattern"],
-            code: z.ZodIssueCode.custom,
-            message: t("repeatPattern.choose"),
-          })
-        }
-
-        if (!schema.withoutEndDate && !schema.endRecurringDate) {
-          ctx.addIssue({
-            path: ["endRecurringDate"],
-            code: z.ZodIssueCode.custom,
-            message: t("endRecurringDate.choose"),
+            message: t("recurringDates.tooSmall"),
           })
         }
       }),

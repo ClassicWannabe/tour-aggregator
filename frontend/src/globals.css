@@ -132,7 +132,7 @@ body {
 
 @layer antd-custom {
   .ant-picker {
-    @apply max-h-10 w-full py-2 px-3 rounded-md;
+    @apply h-10 w-full py-2 px-3 rounded-md;
   }
   .ant-picker-dropdown .ant-picker-cell-in-view.ant-picker-cell-today .ant-picker-cell-inner::before {
     @apply border-primaryGreen;
@@ -166,5 +166,8 @@ body {
   }
   .ant-picker .ant-picker-input >input:placeholder-shown {
     @apply placeholder-muted-foreground
+  }
+  .ant-picker.ant-picker-multiple .ant-picker-selector .ant-picker-selection-placeholder {
+    inset-inline-start: 0;
   }
 }

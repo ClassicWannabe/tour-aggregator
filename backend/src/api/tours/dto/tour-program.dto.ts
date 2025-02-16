@@ -11,16 +11,6 @@ import {
 
 export class TourProgramDto {
   @ApiProperty({
-    description: 'For multi-day tours',
-    example: 1,
-  })
-  @IsInt()
-  @Min(1)
-  @Max(100)
-  @IsOptional()
-  day?: number;
-
-  @ApiProperty({
     description: 'Event time',
     example: '11:00',
   })

@@ -20,6 +20,7 @@ export class IsDateBetweenConstraint implements ValidatorConstraintInterface {
     if (!value) return false;
 
     const rawDates = args.constraints[0] as ConstraintDates;
+    console.log({ value, type: typeof value });
     const dates = this.initDates(rawDates);
 
     const inputDate = DateTime.fromISO(value);

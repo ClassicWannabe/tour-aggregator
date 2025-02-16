@@ -14,7 +14,10 @@ async function similarity<T, A>(
   args: SimilarityArgs<T>,
 ): Promise<SimilarityResult<T, A>> {
   try {
-    const model = args?.__meta?.tableName || ctx.$name; // model name is the table name!
+    const model = args?.__meta?.tableName ?? ctx.$name; // model name is the table name!
+    const schema = args?.__meta?.schema
+      ? `"${args?.__meta?.schema}"`
+      : `"${process.env.DB_SCHEMA}"`;
 
     const selectList: string[] = ['']; // for handling comma. check the final query!
     const whereSimilarityList: string[] = [];
@@ -41,7 +44,7 @@ async function similarity<T, A>(
             /**
              * @example SIMILARITY(col_name, 'lorem')
              */
-            const similarityOperation = `${operation}(${field}, '${operationQuery?.text}')`;
+            const similarityOperation = `${schema}.${operation}(${field}, '${operationQuery?.text}')`;
 
             /**
              * selectting fields with alias, field is same as column names
@@ -143,7 +146,7 @@ async function similarity<T, A>(
      *          WHERE similarity(col_name, 'lorem') >= 0.01
      *          ORDER BY similarity(col_name, 'lorem') desc
      */
-    const query = `SELECT * ${selectQuery} FROM "${model}" ${whereQuery} ${orderQuery} ${offsetQuery} ${limitQuery}`;
+    const query = `SELECT * ${selectQuery} FROM ${schema}."${model}" ${whereQuery} ${orderQuery} ${offsetQuery} ${limitQuery}`;
 
     const result = await prisma.$queryRawUnsafe(query);
     return result as SimilarityResult<T, A>;

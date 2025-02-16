@@ -11,7 +11,6 @@ export class FetchClient {
   constructor(baseUrl: string, defaultHeaders: HeadersInit = {}) {
     this.baseUrl = baseUrl
     this.headers = {
-      "Content-Type": "application/json",
       ...defaultHeaders,
     }
   }
@@ -32,7 +31,7 @@ export class FetchClient {
       const response = await fetch(url.toString(), {
         method,
         headers: this.headers,
-        body: body ? JSON.stringify(body) : undefined,
+        body: this.getBody(body),
       })
 
       if (!response.ok) {
@@ -44,6 +43,16 @@ export class FetchClient {
       console.error("FetchClient error:", error)
       throw error
     }
+  }
+
+  private getBody(body?: unknown) {
+    if (!body) {
+      return undefined
+    }
+    if (body instanceof FormData) {
+      return body
+    }
+    return JSON.stringify(body)
   }
 
   get<T>(endpoint: Endpoint, queryParams?: Record<string, string>) {

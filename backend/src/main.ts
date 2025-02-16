@@ -7,6 +7,9 @@ import { useContainer } from 'class-validator';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
+  const origins = process.env.CORS_ORIGINS?.split(',');
+  app.enableCors({ origin: origins });
+
   const config = new DocumentBuilder()
     .setTitle('API docs')
     .setDescription('API description')
@@ -14,8 +17,8 @@ async function bootstrap() {
     .addBearerAuth()
     .build();
   const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('api-docs', app, document, {
-    jsonDocumentUrl: '/api-docs-json',
+  SwaggerModule.setup('api/api-docs', app, document, {
+    jsonDocumentUrl: 'api/api-docs-json',
   });
 
   app.useGlobalPipes(new ValidationPipe({ whitelist: true, transform: true }));
