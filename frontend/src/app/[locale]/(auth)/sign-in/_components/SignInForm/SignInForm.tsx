@@ -1,0 +1,48 @@
+"use client"
+import React, { useActionState } from "react"
+import Button from "@/components/ui/Button"
+import CustomInput from "@/components/CustomInput/CustomInput"
+import { signIn } from "./actions"
+import useFormErrorsTranslation from "@/lib/hooks/useFormErrorsTranslation"
+import { useTranslations } from "next-intl"
+
+const SignInFormInitial = {
+  payload: {
+    email: "",
+    password: "",
+  },
+  errors: {},
+}
+
+export default function SignInForm() {
+  const t = useTranslations()
+  const [state, actionState, pending] = useActionState(signIn, SignInFormInitial)
+  const getErrorsTranslation = useFormErrorsTranslation()
+
+  return (
+    <form action={actionState} className="flex-col flex gap-3">
+      <CustomInput
+        id="email-input"
+        label={t("Shared.email")}
+        placeholder={t("Shared.email")}
+        type="email"
+        name="email"
+        defaultValue={state.payload.email as string}
+        errorText={getErrorsTranslation(state?.errors?.email)}
+      />
+      <CustomInput
+        id="password-input"
+        label={t("Shared.password")}
+        placeholder={t("Shared.password")}
+        type="password"
+        name="password"
+        defaultValue={state?.payload.password as string}
+        errorText={getErrorsTranslation(state?.errors?.password)}
+        required
+      />
+      <Button className="w-full text-body1 text-primaryWhite" type="submit" disabled={pending}>
+        {t("AuthPage.enterAccountBtn")}
+      </Button>
+    </form>
+  )
+}
