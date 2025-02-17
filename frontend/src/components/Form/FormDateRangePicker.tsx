@@ -1,13 +1,5 @@
 "use client"
-import {
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-  useFormField,
-} from "@/components/ui/Form"
+import { FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/Form"
 import { ControllerRenderProps, FieldValues } from "react-hook-form"
 import DatePicker, { RangePickerProps } from "antd/es/date-picker"
 import dayjs, { Dayjs } from "dayjs"
@@ -45,9 +37,7 @@ export default function FormDateRangePicker({
   return (
     <FormField
       name={name}
-      render={({ field }) => {
-        const { error } = useFormField()
-
+      render={({ field, fieldState: { error } }) => {
         return (
           <FormItem>
             {label && <FormLabel>{label}</FormLabel>}

@@ -10,7 +10,7 @@ export default function SearchForm() {
   const router = useRouter()
   const t = useTranslations("TopSection")
   const searchParams = useSearchParams()
-  const search = searchParams.get("search")
+  const search = searchParams.get("search") ?? undefined
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()

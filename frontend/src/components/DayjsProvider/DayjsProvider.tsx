@@ -1,6 +1,6 @@
 "use client"
 
-import { PropsWithChildren, useEffect } from "react"
+import { PropsWithChildren, useCallback, useEffect } from "react"
 import dayjs from "dayjs"
 import { Locale } from "@/i18n/routing"
 
@@ -15,7 +15,7 @@ const DAYJS_LOCALE_MAP: Record<Locale, string> = {
 }
 
 export function DayjsProvider({ locale, children }: DayjsProviderProps) {
-  const getLocale = () => {
+  const getLocale = useCallback(() => {
     switch (locale) {
       case "ru":
         return import("dayjs/locale/ru")
@@ -24,7 +24,7 @@ export function DayjsProvider({ locale, children }: DayjsProviderProps) {
       default:
         return import("dayjs/locale/en")
     }
-  }
+  }, [locale])
   useEffect(() => {
     getLocale()
       .then(() => {
@@ -33,7 +33,7 @@ export function DayjsProvider({ locale, children }: DayjsProviderProps) {
       .catch(() => {
         console.error(`Unknown locale for ${DayjsProvider.name}: "${locale}"`)
       })
-  }, [locale])
+  }, [getLocale, locale])
 
   return <>{children}</>
 }

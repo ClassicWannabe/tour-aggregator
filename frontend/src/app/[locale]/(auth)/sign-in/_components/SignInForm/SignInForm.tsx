@@ -6,8 +6,6 @@ import { signIn } from "./actions"
 import useFormErrorsTranslation from "@/lib/hooks/useFormErrorsTranslation"
 import { useTranslations } from "next-intl"
 import FormErrorText from "@/components/ui/FormErrorText"
-import makeFetchUrlPath from "@/lib/utils/make-fetch-url-path"
-import { API_PATHS } from "@/lib/consts/api-paths"
 
 const SignInFormInitial = {
   payload: {

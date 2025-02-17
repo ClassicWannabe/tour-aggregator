@@ -1,13 +1,5 @@
 "use client"
-import {
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-  useFormField,
-} from "@/components/ui/Form"
+import { FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/Form"
 import Input from "@/components/ui/Input"
 import { ComponentProps, RefObject } from "react"
 import { cn } from "@/lib/utils/common"
@@ -24,7 +16,7 @@ export default function FormInput({ name, label, helperText, inputProps, contain
   return (
     <FormField
       name={name}
-      render={({ field }) => {
+      render={({ field, fieldState: { error } }) => {
         const handleRefAssignment = (e: HTMLInputElement | null) => {
           field.ref(e)
           if (inputProps?.ref) {
@@ -32,7 +24,6 @@ export default function FormInput({ name, label, helperText, inputProps, contain
             refObject.current = e
           }
         }
-        const { error } = useFormField()
 
         return (
           <FormItem {...containerProps}>

@@ -1,13 +1,5 @@
 "use client"
-import {
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-  useFormField,
-} from "@/components/ui/Form"
+import { FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/Form"
 import TimePicker, { TimePickerProps } from "antd/es/time-picker"
 import dayjs, { Dayjs } from "dayjs"
 import { cn } from "@/lib/utils/common"
@@ -23,10 +15,7 @@ export default function FormTimePicker({ name, label, helperText, timePickerProp
   return (
     <FormField
       name={name}
-      render={({ field }) => {
-        // eslint-disable-next-line react-hooks/rules-of-hooks
-        const { error } = useFormField()
-
+      render={({ field, fieldState: { error } }) => {
         const handleChange = (date: Dayjs) => {
           field.onChange(date?.toDate())
         }

@@ -3,7 +3,7 @@ import { useTranslations } from "next-intl"
 import FormTitle from "@/app/[locale]/(main)/personal-account/create-tour/_components/FormTitle"
 import FormInput from "@/components/Form/FormInput"
 import { useFormContext } from "react-hook-form"
-import React, { useEffect, useMemo } from "react"
+import React, { useCallback, useEffect, useMemo } from "react"
 import { MainInformationFormType } from "@/app/[locale]/(main)/personal-account/create-tour/_components/MainInformationForm"
 import dayjs from "dayjs"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/Tabs/Tabs"
@@ -13,16 +13,16 @@ export function TourProgramForm() {
   const t = useTranslations("TourProgramForm")
   const { watch, getValues, setValue } = useFormContext()
   const dateRange: Required<MainInformationFormType["dateRange"]> = watch("dateRange")
-  const getNumberOfDays = () => {
+  const getNumberOfDays = useCallback(() => {
     const startDate = dayjs(dateRange.startDate)
     const endDate = dayjs(dateRange.endDate)
     const diff = endDate.diff(startDate, "day", true)
     return Math.ceil(diff)
-  }
-  const numberOfDays = useMemo(() => getNumberOfDays(), [dateRange])
+  }, [dateRange])
+  const numberOfDays = useMemo(() => getNumberOfDays(), [getNumberOfDays])
   const numberOfDaysArr = Array.from({ length: numberOfDays }, (_, i) => i + 1)
 
-  const rebalanceTourProgram = () => {
+  const rebalanceTourProgram = useCallback(() => {
     const tourProgram: object[][] = getValues("tourProgram")
     if (tourProgram.length > numberOfDays) {
       setValue("tourProgram", tourProgram.slice(0, numberOfDays))
@@ -38,11 +38,11 @@ export function TourProgramForm() {
       }
       setValue("tourProgram", [...tourProgram, ...additionalInputs])
     }
-  }
+  }, [getValues, numberOfDays, setValue])
 
   useEffect(() => {
     rebalanceTourProgram()
-  }, [numberOfDays])
+  }, [rebalanceTourProgram])
 
   return (
     <>

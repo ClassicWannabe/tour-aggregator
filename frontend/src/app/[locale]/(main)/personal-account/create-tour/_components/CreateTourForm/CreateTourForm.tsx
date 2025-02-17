@@ -58,13 +58,11 @@ export function CreateTourForm({ locations }: CreateTourFormProps) {
   const isFormDirty = form.formState.isDirty
   useBeforeunload(isFormDirty)
 
-  console.log(form.getValues())
-
   const { step, isFirstStep, isLastStep, back, next } = useMultistepForm([
+    <AttachmentsForm key={AttachmentsForm.name} />,
     <MainInformationForm key={MainInformationForm.name} locations={locations} />,
     <AmenitiesForm key={AmenitiesForm.name} />,
     <TourProgramForm key={TourProgramForm.name} />,
-    <AttachmentsForm key={AttachmentsForm.name} />,
   ])
 
   const handleSubmit = form.handleSubmit(async (formData) => {

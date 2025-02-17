@@ -25,7 +25,7 @@ export function MainInformationForm({ locations }: MainInformationFormProps) {
   const form = useFormContext()
   const locationOptions = useMemo(() => {
     return locations.map(({ id, name }) => ({ value: id, text: tShared(`location.${name}`) }))
-  }, [tShared])
+  }, [locations, tShared])
   const tourTypeOptions = useMemo(() => {
     return Object.values(TourType).map((type) => ({ value: type, text: tShared(`tourType.${type}`) }))
   }, [tShared])
@@ -39,7 +39,7 @@ export function MainInformationForm({ locations }: MainInformationFormProps) {
     if (isTourFree) {
       form.setValue("priceInfo.pricePerPerson", "")
     }
-  }, [isTourFree])
+  }, [form.trigger, form.setValue, form.formState.touchedFields, isTourFree])
 
   return (
     <>

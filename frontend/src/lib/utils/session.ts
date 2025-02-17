@@ -12,4 +12,3 @@ export async function setSession(token: string) {
     // expires: tokenInfo.exp,
   })
 }
-

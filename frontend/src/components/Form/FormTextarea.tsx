@@ -1,13 +1,5 @@
 "use client"
-import {
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-  useFormField,
-} from "@/components/ui/Form"
+import { FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/Form"
 import { ComponentProps } from "react"
 import { Textarea } from "@/components/ui/Textarea"
 import { cn } from "@/lib/utils/common"
@@ -23,8 +15,7 @@ export default function FormTextarea({ name, label, helperText, textareaProps }:
   return (
     <FormField
       name={name}
-      render={({ field }) => {
-        const { error } = useFormField()
+      render={({ field, fieldState: { error } }) => {
         return (
           <FormItem>
             {label && <FormLabel>{label}</FormLabel>}

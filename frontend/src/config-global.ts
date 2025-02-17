@@ -1,11 +1,12 @@
 import z from "zod"
 
-// TODO: Investigate the issue with NEXT_PUBLIC_*
 const envSchema = z.object({
-  NEXT_PUBLIC_BASE_API_URL: z.string().url().default("http://localhost:3001/api"),
+  NEXT_PUBLIC_BASE_API_URL: z.string().url(),
 })
 
-const ENV = envSchema.parse(process.env)
+const ENV = envSchema.parse({
+  NEXT_PUBLIC_BASE_API_URL: process.env.NEXT_PUBLIC_BASE_API_URL,
+})
 
 export const CONFIG = {
   api: {

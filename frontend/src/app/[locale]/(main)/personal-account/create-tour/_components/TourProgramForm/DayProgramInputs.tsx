@@ -1,8 +1,6 @@
 "use client"
 import { useTranslations } from "next-intl"
-import FormTitle from "@/app/[locale]/(main)/personal-account/create-tour/_components/FormTitle"
 import FormTextarea from "@/components/Form/FormTextarea"
-import FormInput from "@/components/Form/FormInput"
 import { Separator } from "@/components/ui/Separator"
 import { Dot, Trash } from "lucide-react"
 import AddButton from "@/app/[locale]/(main)/personal-account/create-tour/_components/AddButton"

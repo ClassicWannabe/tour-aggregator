@@ -32,6 +32,7 @@ export class FetchClient {
         method,
         headers: this.getHeaders(body),
         body: this.getBody(body),
+        credentials: "include",
       })
 
       if (!response.ok) {
@@ -87,7 +88,4 @@ export class FetchClient {
   }
 }
 
-export const apiClient = new FetchClient(CONFIG.api.baseUrl, {
-  Authorization:
-    "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIzYzU4ZTFlNy0xYzgzLTQ5YjMtOWU3NS1hZDczNzdlZTAwNmYiLCJlbWFpbCI6InJ1c2xhbmVsZXVzaW5vdkBnbWFpbC5jb20iLCJpYXQiOjE3Mzk2NDYwMzQsImV4cCI6MTc0MDI1MDgzNH0.D8QIKVX1nPWfzmOadn7D5Plt0PnizlPtEd5y9rKrDm4",
-})
+export const apiClient = new FetchClient(CONFIG.api.baseUrl)
