@@ -26,15 +26,14 @@ export const getAmenitiesFormSchema = (t: Translate) =>
       )
       .transform((val) => !!val),
     inclusions: z
-      .array(z.string().trim().min(1))
+      .array(z.string().trim().min(3))
       .min(
         amenitiesFormLimits.inclusions.min,
         t("inclusions.tooSmall", { minimum: amenitiesFormLimits.inclusions.min }),
       )
       .max(amenitiesFormLimits.inclusions.max, t("inclusions.tooBig", { maximum: amenitiesFormLimits.inclusions.max })),
     exclusions: z
-      .array(z.string().trim().min(1))
-      .min(amenitiesFormLimits.inclusions.min)
+      .array(z.string().trim().min(3))
       .min(
         amenitiesFormLimits.exclusions.min,
         t("inclusions.tooSmall", { minimum: amenitiesFormLimits.exclusions.min }),

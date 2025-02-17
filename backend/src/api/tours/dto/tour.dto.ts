@@ -68,7 +68,7 @@ export class TourDto extends TimestampDto {
     description: 'Tour inclusion text',
     example: ['Food'],
   })
-  @ArrayMinSize(2)
+  @ArrayMinSize(1)
   @ArrayMaxSize(10)
   @IsString({ each: true })
   @Length(3, 80, { each: true })
@@ -78,6 +78,7 @@ export class TourDto extends TimestampDto {
     description: 'Tour exclusion text',
     example: ['Clothing'],
   })
+  @ArrayMinSize(1)
   @ArrayMaxSize(10)
   @IsString({ each: true })
   @Length(3, 80, { each: true })

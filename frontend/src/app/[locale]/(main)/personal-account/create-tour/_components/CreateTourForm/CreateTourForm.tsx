@@ -59,10 +59,10 @@ export function CreateTourForm({ locations }: CreateTourFormProps) {
   useBeforeunload(isFormDirty)
 
   const { step, isFirstStep, isLastStep, back, next } = useMultistepForm([
-    <AttachmentsForm key={AttachmentsForm.name} />,
     <MainInformationForm key={MainInformationForm.name} locations={locations} />,
     <AmenitiesForm key={AmenitiesForm.name} />,
     <TourProgramForm key={TourProgramForm.name} />,
+    <AttachmentsForm key={AttachmentsForm.name} />,
   ])
 
   const handleSubmit = form.handleSubmit(async (formData) => {
@@ -85,6 +85,7 @@ export function CreateTourForm({ locations }: CreateTourFormProps) {
       type: formData.tourType,
       locationId: formData.location,
     })
+    router.push(RouteNames.PersonalAccount)
   })
 
   const handleNextClick = async () => {

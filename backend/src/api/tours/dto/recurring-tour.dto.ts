@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { ArrayUnique, IsISO8601 } from 'class-validator';
+import { ArrayMaxSize, ArrayUnique, IsISO8601 } from 'class-validator';
 import { DateTime } from 'luxon';
 import { IsDateBetween } from '../../../validators/is-date-between/is-date-between';
 
@@ -12,6 +12,7 @@ export class RecurringTourDto {
   })
   @IsISO8601({ strict: true }, { each: true })
   @ArrayUnique()
+  @ArrayMaxSize(90)
   @IsDateBetween(
     {
       min: () => DateTime.now(),

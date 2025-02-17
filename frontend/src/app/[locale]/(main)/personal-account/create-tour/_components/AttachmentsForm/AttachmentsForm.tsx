@@ -40,14 +40,16 @@ export function AttachmentsForm() {
     if (!files) {
       return
     }
-    const images = await Promise.all(
+    const imageResults = await Promise.allSettled(
       [...files].map(async (file) => {
         const response = await uploadPhoto(file)
 
         return { id: response.id, file, link: response.compressedMediumStorageLink }
       }),
     )
-
+    const images = imageResults
+      .filter((imageResult) => imageResult.status === "fulfilled")
+      .map((imageResult) => imageResult.value)
     const prevImages = getValues(imagesInputName)
     setValue(imagesInputName, [...prevImages, ...images])
     const fieldState = getFieldState(imagesInputName)
