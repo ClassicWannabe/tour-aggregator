@@ -3,7 +3,6 @@ import { Link } from "@/i18n/routing"
 import GuestFormWrapper from "@/app/[locale]/(auth)/_components/GuestFormWrapper"
 import SingInForm from "@/app/[locale]/(auth)/sign-in/_components/SignInForm"
 import RouteNames from "@/lib/consts/route-names"
-import { jwtDecode } from "jwt-decode"
 
 export default async function SignIn({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params

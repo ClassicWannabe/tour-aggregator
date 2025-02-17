@@ -2,33 +2,38 @@ import createMiddleware from "next-intl/middleware"
 import { routing } from "./i18n/routing"
 import { NextRequest, NextResponse } from "next/server"
 import { cookies } from "next/headers"
-import { decrypt } from "next/dist/server/app-render/encryption-utils"
+import RouteNames from "@/lib/consts/route-names"
 
-export default createMiddleware(routing)
+const protectedRoutes = [RouteNames.PersonalAccount, RouteNames.CreateTour]
+const authRoutes = [RouteNames.SignIn, RouteNames.SignUp]
+
+const nextIntlMiddleware = createMiddleware(routing)
+
+export async function combinedMiddleware(req: NextRequest) {
+  const response = nextIntlMiddleware(req)
+
+  const path = req.nextUrl.pathname
+  const localeMatch = path.match(/^\/(ru|kz|en)(\/.*)?$/)
+  const pathWithoutLocale = localeMatch?.[2] || path // Remove locale if present
+  const isProtectedRoute = protectedRoutes.includes(pathWithoutLocale as RouteNames)
+  const isAuthRoute = authRoutes.includes(pathWithoutLocale as RouteNames)
+
+  const cookie = await cookies()
+  const accessToken = cookie.get("access_token")?.value
+
+  if (isProtectedRoute && !accessToken) {
+    return NextResponse.redirect(new URL(RouteNames.SignIn, req.nextUrl))
+  }
+
+  if (accessToken && isAuthRoute) {
+    return NextResponse.redirect(new URL(RouteNames.Home, req.nextUrl))
+  }
+
+  return response
+}
+
+export default combinedMiddleware
 
 export const config = {
   matcher: ["/", "/(ru|kz|en)/:path*"],
 }
-
-// const protectedRoutes = ["/dashboard"]
-// const publicRoutes = ["/login"]
-//
-// export async function middleware(req: NextRequest) {
-//   const path = req.nextUrl.pathname
-//   const isProtectedRoute = protectedRoutes.includes(path)
-//   const isPublicRoute = publicRoutes.includes(path)
-//
-//   const cookie = await cookies()
-//   const token = cookie.get("token")
-//   const session = await decrypt(cookie)
-//
-//   if (isProtectedRoute && !session?.userId) {
-//     return NextResponse.redirect(new URL("/login", req.nextUrl))
-//   }
-//
-//   if (isPublicRoute && session?.userId) {
-//     return NextResponse.redirect(new URL("/dashboard", req.nextUrl))
-//   }
-//
-//   return NextResponse.next()
-// }
