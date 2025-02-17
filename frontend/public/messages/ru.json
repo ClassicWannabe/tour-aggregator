@@ -272,5 +272,11 @@
     "firstNameRequired": "Поле \"Имя\" обязательно для заполнения",
     "lastNameRequired": "Поле \"Фамилия\" обязательно для заполнения",
     "agreeToTermPolicyRequired": "You must agree to the terms and policy"
+  },
+  "SignInErrors": {
+    "invalidCredentials": "Неверная почта или пароль"
+  },
+  "CommonErrors": {
+    "serverError": "Ошибка сервера, попробуйте позже"
   }
 }

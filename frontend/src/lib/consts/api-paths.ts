@@ -1,5 +1,5 @@
 export const API_PATHS = {
   locations: "/locations",
   tourPhotos: "/tours/photos",
-  signIn: "/sign-in",
+  signIn: "/suppliers/sign-in",
 } as const

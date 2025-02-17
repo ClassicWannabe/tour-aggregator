@@ -5,6 +5,9 @@ import CustomInput from "@/components/CustomInput/CustomInput"
 import { signIn } from "./actions"
 import useFormErrorsTranslation from "@/lib/hooks/useFormErrorsTranslation"
 import { useTranslations } from "next-intl"
+import FormErrorText from "@/components/ui/FormErrorText"
+import makeFetchUrlPath from "@/lib/utils/make-fetch-url-path"
+import { API_PATHS } from "@/lib/consts/api-paths"
 
 const SignInFormInitial = {
   payload: {
@@ -40,6 +43,7 @@ export default function SignInForm() {
         errorText={getErrorsTranslation(state?.errors?.password)}
         required
       />
+      {state?.errors?.common && <FormErrorText text={getErrorsTranslation(state.errors.common)} />}
       <Button className="w-full text-body1 text-primaryWhite" type="submit" disabled={pending}>
         {t("AuthPage.enterAccountBtn")}
       </Button>

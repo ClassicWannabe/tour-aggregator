@@ -1,14 +1,17 @@
 "use server"
 
-import { createSession } from "@/lib/utils/session"
+import { setSession } from "@/lib/utils/session"
 import { redirect } from "@/i18n/routing"
 import RouteNames from "@/lib/consts/route-names"
 import { getLocale } from "next-intl/server"
 import { SignInSchema } from "@/lib/consts/schemas"
+import makeFetchUrlPath from "@/lib/utils/make-fetch-url-path"
+import { API_PATHS } from "@/lib/consts/api-paths"
 
 type SignInErrors = {
   email?: string[]
   password?: string[]
+  common?: string
 }
 
 export async function signIn(prevState: any, formData: FormData) {
@@ -22,18 +25,37 @@ export async function signIn(prevState: any, formData: FormData) {
     }
   }
 
-  // if (email !== testUser.email || password !== testUser.password) {
-  // SYUDA ZAPROZ NA token
-  //   return {
-  //     errors: {
-  //       email: ["Invalid email or password"],
-  //     },
-  //   }
-  // }
+  const { email, password } = data
 
-  // await createSession("token")
-  // const locale = await getLocale()
-  // redirect({ href: RouteNames.Home, locale })
+  const signInReq = await fetch(makeFetchUrlPath(API_PATHS.signIn), {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ email, password }),
+  })
+
+  if (!signInReq.ok) {
+    if ([400, 401, 404].includes(signInReq.status)) {
+      return {
+        payload: data,
+        errors: {
+          common: "SignInErrors.invalidCredentials",
+        } as SignInErrors,
+      }
+    }
+    return {
+      payload: data,
+      errors: {
+        common: "CommonErrors.serverError",
+      } as SignInErrors,
+    }
+  }
+
+  const { access_token } = await signInReq.json()
+  await setSession(access_token)
+  const locale = await getLocale()
+  redirect({ href: RouteNames.Home, locale })
 
   return {
     payload: data,
