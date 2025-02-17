@@ -14,7 +14,7 @@ export async function combinedMiddleware(req: NextRequest) {
 
   const path = req.nextUrl.pathname
   const localeMatch = path.match(/^\/(ru|kz|en)(\/.*)?$/)
-  const pathWithoutLocale = localeMatch?.[2] || path // Remove locale if present
+  const pathWithoutLocale = localeMatch?.[2] || path
   const isProtectedRoute = protectedRoutes.includes(pathWithoutLocale as RouteNames)
   const isAuthRoute = authRoutes.includes(pathWithoutLocale as RouteNames)
 
@@ -22,7 +22,7 @@ export async function combinedMiddleware(req: NextRequest) {
   const accessToken = cookie.get("access_token")?.value
 
   if (isProtectedRoute && !accessToken) {
-    return NextResponse.redirect(new URL(RouteNames.SignIn, req.nextUrl))
+    return NextResponse.redirect(new URL(`/${localeMatch?.[1] || "ru"}/${RouteNames.SignIn}`, req.nextUrl))
   }
 
   if (accessToken && isAuthRoute) {
