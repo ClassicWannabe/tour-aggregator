@@ -1,4 +1,4 @@
-import "server-only"
+"use server"
 import { cookies } from "next/headers"
 
 // const ExpirationDate = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000)
@@ -11,4 +11,12 @@ export async function setSession(token: string) {
     secure: process.env.NODE_ENV === "production",
     // expires: tokenInfo.exp,
   })
+}
+
+export async function verifySession() {
+  const cookie = await cookies()
+  const accessToken = cookie.get("access_token")?.value
+
+  //Пока что просто наличие потом будет verification
+  return !!accessToken
 }

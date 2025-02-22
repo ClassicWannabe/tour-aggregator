@@ -1,8 +1,8 @@
 import createMiddleware from "next-intl/middleware"
 import { routing } from "./i18n/routing"
 import { NextRequest, NextResponse } from "next/server"
-import { cookies } from "next/headers"
 import RouteNames from "@/lib/consts/route-names"
+import { verifySession } from "@/lib/utils/session"
 
 const protectedRoutes = [RouteNames.PersonalAccount, RouteNames.CreateTour]
 const authRoutes = [RouteNames.SignIn, RouteNames.SignUp]
@@ -17,15 +17,13 @@ export async function combinedMiddleware(req: NextRequest) {
   const pathWithoutLocale = localeMatch?.[2] || path
   const isProtectedRoute = protectedRoutes.includes(pathWithoutLocale as RouteNames)
   const isAuthRoute = authRoutes.includes(pathWithoutLocale as RouteNames)
+  const isUserAuthorized = await verifySession()
 
-  const cookie = await cookies()
-  const accessToken = cookie.get("access_token")?.value
-
-  if (isProtectedRoute && !accessToken) {
+  if (isProtectedRoute && !isUserAuthorized) {
     return NextResponse.redirect(new URL(`/${localeMatch?.[1] || "ru"}/${RouteNames.SignIn}`, req.nextUrl))
   }
 
-  if (accessToken && isAuthRoute) {
+  if (isUserAuthorized && isAuthRoute) {
     return NextResponse.redirect(new URL(RouteNames.Home, req.nextUrl))
   }
 

@@ -1,6 +1,7 @@
 import Header from "@/components/Header"
 import { setRequestLocale } from "next-intl/server"
 import Footer from "@/components/Footer"
+import AuthButton from "@/components/Header/AuthButton"
 
 export default async function MainLayout({
   children,
@@ -13,7 +14,7 @@ export default async function MainLayout({
   setRequestLocale(locale)
   return (
     <main className="min-h-full flex flex-col ">
-      <Header />
+      <Header authButton={<AuthButton />} />
       {children}
       <Footer />
     </main>

@@ -6,12 +6,16 @@ import MobileHeader from "@/components/Header/MobileHeader"
 import DesktopHeader from "@/components/Header/DesktopHeader"
 import { usePathname } from "@/i18n/routing"
 
-const Header = () => {
+const Header: React.FC<{ authButton: React.ReactNode }> = ({ authButton }) => {
   const pathname = usePathname()
   const isMobileViewport = useMediaQuery("(max-width: 768px)")
   return (
     <header>
-      {isMobileViewport ? <MobileHeader /> : <DesktopHeader background={pathname === "/" ? "none" : "white"} />}
+      {isMobileViewport ? (
+        <MobileHeader />
+      ) : (
+        <DesktopHeader background={pathname === "/" ? "none" : "white"}>{authButton}</DesktopHeader>
+      )}
     </header>
   )
 }

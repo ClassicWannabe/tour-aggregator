@@ -9,6 +9,7 @@ import { AntdRegistry } from "@ant-design/nextjs-registry"
 import { AntConfigProvider } from "@/components/AntConfigProvider"
 import { DayjsProvider } from "@/components/DayjsProvider"
 import { isLocale } from "@/lib/utils/common"
+import UserContextProvider from "@/components/UserContextProvider"
 
 const inter = Inter({
   subsets: ["latin", "cyrillic", "cyrillic-ext"],
@@ -48,9 +49,11 @@ export default async function RootLayout({ children, params }: Props) {
       <body className={`${inter.variable} antialiased`}>
         <DayjsProvider locale={locale}>
           <AntConfigProvider locale={locale}>
-            <AntdRegistry layer>
-              <NextIntlClientProvider messages={messages}>{children}</NextIntlClientProvider>
-            </AntdRegistry>
+            <UserContextProvider>
+              <AntdRegistry layer>
+                <NextIntlClientProvider messages={messages}>{children}</NextIntlClientProvider>
+              </AntdRegistry>
+            </UserContextProvider>
           </AntConfigProvider>
         </DayjsProvider>
       </body>

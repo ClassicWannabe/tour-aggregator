@@ -1,16 +1,16 @@
 "use client"
-import React from "react"
+import React, { ReactNode } from "react"
 import Logo from "@/components/Logo"
 import { useTranslations } from "next-intl"
-import { Globe } from "lucide-react"
-import Button from "@/components/ui/Button"
 import { cn } from "@/lib/utils/common"
+import LocaleSwitcher from "@/components/LocaleSwitcher"
 
 type Props = {
   background: "none" | "white"
+  children: ReactNode
 }
 
-const DesktopHeader: React.FC<Props> = ({ background }) => {
+const DesktopHeader: React.FC<Props> = ({ background, children }) => {
   const t = useTranslations("Shared")
 
   return (
@@ -22,7 +22,7 @@ const DesktopHeader: React.FC<Props> = ({ background }) => {
       )}
     >
       <Logo color={background === "none" ? "white" : "#00BE8B"} />
-      <div className="flex items-center gap-6">
+      <div className="flex items-center gap-6 text-body2">
         <p className={cn("text-body2", background === "none" ? "text-primaryWhite" : "text-primaryBlack")}>
           {t("toTravellers")}
         </p>
@@ -32,10 +32,8 @@ const DesktopHeader: React.FC<Props> = ({ background }) => {
         <p className={cn("text-body2", background === "none" ? "text-primaryWhite" : "text-primaryBlack")}>
           {t("support")}
         </p>
-        <Globe color={background === "none" ? "#fff" : "#000"} size={14} />
-        <Button variant="outlined" size="sm" color="secondary" className="text-body2" href="/sign-in">
-          {t("enterAccount")}
-        </Button>
+        <LocaleSwitcher color={background === "none" ? "white" : "black"} />
+        {children}
       </div>
     </div>
   )
