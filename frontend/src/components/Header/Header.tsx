@@ -12,7 +12,7 @@ const Header: React.FC<{ authButton: React.ReactNode }> = ({ authButton }) => {
   return (
     <header>
       {isMobileViewport ? (
-        <MobileHeader />
+        <MobileHeader>{authButton}</MobileHeader>
       ) : (
         <DesktopHeader background={pathname === "/" ? "none" : "white"}>{authButton}</DesktopHeader>
       )}
