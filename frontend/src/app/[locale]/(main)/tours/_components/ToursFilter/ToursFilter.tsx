@@ -17,6 +17,7 @@ import useMobileFilter from "./useMobileFilter"
 import Slider from "rc-slider"
 import "rc-slider/assets/index.css"
 import Input from "@/components/ui/Input"
+import ToursFilterForm from "@/app/[locale]/(main)/tours/_components/ToursFilterForm"
 
 const MobileFilter: React.FC<{ children: ReactNode }> = ({ children }) => {
   const { open, setOpen, closeDrawer } = useMobileFilter()
@@ -71,10 +72,18 @@ const DesktopFilter: React.FC<{ children: ReactNode }> = ({ children }) => {
   )
 }
 
-const ToursFilter: React.FC<{ children: ReactNode }> = ({ children }) => {
+const ToursFilter: React.FC = () => {
   const isMobileViewport = useMediaQuery("(max-width: 768px)")
 
-  return isMobileViewport ? <MobileFilter>{children}</MobileFilter> : <DesktopFilter>{children}</DesktopFilter>
+  return isMobileViewport ? (
+    <MobileFilter>
+      <ToursFilterForm />
+    </MobileFilter>
+  ) : (
+    <DesktopFilter>
+      <ToursFilterForm />
+    </DesktopFilter>
+  )
 }
 
 export default ToursFilter
