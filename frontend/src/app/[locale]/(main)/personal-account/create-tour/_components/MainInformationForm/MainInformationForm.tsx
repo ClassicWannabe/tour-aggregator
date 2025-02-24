@@ -11,8 +11,8 @@ import { useEffect, useMemo } from "react"
 import { mainInformationFormLimits } from "@/app/[locale]/(main)/personal-account/create-tour/_components/MainInformationForm/schema"
 import dayjs from "dayjs"
 import { RecurringTourInputs } from "@/app/[locale]/(main)/personal-account/create-tour/_components/MainInformationForm/RecurringTourInputs"
-import { TourType } from "@/lib/interfaces"
 import { Location } from "@/actions/fetch-locations"
+import { TourType } from "@/lib/interfaces/tours";
 
 type MainInformationFormProps = {
   locations: Location[]

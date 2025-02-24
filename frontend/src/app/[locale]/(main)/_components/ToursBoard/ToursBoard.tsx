@@ -1,5 +1,5 @@
 import React from "react"
-import { Tour } from "@/lib/interfaces"
+import { Tour } from "@/lib/interfaces/tours"
 import TourCard from "@/app/[locale]/(main)/_components/TourCard"
 
 const mockTours: Tour[] = [

@@ -1,11 +1,11 @@
 import React from "react"
 import { Link } from "@/i18n/routing"
-import { Tour } from "@/lib/interfaces"
 import Image from "next/image"
 import CurrencyText from "@/components/CurrencyText"
 import { getLocale, getTranslations } from "next-intl/server"
 import Badge from "@/components/ui/Badge"
 import { formatDateToCustomString } from "@/lib/utils/common"
+import { Tour } from "@/lib/interfaces/tours";
 
 interface Props {
   tour: Tour

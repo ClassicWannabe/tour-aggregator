@@ -1,5 +1,6 @@
 import { z } from "zod"
 import { Translate } from "@/lib/interfaces/translation"
+import { TourType } from "@/lib/interfaces/tours"
 
 export const mainInformationFormLimits = {
   title: { min: 10, max: 100 },
@@ -9,12 +10,6 @@ export const mainInformationFormLimits = {
   pricePerPerson: { min: 1000, max: 10_000_000 },
   peopleCount: { min: 1, max: 100 },
 } as const
-
-export enum TourType {
-  WALKING = "WALKING",
-  CITY = "CITY",
-  FIELD = "FIELD",
-}
 
 export const getMainInformationFormSchema = (t: Translate) =>
   z.object({
