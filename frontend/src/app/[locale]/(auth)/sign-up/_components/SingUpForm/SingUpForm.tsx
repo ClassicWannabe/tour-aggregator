@@ -43,6 +43,7 @@ export default function SingUpForm() {
           name="email"
           defaultValue={state?.payload.email as string}
           errorText={getErrorsTranslation(state?.errors?.email)}
+          required
         />
         <CustomInput
           id="phone-input"
@@ -52,6 +53,7 @@ export default function SingUpForm() {
           name="phone"
           defaultValue={state?.payload.phone as string}
           errorText={getErrorsTranslation(state?.errors?.phone)}
+          required
         />
         <TabsContent value="tourAgency" className="flex flex-col gap-3 mt-0">
           <CustomInput
@@ -141,6 +143,7 @@ export default function SingUpForm() {
           name="agreeToTermPolicy"
           defaultChecked={state?.payload.agreeToTermPolicy === "on"}
           errorText={getErrorsTranslation(state?.errors?.agreeToTermPolicy)}
+          required
         />
         <CustomCheckbox
           label={t("SignUpPage.agreeToReceiveUpdates")}

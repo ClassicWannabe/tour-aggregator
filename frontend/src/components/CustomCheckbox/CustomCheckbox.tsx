@@ -18,12 +18,20 @@ const CustomCheckbox: React.FC<Props> = ({ label, id, wrapperClassname, errorTex
           type="checkbox"
           {...otherProps}
           id={id}
-          className="mt-[1px] peer h-4 w-4 shrink-0 rounded-sm border border-border shadow focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:bg-primaryGreen data-[state=checked]:text-primaryWhite data-[state=checked]:border-primaryGreen"
+          className="appearance-none relative peer mt-[1px] peer h-4 w-4 shrink-0 rounded-sm border border-border shadow focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 checked:bg-primaryGreen checked:text-primaryWhite checked:border-primaryGreen cursor-pointer"
         />
-        {/*<span className={cn("flex items-center justify-center text-current")}>*/}
-        {/*  <Check className="h-4 w-4" />*/}
-        {/*</span>*/}
-        {/*<Checkbox {...otherProps} id={id} className="mt-[1px]" />*/}
+        <svg
+          className="absolute w-4 h-4 mt-[1px] hidden peer-checked:block pointer-events-none cursor-pointer"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="#fff"
+          strokeWidth="4"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        >
+          <polyline points="20 6 9 17 4 12"></polyline>
+        </svg>
         {!!label && <Label htmlFor={id}>{label}</Label>}
       </div>
       {errorText && <FormErrorText text={errorText} />}

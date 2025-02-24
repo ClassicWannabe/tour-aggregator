@@ -71,31 +71,10 @@ const DesktopFilter: React.FC<{ children: ReactNode }> = ({ children }) => {
   )
 }
 
-const ToursFilter = () => {
+const ToursFilter: React.FC<{ children: ReactNode }> = ({ children }) => {
   const isMobileViewport = useMediaQuery("(max-width: 768px)")
 
-  const CommonContent = (
-    <div className="flex flex-col gap-4">
-      <Slider
-        range
-        min={0}
-        max={100}
-        defaultValue={[0, 100]}
-        styles={{ track: { background: "#00BE8B" }, handle: { background: "#fff", borderColor: "#00BE8B" } }}
-      />
-      <div className="flex gap-2">
-        <Input name="priceFrom" placeholder="От" />
-        <Input name="priceTo" placeholder="До" />
-      </div>
-      <span className="h-[1px] bg-lightGray" />
-    </div>
-  )
-
-  return isMobileViewport ? (
-    <MobileFilter>{CommonContent}</MobileFilter>
-  ) : (
-    <DesktopFilter>{CommonContent}</DesktopFilter>
-  )
+  return isMobileViewport ? <MobileFilter>{children}</MobileFilter> : <DesktopFilter>{children}</DesktopFilter>
 }
 
 export default ToursFilter
