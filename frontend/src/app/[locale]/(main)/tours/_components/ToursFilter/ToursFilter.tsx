@@ -13,15 +13,15 @@ import useMediaQuery from "@/lib/hooks/useMediaQuery"
 import Button from "@/components/ui/Button"
 import { useTranslations } from "next-intl"
 import { PlusSquareIcon, X } from "lucide-react"
-import useMobileFilter from "./useMobileFilter"
-import Slider from "rc-slider"
+import useMobileFilter from "../../_hooks/useMobileFilter"
 import "rc-slider/assets/index.css"
-import Input from "@/components/ui/Input"
-import ToursFilterForm from "@/app/[locale]/(main)/tours/_components/ToursFilterForm"
+import ToursFilterForm from "@/app/[locale]/(main)/tours/_components/ToursFilterCommon"
+import useToursFilterForm from "@/app/[locale]/(main)/tours/_hooks/useToursFilterForm"
 
 const MobileFilter: React.FC<{ children: ReactNode }> = ({ children }) => {
   const { open, setOpen, closeDrawer } = useMobileFilter()
   const t = useTranslations()
+  const { handleSubmit } = useToursFilterForm()
 
   return (
     <div className="flex flex-col gap-4">
@@ -33,22 +33,26 @@ const MobileFilter: React.FC<{ children: ReactNode }> = ({ children }) => {
           </Button>
         </DrawerTrigger>
         <DrawerContent>
-          <div className="w-full flex flex-col">
-            <div className="flex flex-wrap gap-3 items-center">
-              <DrawerClose>
-                <X size={16} />
-              </DrawerClose>
-              <DrawerTitle>Фильтр</DrawerTitle>
-              <div className="flex gap-2 ml-auto">
-                <Button variant="outlined" color="secondary" size="sm" onClick={closeDrawer}>
-                  {t("Filter.reset")}
-                </Button>
-                <Button size="sm">{t("Filter.apply")}</Button>
+          <form onSubmit={handleSubmit}>
+            <div className="w-full flex flex-col">
+              <div className="flex flex-wrap gap-3 items-center">
+                <DrawerClose>
+                  <X size={16} />
+                </DrawerClose>
+                <DrawerTitle>Фильтр</DrawerTitle>
+                <div className="flex gap-2 ml-auto">
+                  <Button variant="outlined" color="secondary" size="sm" onClick={closeDrawer}>
+                    {t("Filter.reset")}
+                  </Button>
+                  <Button size="sm" type="submit">
+                    {t("Filter.apply")}
+                  </Button>
+                </div>
               </div>
+              <DrawerDescription>{t("Filter.toFilterBy")}</DrawerDescription>
+              {children}
             </div>
-            <DrawerDescription>{t("Filter.toFilterBy")}</DrawerDescription>
-            {children}
-          </div>
+          </form>
         </DrawerContent>
       </Drawer>
     </div>
@@ -57,17 +61,20 @@ const MobileFilter: React.FC<{ children: ReactNode }> = ({ children }) => {
 
 const DesktopFilter: React.FC<{ children: ReactNode }> = ({ children }) => {
   const t = useTranslations()
+  const { handleSubmit } = useToursFilterForm()
 
   return (
     <div className="w-[254px] flex flex-col gap-4 p-4 border border-lightGray rounded-[8px]">
-      <h2 className="text-headline4">{t("Filter.toFilterBy")}</h2>
-      {children}
-      <Button size="sm" className="rounded">
-        {t("Filter.apply")}
-      </Button>
-      <Button variant="outlined" color="secondary" size="sm" className="rounded">
-        {t("Filter.reset")}
-      </Button>
+      <form onSubmit={handleSubmit}>
+        <h2 className="text-headline4">{t("Filter.toFilterBy")}</h2>
+        {children}
+        <Button size="sm" className="rounded" type="submit">
+          {t("Filter.apply")}
+        </Button>
+        <Button variant="outlined" color="secondary" size="sm" className="rounded">
+          {t("Filter.reset")}
+        </Button>
+      </form>
     </div>
   )
 }
