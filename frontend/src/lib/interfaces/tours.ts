@@ -41,3 +41,21 @@ export enum TourType {
   CITY = "CITY",
   FIELD = "FIELD",
 }
+
+export interface TourFilters {
+  prices: {
+    min: number
+    max: number
+  }
+  types: TourType[]
+  locations: [
+    {
+      id: string
+      name: string
+    },
+    {
+      id: string
+      name: string
+    },
+  ]
+}

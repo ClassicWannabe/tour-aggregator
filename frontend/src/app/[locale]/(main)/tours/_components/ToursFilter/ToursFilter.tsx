@@ -17,6 +17,7 @@ import useMobileFilter from "../../_hooks/useMobileFilter"
 import "rc-slider/assets/index.css"
 import ToursFilterForm from "@/app/[locale]/(main)/tours/_components/ToursFilterCommon"
 import useToursFilterForm from "@/app/[locale]/(main)/tours/_hooks/useToursFilterForm"
+import { TourFilters } from "@/lib/interfaces/tours"
 
 const MobileFilter: React.FC<{ children: ReactNode }> = ({ children }) => {
   const { open, setOpen, closeDrawer } = useMobileFilter()
@@ -44,7 +45,7 @@ const MobileFilter: React.FC<{ children: ReactNode }> = ({ children }) => {
                   <Button variant="outlined" color="secondary" size="sm" onClick={closeDrawer}>
                     {t("Filter.reset")}
                   </Button>
-                  <Button size="sm" type="submit">
+                  <Button size="sm" type="submit" onClick={closeDrawer}>
                     {t("Filter.apply")}
                   </Button>
                 </div>
@@ -61,17 +62,17 @@ const MobileFilter: React.FC<{ children: ReactNode }> = ({ children }) => {
 
 const DesktopFilter: React.FC<{ children: ReactNode }> = ({ children }) => {
   const t = useTranslations()
-  const { handleSubmit } = useToursFilterForm()
+  const { handleSubmit, resetForm } = useToursFilterForm()
 
   return (
-    <div className="w-[254px] flex flex-col gap-4 p-4 border border-lightGray rounded-[8px]">
-      <form onSubmit={handleSubmit}>
+    <div className="w-[254px] border border-lightGray rounded-[8px]">
+      <form onSubmit={handleSubmit} className="flex flex-col gap-4 p-4 ">
         <h2 className="text-headline4">{t("Filter.toFilterBy")}</h2>
         {children}
         <Button size="sm" className="rounded" type="submit">
           {t("Filter.apply")}
         </Button>
-        <Button variant="outlined" color="secondary" size="sm" className="rounded">
+        <Button variant="outlined" color="secondary" size="sm" className="rounded" onClick={resetForm}>
           {t("Filter.reset")}
         </Button>
       </form>
@@ -79,16 +80,20 @@ const DesktopFilter: React.FC<{ children: ReactNode }> = ({ children }) => {
   )
 }
 
-const ToursFilter: React.FC = () => {
+type ToursFilterProps = {
+  filters: TourFilters | null
+}
+
+const ToursFilter: React.FC<ToursFilterProps> = ({ filters }) => {
   const isMobileViewport = useMediaQuery("(max-width: 768px)")
 
   return isMobileViewport ? (
     <MobileFilter>
-      <ToursFilterForm />
+      <ToursFilterForm filters={filters} />
     </MobileFilter>
   ) : (
     <DesktopFilter>
-      <ToursFilterForm />
+      <ToursFilterForm filters={filters} />
     </DesktopFilter>
   )
 }

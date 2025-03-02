@@ -5,6 +5,7 @@ import React, { ChangeEvent, ReactNode, useTransition } from "react"
 import { Locale, usePathname, useRouter } from "@/i18n/routing"
 import { Globe } from "lucide-react"
 import { cn } from "@/lib/utils/common"
+import useQueryWithMultipleParams from "@/components/LocaleSwitcher/useQueryWithMultipleParams"
 
 type Props = {
   children: ReactNode
@@ -17,13 +18,14 @@ export default function LocaleSwitcherSelect({ children, defaultValue, color }: 
   const [isPending, startTransition] = useTransition()
   const pathname = usePathname()
   const params = useParams()
+  const query = useQueryWithMultipleParams()
 
   function onSelectChange(event: ChangeEvent<HTMLSelectElement>) {
     const nextLocale = event.target.value as Locale
     startTransition(() => {
       router.replace(
         // @ts-expect-error -- TypeScript will validate that only known `params`
-        { pathname, params },
+        { pathname, params, query },
         { locale: nextLocale },
       )
     })

@@ -3,4 +3,5 @@ export const API_PATHS = {
   tourPhotos: "/tours/photos",
   tours: "/tours",
   signIn: "/suppliers/sign-in",
+  filters: "/tours/filters",
 } as const
