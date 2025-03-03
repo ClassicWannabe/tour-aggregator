@@ -1,20 +1,11 @@
-export interface ToursFilter {
-  prices: {
-    min: number
-    max: number
-  }
-  types: TourType[]
-  locations: [
-    {
-      id: string
-      name: string
-    },
-    {
-      id: string
-      name: string
-    },
-  ]
-}
+export type ToursFilterParams = Partial<{
+  limit: number
+  offset: number
+  search: string
+  type: string
+  minPricePerPerson: number
+  maxPricePerPerson: number
+}>
 
 export interface Tour {
   id: string
@@ -22,8 +13,8 @@ export interface Tour {
   thesis: string
   description: string
   transportDescription: string
-  pricePerPerson: 10000
-  peopleCount: 20
+  pricePerPerson: number
+  peopleCount: number
   contacts: string[]
   highlights: string[]
   inclusions: string[]

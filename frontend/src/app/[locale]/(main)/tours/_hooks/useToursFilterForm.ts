@@ -1,14 +1,31 @@
-import { useRouter } from "@/i18n/routing"
-import React, { useState } from "react"
-import RouteNames from "@/lib/consts/route-names"
+import React, { useEffect, useState } from "react"
 import { useSearchParams } from "next/navigation"
+import { TourFilters } from "@/lib/interfaces/tours"
 
-const useToursFilterForm = () => {
-  const router = useRouter()
+const getInitialFilters = ({
+  minPrice,
+  maxPrice,
+  filters,
+}: {
+  minPrice: string | null
+  maxPrice: string | null
+  filters?: TourFilters | null
+}) => {
+  if (minPrice && maxPrice) {
+    return { minPricePerPerson: Number(minPrice), maxPricePerPerson: Number(maxPrice) }
+  }
+  if (filters) {
+    return { minPricePerPerson: filters.prices.min, maxPricePerPerson: filters.prices.max }
+  } else return { minPricePerPerson: 0, maxPricePerPerson: 0 }
+}
+
+const useToursFilterForm = (filters: TourFilters | null) => {
   const searchParams = useSearchParams()
-  const initialTypes = searchParams.getAll("type") || []
-  const [selectedTypes, setSelectedTypes] = useState(initialTypes)
-  const [priceRange, setPriceRange] = useState({ minPricePerPerson: 0, maxPricePerPerson: 100 })
+  const types = searchParams.getAll("type")
+  const minPrice = searchParams.get("minPricePerPerson")
+  const maxPrice = searchParams.get("maxPricePerPerson")
+  const [selectedTypes, setSelectedTypes] = useState<string[]>(() => types || [])
+  const [priceRange, setPriceRange] = useState(getInitialFilters({ minPrice, maxPrice, filters }))
 
   const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value, checked } = event.target
@@ -23,41 +40,43 @@ const useToursFilterForm = () => {
     }
   }
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault()
-    const formData = new FormData(event.target as HTMLFormElement)
-    const updatedParams = new URLSearchParams()
+  const changePrices = (priceKey: keyof typeof priceRange, value: number) => {
+    if (isNaN(value) || value > 9_999_999) return
+    setPriceRange((prevPrices) => {
+      // const { minPricePerPerson, maxPricePerPerson } = prevPrices
+      //
+      // if (
+      //   (priceKey === "minPricePerPerson" && value > maxPricePerPerson) ||
+      //   (priceKey === "maxPricePerPerson" && value < minPricePerPerson)
+      // ) {
+      //   return prevPrices
+      // }
 
-    const minPricePerPerson = formData.get("minPricePerPerson")
-    const maxPricePerPerson = formData.get("maxPricePerPerson")
-    if (minPricePerPerson) updatedParams.set("minPricePerPerson", minPricePerPerson as string)
-    if (maxPricePerPerson) updatedParams.set("maxPricePerPerson", maxPricePerPerson as string)
-    const tourTypes = formData.getAll("type")
-    if (tourTypes.length > 0) {
-      tourTypes.forEach((type) => updatedParams.append("type", type as string))
+      return { ...prevPrices, [priceKey]: value }
+    })
+  }
+
+  const validPrices = (value: number, filter: TourFilters | null) => {
+    if (isNaN(value)) return false
+    else if (value > 9_999_999) return false
+    if(filter?.prices.min){
+
     }
-
-    router.push(`?${updatedParams.toString()}`, { scroll: false })
-  }
-
-  const resetForm = () => {
-    router.push(RouteNames.Category)
-  }
-
-  const changePrices = (values: Partial<typeof priceRange>) => {
-    setPriceRange((prevPrices) => ({ ...prevPrices, ...values }))
+    return true
   }
 
   const changePriceInSlider = (prices: number[] | number) => {
     if (Array.isArray(prices)) {
       const [min, max] = prices
-      changePrices({ minPricePerPerson: min, maxPricePerPerson: max })
+      setPriceRange({ minPricePerPerson: min, maxPricePerPerson: max })
     }
   }
 
+  // useEffect(() => {
+  //   getInitialFilters({ minPrice, maxPrice, filters })
+  // }, [minPrice, maxPrice])
+
   return {
-    handleSubmit,
-    resetForm,
     handleCheckboxChange,
     selectedTypes,
     setSelectedTypes,

@@ -1,25 +1,28 @@
 "use client"
-import Input from "@/components/ui/Input"
 import React, { useEffect } from "react"
 import Slider from "rc-slider"
 import { useTranslations } from "next-intl"
 import CustomCheckbox from "@/components/CustomCheckbox"
 import { TourFilters, TourType } from "@/lib/interfaces/tours"
 import useToursFilterForm from "@/app/[locale]/(main)/tours/_hooks/useToursFilterForm"
+import Input from "@/components/ui/Input"
 import { useSearchParams } from "next/navigation"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/Select"
 
 export default function ToursFilterCommon({ filters }: { filters: TourFilters | null }) {
   const t = useTranslations()
   const { handleCheckboxChange, selectedTypes, setSelectedTypes, changePrices, changePriceInSlider, priceRange } =
-    useToursFilterForm()
-  const searchParams = useSearchParams()
-  const types = searchParams.getAll("type")
-
-  useEffect(() => {
-    if (types) {
-      setSelectedTypes(types)
-    }
-  }, [])
+    useToursFilterForm(filters)
+  // const searchParams = useSearchParams()
+  // const types = searchParams.getAll("type")
+  //
+  // useEffect(() => {
+  //   if (types) {
+  //     setSelectedTypes(types)
+  //   } else {
+  //     setSelectedTypes([])
+  //   }
+  // }, [])
 
   return (
     <div className="flex flex-col gap-4">
@@ -27,8 +30,8 @@ export default function ToursFilterCommon({ filters }: { filters: TourFilters | 
       <Slider
         range
         value={[priceRange.minPricePerPerson, priceRange.maxPricePerPerson]}
-        min={0}
-        max={100}
+        min={filters?.prices.min ?? 0}
+        max={filters?.prices.max ?? 0}
         onChange={changePriceInSlider}
         styles={{ track: { background: "#00BE8B" }, handle: { background: "#fff", borderColor: "#00BE8B" } }}
       />
@@ -37,13 +40,13 @@ export default function ToursFilterCommon({ filters }: { filters: TourFilters | 
           name="minPricePerPerson"
           placeholder={t("Filter.from")}
           value={priceRange.minPricePerPerson}
-          onChange={(e) => changePrices({ minPricePerPerson: Number(e.target.value) })}
+          onChange={(e) => changePrices("minPricePerPerson", Number(e.target.value))}
         />
         <Input
           name="maxPricePerPerson"
           placeholder={t("Filter.to")}
           value={priceRange.maxPricePerPerson}
-          onChange={(e) => changePrices({ maxPricePerPerson: Number(e.target.value) })}
+          onChange={(e) => changePrices("maxPricePerPerson", Number(e.target.value))}
         />
       </div>
       <p className="text-body2 !font-semibold">{t("Filter.tourType")}</p>
@@ -81,6 +84,20 @@ export default function ToursFilterCommon({ filters }: { filters: TourFilters | 
           checked={selectedTypes.includes(TourType.CITY)}
         />
       </div>
+      <p className="text-body2 !font-semibold">{t("Filter.location")}</p>
+      <Select name="locationId">
+        <SelectTrigger>
+          <SelectValue placeholder={t("Filter.all")} />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectItem value="ALL">{t("Filter.all")}</SelectItem>
+          {filters?.locations.map((location) => (
+            <SelectItem key={location.id} value={location.id}>
+              {location.name}
+            </SelectItem>
+          ))}
+        </SelectContent>
+      </Select>
       <span className="h-[1px] bg-lightGray" />
     </div>
   )

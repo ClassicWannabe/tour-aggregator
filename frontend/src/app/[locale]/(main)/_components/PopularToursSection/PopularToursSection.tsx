@@ -3,8 +3,9 @@ import { getTranslations } from "next-intl/server"
 import Button from "@/components/ui/Button"
 import ToursBoard from "@/app/[locale]/(main)/_components/ToursBoard"
 import RouteNames from "@/lib/consts/route-names"
+import { SearchParams } from "next/dist/server/request/search-params"
 
-export default async function PopularToursSection() {
+export default async function PopularToursSection({ searchParams }: { searchParams: Promise<SearchParams> }) {
   const t = await getTranslations()
 
   return (
@@ -21,7 +22,7 @@ export default async function PopularToursSection() {
           {t("Shared.lookThroughAllTours")}
         </Button>
       </div>
-      <ToursBoard />
+      <ToursBoard searchParams={searchParams} />
     </section>
   )
 }

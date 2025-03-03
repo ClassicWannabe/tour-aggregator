@@ -16,13 +16,18 @@ import { PlusSquareIcon, X } from "lucide-react"
 import useMobileFilter from "../../_hooks/useMobileFilter"
 import "rc-slider/assets/index.css"
 import ToursFilterForm from "@/app/[locale]/(main)/tours/_components/ToursFilterCommon"
-import useToursFilterForm from "@/app/[locale]/(main)/tours/_hooks/useToursFilterForm"
 import { TourFilters } from "@/lib/interfaces/tours"
+import useTourFilter from "@/app/[locale]/(main)/tours/_hooks/useTourFilter"
 
 const MobileFilter: React.FC<{ children: ReactNode }> = ({ children }) => {
   const { open, setOpen, closeDrawer } = useMobileFilter()
   const t = useTranslations()
-  const { handleSubmit } = useToursFilterForm()
+  const { handleSubmit, resetForm } = useTourFilter()
+
+  const onDrawerClose = () => {
+    resetForm()
+    closeDrawer()
+  }
 
   return (
     <div className="flex flex-col gap-4">
@@ -42,10 +47,10 @@ const MobileFilter: React.FC<{ children: ReactNode }> = ({ children }) => {
                 </DrawerClose>
                 <DrawerTitle>Фильтр</DrawerTitle>
                 <div className="flex gap-2 ml-auto">
-                  <Button variant="outlined" color="secondary" size="sm" onClick={closeDrawer}>
+                  <Button variant="outlined" color="secondary" size="sm" onClick={resetForm} type="reset">
                     {t("Filter.reset")}
                   </Button>
-                  <Button size="sm" type="submit" onClick={closeDrawer}>
+                  <Button size="sm" type="submit" onClick={onDrawerClose}>
                     {t("Filter.apply")}
                   </Button>
                 </div>
@@ -62,7 +67,7 @@ const MobileFilter: React.FC<{ children: ReactNode }> = ({ children }) => {
 
 const DesktopFilter: React.FC<{ children: ReactNode }> = ({ children }) => {
   const t = useTranslations()
-  const { handleSubmit, resetForm } = useToursFilterForm()
+  const { handleSubmit, resetForm } = useTourFilter()
 
   return (
     <div className="w-[254px] border border-lightGray rounded-[8px]">
@@ -72,7 +77,7 @@ const DesktopFilter: React.FC<{ children: ReactNode }> = ({ children }) => {
         <Button size="sm" className="rounded" type="submit">
           {t("Filter.apply")}
         </Button>
-        <Button variant="outlined" color="secondary" size="sm" className="rounded" onClick={resetForm}>
+        <Button variant="outlined" color="secondary" size="sm" className="rounded" onClick={resetForm} type="reset">
           {t("Filter.reset")}
         </Button>
       </form>

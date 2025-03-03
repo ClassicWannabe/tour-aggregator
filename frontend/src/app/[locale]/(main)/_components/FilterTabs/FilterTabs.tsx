@@ -4,14 +4,15 @@ import { useTranslations } from "next-intl"
 import { useRouter } from "@/i18n/routing"
 import { useSearchParams } from "next/navigation"
 import { cn } from "@/lib/utils/common"
+import { TourType } from "@/lib/interfaces/tours"
 
 export default function FilterTabs() {
   const t = useTranslations("Shared")
   const filterTabs = [
-    { key: "all", label: t("allTours") },
-    { key: "fieldTrips", label: t("fieldTrips") },
-    { key: "walkingTours", label: t("walkingTours") },
-    { key: "cityTours", label: t("cityTours") },
+    { key: "ALL", label: t("allTours") },
+    { key: TourType.FIELD, label: t("fieldTrips") },
+    { key: TourType.WALKING, label: t("walkingTours") },
+    { key: TourType.CITY, label: t("cityTours") },
   ]
   return (
     <div className="flex mt-auto px-4 sm:px-16 md:px-[60px] lg:px-[120px] justify-center">
@@ -30,11 +31,11 @@ type FilterTabProps = {
 function FilterTab({ title, tourTypeKey }: FilterTabProps) {
   const router = useRouter()
   const searchParams = useSearchParams()
-  const currentTourType = searchParams.get("tourType") || "all"
+  const currentTourType = searchParams.get("type") || "ALL"
 
   const handleClick = () => {
-    const currentParams = new URLSearchParams(window.location.search)
-    currentParams.set("tourType", tourTypeKey)
+    const currentParams = new URLSearchParams(searchParams)
+    currentParams.set("type", tourTypeKey)
     if (currentTourType !== tourTypeKey) {
       router.push(`?${currentParams.toString()}`, { scroll: false })
     }

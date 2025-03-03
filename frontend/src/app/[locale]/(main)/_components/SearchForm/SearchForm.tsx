@@ -17,7 +17,9 @@ export default function SearchForm() {
     const formData = new FormData(event.target as HTMLFormElement)
     const updatedParams = new URLSearchParams(searchParams)
     for (const [key, value] of formData.entries()) {
-      updatedParams.set(key, value.toString())
+      if (!value && updatedParams.has(key)) {
+        updatedParams.delete(key)
+      } else updatedParams.set(key, value.toString())
     }
     router.push(`?${updatedParams.toString()}`, { scroll: false })
   }
