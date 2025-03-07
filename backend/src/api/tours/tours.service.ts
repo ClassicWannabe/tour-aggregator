@@ -3,6 +3,7 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
+import * as lodash from 'lodash';
 import { CreateTourDto } from './dto/create-tour.dto';
 import { UpdateTourDto } from './dto/update-tour.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
@@ -15,6 +16,7 @@ import { RecurringTourService } from './recurring-tour.service';
 import { LocationService } from '../location/location.service';
 import { BookTourDto } from './dto/book-tour.dto';
 import { MailerService } from 'src/mailer/mailer.service';
+import { FindAllTourReservationsDto } from 'src/api/tours/dto/find-all-tour-reservations.dto';
 
 @Injectable()
 export class ToursService {
@@ -84,11 +86,13 @@ export class ToursService {
   private generateTourDatesFromRecurrence(
     initialDates: Pick<CreateTourDto, 'startDate' | 'endDate'>,
     recurrenceDates: Date[],
+    includeInitialDates = true,
   ): Prisma.TourDateCreateManyTourInput[] {
     return this.recurringTourService.generateRecurringDates(
       initialDates.startDate,
       initialDates.endDate,
       recurrenceDates,
+      includeInitialDates,
     );
   }
 
@@ -290,8 +294,109 @@ export class ToursService {
     ]);
   }
 
-  updateTour(id: number, updateTourDto: UpdateTourDto) {
-    return `This action updates a #${id} tour`;
+  async updateTour(
+    id: string,
+    updateTourDto: UpdateTourDto,
+    supplierId: string,
+  ) {
+    const existingTour = await this.prismaService.tour.findUnique({
+      where: { id, supplierId },
+      select: {
+        id: true,
+        dates: { select: { startDate: true, endDate: true }, take: 1 },
+        photos: true,
+      },
+    });
+    const [existingTourDate] = existingTour?.dates ?? [];
+    if (!existingTour || !existingTourDate) {
+      throw new NotFoundException(`Tour not found by ID: ${id}`);
+    }
+    const {
+      photoIds = [],
+      recurrenceDates: rawRecurrenceDates = [],
+      ...tourInfo
+    } = updateTourDto;
+
+    const existingPhotoIds = existingTour.photos.map((photo) => photo.id);
+    const photoIdsToDelete = lodash.difference(existingPhotoIds, photoIds);
+    const photoToDelete = existingTour.photos.filter((photo) =>
+      photoIdsToDelete.includes(photo.id),
+    );
+
+    const recurrenceDates = rawRecurrenceDates.map((date) => new Date(date));
+    const tourDates = this.generateTourDatesFromRecurrence(
+      {
+        startDate: existingTourDate.startDate,
+        endDate: existingTourDate.endDate,
+      },
+      recurrenceDates,
+    );
+
+    const updatedTour = await this.prismaService.$transaction(async (tx) => {
+      const photos = await tx.tourPhoto.findMany({
+        select: { id: true },
+        where: {
+          id: { in: photoIds },
+          supplierId,
+          OR: [{ tourId: null }, { tourId: existingTour.id }],
+        },
+      });
+      if (photos.length !== photoIds.length) {
+        throw new BadRequestException('Wrong user photo input');
+      }
+      await Promise.all(
+        photoIds.map((photoId, idx) =>
+          tx.tourPhoto.update({
+            where: { id: photoId },
+            data: {
+              order: idx + 1,
+            },
+          }),
+        ),
+      );
+
+      if (photoToDelete.length > 0) {
+        const photoUrlsToDelete = this.extractPhotoUrls(photoToDelete);
+        await this.fileManagerService.deleteFilesByUrl(photoUrlsToDelete);
+        await tx.tourPhoto.deleteMany({
+          where: { id: { in: photoIdsToDelete } },
+        });
+      }
+
+      return tx.tour.update({
+        where: { id: existingTour.id },
+        data: {
+          photos: {
+            connect: photoIds.map((photoId) => ({ id: photoId })),
+          },
+          dates: {
+            createMany: { data: tourDates },
+          },
+          ...tourInfo,
+        },
+        include: { photos: true },
+      });
+    });
+
+    return updatedTour;
+  }
+
+  getSupplierTourReservations(
+    { limit, offset }: FindAllTourReservationsDto,
+    supplierId: string,
+  ) {
+    return this.prismaService.tourReservation.findMany({
+      where: { tourDate: { tour: { supplierId } } },
+      select: {
+        id: true,
+        name: true,
+        phoneNumber: true,
+        email: true,
+        tourDate: { select: { startDate: true, endDate: true, tourId: true } },
+      },
+      take: limit,
+      skip: offset,
+    });
   }
 
   async deleteTour(id: string, supplierId: string) {

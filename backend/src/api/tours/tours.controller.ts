@@ -12,7 +12,7 @@ import {
 import { ToursService } from './tours.service';
 import { CreateTourDto } from './dto/create-tour.dto';
 import { UpdateTourDto } from './dto/update-tour.dto';
-import { ApiBearerAuth, ApiConsumes, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiConsumes, ApiParam, ApiTags } from '@nestjs/swagger';
 import { FormDataRequest } from 'nestjs-form-data';
 import { FindAllToursDto } from './dto/find-all-tours.dto';
 import { SupplierJwt } from '../suppliers/supplier-jwt.decorator';
@@ -21,6 +21,7 @@ import { SupplierAuthGuard } from '../suppliers/supplier-auth.guard';
 import { UploadPhotoDto } from './dto/upload-photo.dto';
 import { DeletePhotoDto } from './dto/delete-photo.dto';
 import { BookTourDto } from './dto/book-tour.dto';
+import { FindAllTourReservationsDto } from 'src/api/tours/dto/find-all-tour-reservations.dto';
 
 @Controller('tours')
 @ApiTags('Tours')
@@ -47,7 +48,23 @@ export class ToursController {
     return this.toursService.getTourFilters();
   }
 
+  @Get('/reservations')
+  @ApiBearerAuth()
+  @UseGuards(SupplierAuthGuard)
+  getSupplierReservations(
+    @Query() query: FindAllTourReservationsDto,
+    @SupplierJwt() supplier: SupplierJwtBody,
+  ) {
+    return this.toursService.getSupplierTourReservations(query, supplier.sub);
+  }
+
   @Get(':id')
+  @ApiParam({
+    name: 'id',
+    format: 'uuid',
+    required: true,
+    description: 'Tour ID (UUID)',
+  })
   findOne(@Param('id') id: string) {
     return this.toursService.findOneTour(id);
   }
@@ -60,8 +77,12 @@ export class ToursController {
   @Patch(':id')
   @ApiBearerAuth()
   @UseGuards(SupplierAuthGuard)
-  update(@Param('id') id: string, @Body() updateTourDto: UpdateTourDto) {
-    return this.toursService.updateTour(+id, updateTourDto);
+  update(
+    @Param('id') id: string,
+    @Body() updateTourDto: UpdateTourDto,
+    @SupplierJwt() supplier: SupplierJwtBody,
+  ) {
+    return this.toursService.updateTour(id, updateTourDto, supplier.sub);
   }
 
   @Delete(':id')

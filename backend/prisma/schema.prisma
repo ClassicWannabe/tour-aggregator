@@ -156,7 +156,7 @@ model TourReservation {
   phoneNumber String
   name        String
 
-  tourDate   TourDate @relation(fields: [tourDateId], references: [id])
+  tourDate   TourDate @relation(fields: [tourDateId], references: [id], onDelete: Cascade)
   tourDateId String   @db.Uuid
 }
 

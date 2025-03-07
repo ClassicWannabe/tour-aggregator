@@ -12,11 +12,14 @@ export class RecurringTourService {
     initialStart: Date,
     initialEnd: Date,
     recurrenceDates: Date[],
+    includeInitialDates = true,
   ): Occurrence[] {
     const occurrences: Occurrence[] = [];
 
     // Add the initial occurrence
-    occurrences.push({ startDate: initialStart, endDate: initialEnd });
+    if (includeInitialDates) {
+      occurrences.push({ startDate: initialStart, endDate: initialEnd });
+    }
     const initialStartDate = DateTime.fromJSDate(initialStart);
     const initialEndDate = DateTime.fromJSDate(initialEnd);
 

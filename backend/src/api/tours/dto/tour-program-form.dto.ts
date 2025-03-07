@@ -14,10 +14,10 @@ export class TourProgramFormDto {
     type: [[TourProgramDto]],
     example: [
       [
-        { time: '10:00', description: 'Meeting with team' },
-        { time: '12:00', description: 'Lunch break' },
+        { time: '2025-01-01T10:00:00.000Z', description: 'Meeting with team' },
+        { time: '2025-01-01T12:00:00.000Z', description: 'Lunch break' },
       ],
-      [{ time: '02:00', description: 'Project update' }],
+      [{ time: '2025-01-02T02:00:00.000Z', description: 'Project update' }],
     ],
   })
   @ValidateNested({ each: true })
