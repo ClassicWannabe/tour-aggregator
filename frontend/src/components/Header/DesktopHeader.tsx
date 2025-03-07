@@ -29,9 +29,6 @@ const DesktopHeader: React.FC<Props> = ({ background, children }) => {
         <p className={cn("text-body2", background === "none" ? "text-primaryWhite" : "text-primaryBlack")}>
           {t("toPartners")}
         </p>
-        <p className={cn("text-body2", background === "none" ? "text-primaryWhite" : "text-primaryBlack")}>
-          {t("support")}
-        </p>
         <LocaleSwitcher color={background === "none" ? "white" : "black"} />
         {children}
       </div>

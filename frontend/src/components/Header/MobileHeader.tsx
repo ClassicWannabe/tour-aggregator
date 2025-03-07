@@ -26,9 +26,9 @@ const MobileHeader: React.FC<Props> = ({ children }) => {
         <DrawerTrigger>
           <Menu color="#000000E0" />
         </DrawerTrigger>
-        <DrawerOverlay className="fixed inset-0 bg-black/20 mt-12" />
+        <DrawerOverlay className="fixed inset-0 bg-black/20 mt-11" />
         <DrawerContent
-          className="fixed left-0 top-0 rounded-none mt-12 border-none h-fit p-0"
+          className="fixed left-0 top-0 rounded-none mt-11 border-none h-fit p-0"
           withoutOverlay
           withoutDrag
         >
@@ -37,8 +37,7 @@ const MobileHeader: React.FC<Props> = ({ children }) => {
             <DrawerTitle className="sr-only">menu title</DrawerTitle>
             <p className={cn("text-body2 px-4", "text-primaryBlack")}>{t("toTravellers")}</p>
             <p className={cn("text-body2 px-4", "text-primaryBlack")}>{t("toPartners")}</p>
-            <p className={cn("text-body2 px-4", "text-primaryBlack")}>{t("support")}</p>
-            <div className="pt-4 border-t border-borderColorSecondary flex justify-end">
+            <div className="pt-4 border-t border-borderColorSecondary flex justify-end px-4">
               <LocaleSwitcher color="black" />
             </div>
           </div>

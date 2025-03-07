@@ -14,6 +14,17 @@ const nextConfig: NextConfig = {
             port: "9000",
             pathname: "/app-bucket/**",
           },
+          {
+            protocol: "http",
+            hostname: "minio",
+            port: "9000",
+            pathname: "/app-bucket/**",
+          },
+          {
+            protocol: "https",
+            hostname: "storage.yandexcloud.kz",
+            pathname: "/tour-aggregator-static/**",
+          },
         ]
       : [
           {

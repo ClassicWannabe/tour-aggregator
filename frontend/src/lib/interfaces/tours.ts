@@ -24,7 +24,20 @@ export interface Tour {
   createdAt: string
   updatedAt: string
   supplierId: string
-  photos: string[]
+  photos: TourPhoto[]
+}
+
+export interface TourPhoto {
+  id: string
+  originalStorageLink: string
+  compressedMediumStorageLink: string
+  compressedPreviewStorageLink: string
+  originalStorageKey: string
+  compressedMediumStorageKey: string
+  compressedPreviewStorageKey: string
+  order: number
+  tourId: string
+  supplierId: string
 }
 
 export enum TourType {

@@ -56,15 +56,6 @@ const useToursFilterForm = (filters: TourFilters | null) => {
     })
   }
 
-  const validPrices = (value: number, filter: TourFilters | null) => {
-    if (isNaN(value)) return false
-    else if (value > 9_999_999) return false
-    if(filter?.prices.min){
-
-    }
-    return true
-  }
-
   const changePriceInSlider = (prices: number[] | number) => {
     if (Array.isArray(prices)) {
       const [min, max] = prices
