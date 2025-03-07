@@ -14,9 +14,7 @@ import Button from "@/components/ui/Button"
 import { useTranslations } from "next-intl"
 import { PlusSquareIcon, X } from "lucide-react"
 import useMobileFilter from "./useMobileFilter"
-import Slider from "rc-slider"
 import "rc-slider/assets/index.css"
-import Input from "@/components/ui/Input"
 import ToursFilterForm from "@/app/[locale]/(main)/tours/_components/ToursFilterForm"
 
 const MobileFilter: React.FC<{ children: ReactNode }> = ({ children }) => {

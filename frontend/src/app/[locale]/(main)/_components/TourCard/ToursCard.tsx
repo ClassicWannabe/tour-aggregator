@@ -5,7 +5,7 @@ import CurrencyText from "@/components/CurrencyText"
 import { getLocale, getTranslations } from "next-intl/server"
 import Badge from "@/components/ui/Badge"
 import { formatDateToCustomString } from "@/lib/utils/common"
-import { Tour } from "@/lib/interfaces/tours";
+import { Tour } from "@/lib/interfaces/tours"
 
 interface Props {
   tour: Tour

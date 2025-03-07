@@ -12,7 +12,7 @@ import { mainInformationFormLimits } from "@/app/[locale]/(main)/personal-accoun
 import dayjs from "dayjs"
 import { RecurringTourInputs } from "@/app/[locale]/(main)/personal-account/create-tour/_components/MainInformationForm/RecurringTourInputs"
 import { Location } from "@/actions/fetch-locations"
-import { TourType } from "@/lib/interfaces/tours";
+import { TourType } from "@/lib/interfaces/tours"
 
 type MainInformationFormProps = {
   locations: Location[]
