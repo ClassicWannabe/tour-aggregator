@@ -8,10 +8,9 @@ import {
   IsStrongPassword,
   Length,
   ArrayMaxSize,
-  IsPhoneNumber,
-  Matches,
   IsUrl,
 } from 'class-validator';
+import { IsValidPhone } from 'src/decorators/is-valid-phone';
 
 export class SupplierDto {
   @ApiProperty({
@@ -47,8 +46,7 @@ export class SupplierDto {
     description: 'Supplier Phone Number',
     example: '+77000000000',
   })
-  @IsPhoneNumber('KZ')
-  @Matches(/^\+77[0,7]\d{8}$/)
+  @IsValidPhone()
   phone: string;
 
   @ApiPropertyOptional({

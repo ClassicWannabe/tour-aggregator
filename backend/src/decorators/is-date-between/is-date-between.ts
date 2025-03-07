@@ -20,7 +20,6 @@ export class IsDateBetweenConstraint implements ValidatorConstraintInterface {
     if (!value) return false;
 
     const rawDates = args.constraints[0] as ConstraintDates;
-    console.log({ value, type: typeof value });
     const dates = this.initDates(rawDates);
 
     const inputDate = DateTime.fromISO(value);
@@ -68,8 +67,13 @@ export class IsDateBetweenConstraint implements ValidatorConstraintInterface {
     return initialisedDate;
   }
 
-  defaultMessage(): string {
-    return `Date must be between constraints.`;
+  defaultMessage(args: ValidationArguments): string {
+    const rawDates = args.constraints[0] as ConstraintDates;
+    const dates = this.initDates(rawDates);
+    const minDateMessage = dates.min ? `Min: ${dates.min.toISODate()}.` : '';
+    const maxDateMessage = dates.max ? `Max: ${dates.max.toISODate()}.` : '';
+
+    return `Date must be between constraints. ${minDateMessage} ${maxDateMessage}`;
   }
 }
 

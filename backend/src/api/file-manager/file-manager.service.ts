@@ -2,7 +2,7 @@ import crypto from 'crypto';
 import sharp from 'sharp';
 import { Injectable, OnModuleInit } from '@nestjs/common';
 import { MemoryStoredFile } from 'nestjs-form-data';
-import { CustomConfigService } from '../../config/custom-config.service';
+import { CustomConfigService } from 'src/config/custom-config.service';
 import { StorageService } from '../storage/storage.service';
 import { COMPRESS_OPTIONS } from './constants';
 

@@ -1,10 +1,9 @@
-import * as path from 'node:path';
 import { Module } from '@nestjs/common';
 import { MailerModule as NestMailerModule } from '@nestjs-modules/mailer';
-import { MailerService } from './mailer.service';
-import { EjsAdapter } from '@nestjs-modules/mailer/dist/adapters/ejs.adapter';
+import { MailerService } from 'src/mailer/mailer.service';
 import { CustomConfigService } from '../config/custom-config.service';
 import { ConfigModule } from '../config/config.module';
+import { EmailRendererModule } from 'src/email-renderer/email-renderer.module';
 
 @Module({
   imports: [
@@ -24,15 +23,9 @@ import { ConfigModule } from '../config/config.module';
         defaults: {
           from: `"No Reply" <${config.getOrFail('SMTP_EMAIL')}>`,
         },
-        template: {
-          dir: path.join(__dirname, './templates'),
-          adapter: new EjsAdapter(),
-          options: {
-            strict: true,
-          },
-        },
       }),
     }),
+    EmailRendererModule,
   ],
   providers: [MailerService],
   exports: [MailerService],

@@ -20,6 +20,7 @@ import { SupplierJwtBody } from '../suppliers/types';
 import { SupplierAuthGuard } from '../suppliers/supplier-auth.guard';
 import { UploadPhotoDto } from './dto/upload-photo.dto';
 import { DeletePhotoDto } from './dto/delete-photo.dto';
+import { BookTourDto } from './dto/book-tour.dto';
 
 @Controller('tours')
 @ApiTags('Tours')
@@ -49,6 +50,11 @@ export class ToursController {
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.toursService.findOneTour(id);
+  }
+
+  @Post('/book')
+  bookTour(@Body() bookTourDto: BookTourDto) {
+    return this.toursService.bookTour(bookTourDto);
   }
 
   @Patch(':id')

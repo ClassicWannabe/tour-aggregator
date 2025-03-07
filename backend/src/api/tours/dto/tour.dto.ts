@@ -14,9 +14,9 @@ import {
   IsIn,
 } from 'class-validator';
 import { Transform, Type } from 'class-transformer';
-import { IsLocationExistsValidator } from '../../../validators/is-location-exists/is-location-exists.validator';
 import { TimestampDto } from './timestamp.dto';
 import { TourType } from '@prisma/client';
+import { IsLocationExistsValidator } from 'src/decorators/is-location-exists/is-location-exists.validator';
 
 export class TourDto extends TimestampDto {
   @ApiProperty({

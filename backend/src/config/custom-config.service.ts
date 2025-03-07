@@ -29,13 +29,14 @@ export class CustomConfigService extends ConfigService {
 
   getOrFailBool(propertyPath: string) {
     const value = this.getOrFail<string>(propertyPath);
+    const lowercaseValue = value.toLowerCase();
 
-    if (value !== 'true' && value !== 'false') {
+    if (lowercaseValue !== 'true' && lowercaseValue !== 'false') {
       throw new Error(
-        `The config value couldn't be converted boolean. Raw value: ${value}. Allowed values: "true" and "false". Path: ${propertyPath}`,
+        `The config value couldn't be converted boolean. Raw value: ${value}. Lower cased value: ${lowercaseValue}. Allowed values: "true" and "false". Path: ${propertyPath}`,
       );
     }
 
-    return value === 'true';
+    return lowercaseValue === 'true';
   }
 }

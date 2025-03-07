@@ -8,15 +8,15 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { SignUpSupplierDto } from './dto/sign-up-supplier.dto';
-import { PrismaService } from '../../prisma/prisma.service';
+import { PrismaService } from 'src/prisma/prisma.service';
 import { JwtService } from '@nestjs/jwt';
 import { SupplierJwtPayload } from './types';
 import { SUPPLIER_PASSWORD_SALT_ROUNDS } from './constants';
 import { SignInSupplierDto } from './dto/sign-in-supplier.dto';
-import { Prisma, SupplierContactType, SupplierType } from '@prisma/client';
+import { SupplierContactType, SupplierType } from '@prisma/client';
 import { VerifyEmailDto } from './dto/verify-email.dto';
-import { CustomConfigService } from '../../config/custom-config.service';
-import { MailerService } from '../../mailer/mailer.service';
+import { CustomConfigService } from 'src/config/custom-config.service';
+import { MailerService } from 'src/mailer/mailer.service';
 import { FileManagerService } from '../file-manager/file-manager.service';
 import { MemoryStoredFile } from 'nestjs-form-data';
 

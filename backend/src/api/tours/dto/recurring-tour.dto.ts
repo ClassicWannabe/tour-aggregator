@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { ArrayMaxSize, ArrayUnique, IsISO8601 } from 'class-validator';
 import { DateTime } from 'luxon';
-import { IsDateBetween } from '../../../validators/is-date-between/is-date-between';
+import { IsDateBetween } from 'src/decorators/is-date-between/is-date-between';
 
 const MAX_RECURRENCE_DAY_ADDITION = 90;
 

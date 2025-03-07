@@ -5,14 +5,16 @@ import {
 } from '@nestjs/common';
 import { CreateTourDto } from './dto/create-tour.dto';
 import { UpdateTourDto } from './dto/update-tour.dto';
-import { PrismaService } from '../../prisma/prisma.service';
+import { PrismaService } from 'src/prisma/prisma.service';
 import { FindAllToursDto } from './dto/find-all-tours.dto';
 import { MemoryStoredFile } from 'nestjs-form-data';
 import { FileManagerService } from '../file-manager/file-manager.service';
-import { Prisma, TourType } from '@prisma/client';
+import { Prisma, PrismaClient, TourType } from '@prisma/client';
 import { SEARCH_SIMILARITY_MIN_THRESHOLD } from './constants';
 import { RecurringTourService } from './recurring-tour.service';
 import { LocationService } from '../location/location.service';
+import { BookTourDto } from './dto/book-tour.dto';
+import { MailerService } from 'src/mailer/mailer.service';
 
 @Injectable()
 export class ToursService {
@@ -21,6 +23,7 @@ export class ToursService {
     private readonly fileManagerService: FileManagerService,
     private readonly recurringTourService: RecurringTourService,
     private readonly locationService: LocationService,
+    private readonly mailerService: MailerService,
   ) {}
 
   async createTour(createTourDto: CreateTourDto, supplierId: string) {
@@ -36,7 +39,6 @@ export class ToursService {
       { startDate, endDate },
       recurrenceDates,
     );
-    console.log(createTourDto);
 
     const createdTour = await this.prismaService.$transaction(async (tx) => {
       const photos = await tx.tourPhoto.findMany({
@@ -179,7 +181,7 @@ export class ToursService {
         } as const)
       : undefined;
 
-    const whereRaw: string[] = [];
+    const whereRaw: string[] = [`"archivedAt" = null`];
     if (query.locationId) {
       whereRaw.push(`"locationId" = '${query.locationId}'`);
     }
@@ -230,6 +232,62 @@ export class ToursService {
     } catch (e) {
       throw new NotFoundException(`Tour not found by ID: ${id}`);
     }
+  }
+
+  async bookTour(bookTourDto: BookTourDto) {
+    const tourDate = await this.prismaService.tourDate.findUnique({
+      where: {
+        id: bookTourDto.dateId,
+        tour: { archivedAt: null },
+        startDate: { gt: new Date() },
+      },
+      select: { id: true },
+    });
+
+    if (!tourDate) {
+      throw new NotFoundException('Tour date not found');
+    }
+
+    const createdReservation = await this.prismaService.tourReservation.create({
+      data: {
+        email: bookTourDto.email,
+        phoneNumber: bookTourDto.phone,
+        name: bookTourDto.name,
+        tourDate: { connect: { id: tourDate.id } },
+      },
+      select: {
+        tourDate: {
+          select: {
+            startDate: true,
+            endDate: true,
+            tour: {
+              select: { supplier: { select: { email: true } } },
+            },
+          },
+        },
+      },
+    });
+
+    const tourDates = {
+      startDate: createdReservation.tourDate.startDate,
+      endDate: createdReservation.tourDate.endDate,
+    };
+
+    await Promise.all([
+      this.mailerService.sendClientTourReservationEmail(
+        bookTourDto.email,
+        tourDates,
+      ),
+      this.mailerService.sendSupplierTourReservation(
+        createdReservation.tourDate.tour.supplier.email!,
+        tourDates,
+        {
+          name: bookTourDto.name,
+          phone: bookTourDto.phone,
+          email: bookTourDto.email,
+        },
+      ),
+    ]);
   }
 
   updateTour(id: number, updateTourDto: UpdateTourDto) {
