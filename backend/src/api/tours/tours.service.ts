@@ -9,7 +9,7 @@ import { PrismaService } from 'src/prisma/prisma.service';
 import { FindAllToursDto } from './dto/find-all-tours.dto';
 import { MemoryStoredFile } from 'nestjs-form-data';
 import { FileManagerService } from '../file-manager/file-manager.service';
-import { Prisma, PrismaClient, TourType } from '@prisma/client';
+import { Prisma, TourType } from '@prisma/client';
 import { SEARCH_SIMILARITY_MIN_THRESHOLD } from './constants';
 import { RecurringTourService } from './recurring-tour.service';
 import { LocationService } from '../location/location.service';
@@ -191,8 +191,8 @@ export class ToursService {
     if (query.maxPricePerPerson) {
       whereRaw.push(`"pricePerPerson" <= ${query.maxPricePerPerson}`);
     }
-    if (query.type) {
-      whereRaw.push(`"type" <= '${query.type}'`);
+    if (query.type && query.type.length > 0) {
+      whereRaw.push(`"type" IN (${query.type.map((type) => `'${type}'`)})`);
     }
 
     return { whereRaw, whereSimilarity };
