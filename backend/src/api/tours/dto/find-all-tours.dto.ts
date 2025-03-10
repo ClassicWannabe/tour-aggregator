@@ -9,7 +9,7 @@ import {
   IsUUID,
 } from 'class-validator';
 import { Type } from 'class-transformer';
-import { SanitizeString } from '../../../decorators/sanitize-string';
+import { SanitizeString } from 'src/decorators/sanitize-string';
 import { TourType } from '@prisma/client';
 
 export class FindAllToursDto {
@@ -39,15 +39,16 @@ export class FindAllToursDto {
   @IsOptional()
   @IsString()
   @SanitizeString()
-  search: string;
+  search?: string;
 
   @ApiPropertyOptional({
     description: 'Tour type',
     enum: TourType,
+    isArray: true,
   })
   @IsOptional()
-  @IsEnum(TourType)
-  type: TourType;
+  @IsEnum(TourType, { each: true })
+  type?: TourType[];
 
   @ApiPropertyOptional({
     description: 'Tour min price per person',

@@ -4,7 +4,7 @@ import { IsString, Length, IsISO8601 } from 'class-validator';
 export class TourProgramDto {
   @ApiProperty({
     description: 'Event time',
-    example: '11:00',
+    example: '2025-01-01T11:00:00.000Z',
   })
   @IsISO8601({ strict: true })
   time: string;
