@@ -185,7 +185,7 @@ export class ToursService {
         } as const)
       : undefined;
 
-    const whereRaw: string[] = [`"archivedAt" = null`];
+    const whereRaw: string[] = [`"archivedAt" is null`];
     if (query.locationId) {
       whereRaw.push(`"locationId" = '${query.locationId}'`);
     }
