@@ -7,8 +7,9 @@ import {
   IsOptional,
   IsEnum,
   IsUUID,
+  IsArray,
 } from 'class-validator';
-import { Type } from 'class-transformer';
+import { Transform, Type } from 'class-transformer';
 import { SanitizeString } from 'src/decorators/sanitize-string';
 import { TourType } from '@prisma/client';
 
@@ -48,6 +49,15 @@ export class FindAllToursDto {
   })
   @IsOptional()
   @IsEnum(TourType, { each: true })
+  @Transform(({ value }) => {
+    if (Array.isArray(value)) {
+      return value;
+    }
+    if (value) {
+      return [value];
+    }
+  })
+  @IsArray()
   type?: TourType[];
 
   @ApiPropertyOptional({
