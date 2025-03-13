@@ -6,7 +6,9 @@ import { Suspense } from "react"
 
 async function getFilters() {
   const res = await fetch(makeFetchUrlPath(API_PATHS.filters), {
-    cache: "force-cache",
+    next: {
+      revalidate: 600,
+    },
   })
   const filters: TourFilters = await res.json()
   if (!filters) return null

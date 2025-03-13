@@ -7,7 +7,6 @@ export default async function ToursBoard({ searchParams }: { searchParams: Promi
   const searchParamsObj = await searchParams
 
   const tours = await getTours(searchParamsObj)
-  console.log("tours", tours)
 
   return (
     <section className="grid gap-4 justify-center md:gap-8 xl:gap-12 grid-cols-[repeat(auto-fit,_340px)]">
