@@ -139,22 +139,24 @@ export class ToursService {
 
     const tours = await this.prismaService.tour.similarity({
       ...whereClauses,
+      select: ['id'],
       take: query.limit,
       skip: query.offset,
     });
     const tourIds = tours.map((tour) => tour.id);
-    const tourPhotos = tourIds.length
-      ? await this.prismaService.tourPhoto.findMany({
-          where: { tourId: { in: tourIds } },
-        })
-      : [];
+    if (!tourIds.length) {
+      return [];
+    }
 
-    return tours.map((tour) => {
-      const relatedPhotos = tourPhotos.filter(
-        (tourPhoto) => tourPhoto.tourId === tour.id,
-      );
-
-      return { ...tour, photos: relatedPhotos };
+    return this.prismaService.tour.findMany({
+      where: {
+        id: { in: tourIds },
+        dates: { some: { startDate: { gt: new Date() } } },
+      },
+      include: {
+        photos: { orderBy: { order: 'asc' } },
+        dates: { orderBy: { startDate: 'asc' }, take: 2 },
+      },
     });
   }
 
