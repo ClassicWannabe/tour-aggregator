@@ -16,7 +16,7 @@ export default async function PopularToursSection({ searchParams }: { searchPara
           href={RouteNames.Category}
           variant="outlined"
           color="secondary"
-          size="sm"
+          size="md"
           className="text-body2 hidden sm:block"
         >
           {t("Shared.lookThroughAllTours")}

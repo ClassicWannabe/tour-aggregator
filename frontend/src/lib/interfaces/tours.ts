@@ -9,6 +9,7 @@ export type ToursFilterParams = Partial<{
 
 export interface Tour {
   id: string
+  type: TourType
   title: string
   thesis: string
   description: string
@@ -19,8 +20,7 @@ export interface Tour {
   highlights: string[]
   inclusions: string[]
   exclusions: string[]
-  startDate: string
-  endDate: string
+  dates: { startDate: string; endDate: string }[]
   createdAt: string
   updatedAt: string
   supplierId: string

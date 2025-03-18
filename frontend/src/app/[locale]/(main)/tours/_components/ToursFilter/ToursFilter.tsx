@@ -47,10 +47,10 @@ const MobileFilter: React.FC<{ filters: TourFilters | null }> = ({ filters }) =>
                 </DrawerClose>
                 <DrawerTitle>Фильтр</DrawerTitle>
                 <div className="flex gap-2 ml-auto">
-                  <Button variant="outlined" color="secondary" size="sm" onClick={resetForm} type="reset">
+                  <Button variant="outlined" color="secondary" size="sm" onClick={onDrawerClose} type="reset">
                     {t("Filter.reset")}
                   </Button>
-                  <Button size="sm" type="submit" onClick={onDrawerClose}>
+                  <Button size="sm" type="submit" onClick={closeDrawer}>
                     {t("Filter.apply")}
                   </Button>
                 </div>

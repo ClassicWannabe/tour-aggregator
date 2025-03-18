@@ -8,7 +8,7 @@ import { getTranslations } from "next-intl/server"
 export default async function CategoryPage({ searchParams }: { searchParams: Promise<SearchParams> }) {
   const t = await getTranslations()
   return (
-    <section className="main-layout-padding-horizontal flex gap-4 md:flex-row md:gap-6">
+    <section className="main-layout-padding-horizontal flex flex-col gap-4 pb-4 md:flex-row md:gap-6 md:pb-12">
       <ToursFilterWrapper />
       <div className="w-full flex flex-col gap-4 md:gap-6">
         <SearchForm placeHolder={t("Shared.search")} />
