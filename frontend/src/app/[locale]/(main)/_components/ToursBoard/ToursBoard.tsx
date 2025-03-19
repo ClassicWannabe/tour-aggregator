@@ -5,7 +5,6 @@ import getTours from "@/actions/get-tours"
 
 export default async function ToursBoard({ searchParams }: { searchParams: Promise<SearchParams> }) {
   const searchParamsObj = await searchParams
-
   const tours = await getTours(searchParamsObj)
 
   return (

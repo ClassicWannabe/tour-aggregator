@@ -1,10 +1,10 @@
 import React from "react"
-import getTour from "@/actions/get-tour"
 import { Params } from "next/dist/server/request/params"
 import Badge from "@/components/ui/Badge"
 import { getTranslations } from "next-intl/server"
 import TourGallery from "./_components/TourGallery/TourGallery"
 import TourContactInfo from "./_components/TourContactInfo/TourContactInfo"
+import getTour from "@/actions/get-tour"
 
 export default async function CategoryPage({ params }: { params: Promise<Params> }) {
   const { tourId } = await params
@@ -19,11 +19,11 @@ export default async function CategoryPage({ params }: { params: Promise<Params>
         </div>
         <p className="text-body2 text-primaryBlack">{tour.thesis}</p>
       </article>
-      <div className="flex flex-row gap-2 md:flex-row md:gap-4">
+      <div className="flex flex-col gap-2 md:flex-row md:gap-4">
         <div className="flex-1">
           <TourGallery images={tour.photos} />
         </div>
-        <TourContactInfo />
+        <TourContactInfo tour={tour} />
       </div>
     </section>
   )

@@ -50,7 +50,7 @@ export default function ToursFilterCommon({
 
   return (
     <div className="flex flex-col gap-4">
-      <p className="text-body2 !font-semibold">{t("Filter.price")}</p>
+      <p className="text-body2 !font-semibold">{t("Shared.price")}</p>
       <Slider
         range
         value={[priceRange.minPricePerPerson, priceRange.maxPricePerPerson]}

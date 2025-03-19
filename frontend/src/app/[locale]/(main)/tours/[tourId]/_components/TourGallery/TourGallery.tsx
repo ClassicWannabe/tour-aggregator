@@ -20,7 +20,7 @@ const TourGallery: React.FC<Props> = ({ images }) => {
     }
   }
   const filteredImages: ReactImageGalleryItem[] = images.map((image) => ({
-    original: image.originalStorageLink,
+    original: image.compressedMediumStorageLink,
     thumbnail: image.compressedPreviewStorageLink,
     originalAlt: "tour card item original item",
     thumbnailAlt: "tour card thumbnail item",
