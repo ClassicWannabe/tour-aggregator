@@ -284,6 +284,8 @@
   },
   "TourDetails": {
     "beginning": "Начало",
-    "whatsIn": "Что включено"
+    "whatsIn": "Что включено",
+    "description": "Описание",
+    "program": "Программа тура"
   }
 }

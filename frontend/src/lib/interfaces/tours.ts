@@ -25,6 +25,14 @@ export interface Tour {
   updatedAt: string
   supplierId: string
   photos: TourPhoto[]
+  program: ITourProgram
+}
+
+export type ITourProgram = TourProgramItem[][]
+
+export interface TourProgramItem {
+  time: string
+  description: string
 }
 
 export interface TourPhoto {
