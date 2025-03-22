@@ -5,12 +5,10 @@ import getTours from "@/actions/get-tours"
 
 export default async function ToursBoard({ searchParams }: { searchParams: Promise<SearchParams> }) {
   const searchParamsObj = await searchParams
-
   const tours = await getTours(searchParamsObj)
-  console.log("tours", tours)
 
   return (
-    <section className="grid gap-4 justify-center md:gap-8 xl:gap-12 grid-cols-[repeat(auto-fit,_340px)]">
+    <section className="grid gap-3 justify-center md:gap-6 xl:gap-12 grid-cols-[repeat(auto-fit,_340px)]">
       {tours.map((tour) => (
         <TourCard key={tour.id} tour={tour} />
       ))}

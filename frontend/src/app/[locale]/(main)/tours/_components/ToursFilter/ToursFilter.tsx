@@ -1,5 +1,5 @@
 "use client"
-import React, { ReactNode } from "react"
+import React from "react"
 import {
   Drawer,
   DrawerClose,
@@ -9,20 +9,20 @@ import {
   DrawerTrigger,
 } from "@/components/ui/Drawer/drawer"
 
+import "rc-slider/assets/index.css"
 import useMediaQuery from "@/lib/hooks/useMediaQuery"
 import Button from "@/components/ui/Button"
 import { useTranslations } from "next-intl"
 import { PlusSquareIcon, X } from "lucide-react"
 import useMobileFilter from "../../_hooks/useMobileFilter"
-import "rc-slider/assets/index.css"
 import ToursFilterForm from "@/app/[locale]/(main)/tours/_components/ToursFilterCommon"
 import { TourFilters } from "@/lib/interfaces/tours"
 import useTourFilter from "@/app/[locale]/(main)/tours/_hooks/useTourFilter"
 
-const MobileFilter: React.FC<{ children: ReactNode }> = ({ children }) => {
+const MobileFilter: React.FC<{ filters: TourFilters | null }> = ({ filters }) => {
   const { open, setOpen, closeDrawer } = useMobileFilter()
   const t = useTranslations()
-  const { handleSubmit, resetForm } = useTourFilter()
+  const { handleSubmit, resetForm, filtersController } = useTourFilter({ filters })
 
   const onDrawerClose = () => {
     resetForm()
@@ -47,16 +47,16 @@ const MobileFilter: React.FC<{ children: ReactNode }> = ({ children }) => {
                 </DrawerClose>
                 <DrawerTitle>Фильтр</DrawerTitle>
                 <div className="flex gap-2 ml-auto">
-                  <Button variant="outlined" color="secondary" size="sm" onClick={resetForm} type="reset">
+                  <Button variant="outlined" color="secondary" size="sm" onClick={onDrawerClose} type="reset">
                     {t("Filter.reset")}
                   </Button>
-                  <Button size="sm" type="submit" onClick={onDrawerClose}>
+                  <Button size="sm" type="submit" onClick={closeDrawer}>
                     {t("Filter.apply")}
                   </Button>
                 </div>
               </div>
               <DrawerDescription>{t("Filter.toFilterBy")}</DrawerDescription>
-              {children}
+              <ToursFilterForm filters={filters} controller={filtersController} />
             </div>
           </form>
         </DrawerContent>
@@ -65,15 +65,15 @@ const MobileFilter: React.FC<{ children: ReactNode }> = ({ children }) => {
   )
 }
 
-const DesktopFilter: React.FC<{ children: ReactNode }> = ({ children }) => {
+const DesktopFilter: React.FC<{ filters: TourFilters | null }> = ({ filters }) => {
   const t = useTranslations()
-  const { handleSubmit, resetForm } = useTourFilter()
+  const { handleSubmit, resetForm, filtersController } = useTourFilter({ filters })
 
   return (
     <div className="w-[254px] border border-lightGray rounded-[8px]">
       <form onSubmit={handleSubmit} className="flex flex-col gap-4 p-4 ">
         <h2 className="text-headline4">{t("Filter.toFilterBy")}</h2>
-        {children}
+        <ToursFilterForm filters={filters} controller={filtersController} />
         <Button size="sm" className="rounded" type="submit">
           {t("Filter.apply")}
         </Button>
@@ -92,15 +92,7 @@ type ToursFilterProps = {
 const ToursFilter: React.FC<ToursFilterProps> = ({ filters }) => {
   const isMobileViewport = useMediaQuery("(max-width: 768px)")
 
-  return isMobileViewport ? (
-    <MobileFilter>
-      <ToursFilterForm filters={filters} />
-    </MobileFilter>
-  ) : (
-    <DesktopFilter>
-      <ToursFilterForm filters={filters} />
-    </DesktopFilter>
-  )
+  return isMobileViewport ? <MobileFilter filters={filters} /> : <DesktopFilter filters={filters} />
 }
 
 export default ToursFilter

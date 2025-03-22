@@ -1,0 +1,11 @@
+/* Set image height to 400px in normal mode */
+.image-gallery-slide img {
+  height: 400px;
+  object-fit: cover; /* Ensures images fill the area without distortion */
+}
+
+/* Ensure fullscreen mode shows the original image size */
+.fullscreen .image-gallery-slide img {
+  height: auto !important; /* Let it use the image's original height */
+  object-fit: contain; /* Maintain aspect ratio without cropping */
+}

@@ -4,29 +4,53 @@ import Slider from "rc-slider"
 import { useTranslations } from "next-intl"
 import CustomCheckbox from "@/components/CustomCheckbox"
 import { TourFilters, TourType } from "@/lib/interfaces/tours"
-import useToursFilterForm from "@/app/[locale]/(main)/tours/_hooks/useToursFilterForm"
 import Input from "@/components/ui/Input"
 import { useSearchParams } from "next/navigation"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/Select"
+import useTourFilter from "@/app/[locale]/(main)/tours/_hooks/useTourFilter"
 
-export default function ToursFilterCommon({ filters }: { filters: TourFilters | null }) {
+export default function ToursFilterCommon({
+  filters,
+  controller,
+}: {
+  filters: TourFilters | null
+  controller: ReturnType<typeof useTourFilter>["filtersController"]
+}) {
   const t = useTranslations()
-  const { handleCheckboxChange, selectedTypes, setSelectedTypes, changePrices, changePriceInSlider, priceRange } =
-    useToursFilterForm(filters)
-  // const searchParams = useSearchParams()
-  // const types = searchParams.getAll("type")
-  //
-  // useEffect(() => {
-  //   if (types) {
-  //     setSelectedTypes(types)
-  //   } else {
-  //     setSelectedTypes([])
-  //   }
-  // }, [])
+  const {
+    handleCheckboxChange,
+    selectedTypes,
+    setSelectedTypes,
+    selectedLocation,
+    changeLocation,
+    changePrices,
+    changePriceInSlider,
+    priceRange,
+  } = controller
+  const searchParams = useSearchParams()
+
+  useEffect(() => {
+    const types = searchParams.getAll("type")
+    const minPricePerPerson = searchParams.get("minPricePerPerson")
+    const maxPricePerPerson = searchParams.get("maxPricePerPerson")
+    const locationId = searchParams.get("locationId")
+    if (types) {
+      setSelectedTypes(types)
+    }
+    if (maxPricePerPerson) {
+      changePrices("maxPricePerPerson", Number(maxPricePerPerson))
+    }
+    if (minPricePerPerson) {
+      changePrices("minPricePerPerson", Number(minPricePerPerson))
+    }
+    if (locationId) {
+      changeLocation(locationId)
+    }
+  }, [searchParams])
 
   return (
     <div className="flex flex-col gap-4">
-      <p className="text-body2 !font-semibold">{t("Filter.price")}</p>
+      <p className="text-body2 !font-semibold">{t("Shared.price")}</p>
       <Slider
         range
         value={[priceRange.minPricePerPerson, priceRange.maxPricePerPerson]}
@@ -85,7 +109,7 @@ export default function ToursFilterCommon({ filters }: { filters: TourFilters | 
         />
       </div>
       <p className="text-body2 !font-semibold">{t("Filter.location")}</p>
-      <Select name="locationId">
+      <Select name="locationId" value={selectedLocation} onValueChange={changeLocation}>
         <SelectTrigger>
           <SelectValue placeholder={t("Filter.all")} />
         </SelectTrigger>

@@ -6,7 +6,11 @@ import { useRouter } from "@/i18n/routing"
 import { useTranslations } from "next-intl"
 import { useSearchParams } from "next/navigation"
 
-export default function SearchForm() {
+interface Props {
+  placeHolder?: string
+}
+
+export default function SearchForm({ placeHolder }: Props) {
   const router = useRouter()
   const t = useTranslations("TopSection")
   const searchParams = useSearchParams()
@@ -25,7 +29,7 @@ export default function SearchForm() {
   }
   return (
     <form onSubmit={handleSubmit} className="flex flex-col md:flex-row items-center gap-4 md:gap-2">
-      <Input placeholder={t("whereWannaGo")} defaultValue={search} name="search" className="bg-white" />
+      <Input placeholder={placeHolder ?? t("whereWannaGo")} defaultValue={search} name="search" className="bg-white" />
       <Button type="submit" className="w-full md:w-[120px]">
         {t("find")}
       </Button>

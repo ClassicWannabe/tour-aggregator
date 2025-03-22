@@ -24,6 +24,7 @@ export default {
         lightGray: "#0000000F",
         colorBgLayout: "#F5F5F5",
         errorBase: "#ff4d4f",
+        yellowAccent: "#FFFFC2",
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         primaryBlue: "#0958D9",

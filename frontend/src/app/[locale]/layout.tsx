@@ -51,7 +51,9 @@ export default async function RootLayout({ children, params }: Props) {
           <AntConfigProvider locale={locale}>
             <UserContextProvider>
               <AntdRegistry layer>
-                <NextIntlClientProvider messages={messages}>{children}</NextIntlClientProvider>
+                <NextIntlClientProvider locale={locale} messages={messages}>
+                  {children}
+                </NextIntlClientProvider>
               </AntdRegistry>
             </UserContextProvider>
           </AntConfigProvider>
