@@ -261,7 +261,7 @@
     "location": "Локация",
     "all": "Все"
   },
-  "SignUpErrors": {
+  "FormErrors": {
     "emailRequired": "Поле \"Электронная почта\" обязательно для заполнения",
     "notValidEmail": "Пожалуйста введите корректную электронную почту",
     "phoneRequired": "Пожалуйста введите корректный телефон",
@@ -274,7 +274,10 @@
     "ownerNameRequired": "Поле \"ФИО владельца\" обязательно для заполнения",
     "firstNameRequired": "Поле \"Имя\" обязательно для заполнения",
     "lastNameRequired": "Поле \"Фамилия\" обязательно для заполнения",
-    "agreeToTermPolicyRequired": "You must agree to the terms and policy"
+    "agreeToTermPolicyRequired": "You must agree to the terms and policy",
+    "dateIdRequired": "Поле \"Дата\" обязательно для заполнения",
+    "nameRequired": "Поле \"ФИО\" обязательно для заполнения",
+    "offeroAgreementRequired": "Поле обязательно для заполнения"
   },
   "SignInErrors": {
     "invalidCredentials": "Неверная почта или пароль"
@@ -286,6 +289,14 @@
     "beginning": "Начало",
     "whatsIn": "Что включено",
     "description": "Описание",
-    "program": "Программа тура"
+    "program": "Программа тура",
+    "programDisclaimer": "Время указано ориентировочно и может меняться в зависимости от физической подготовки и пунктуальности группы, ситуации на дорогах и границе, а также при непредвиденных обстоятельствах. Порядок прохождения локаций может меняться на усмотрение гида и зависит от погодных условий.",
+    "contactInfo": "Контактная информация",
+    "chooseDate": "Выберите дату",
+    "name": "ФИО",
+    "phone": "Телефонный номер",
+    "email": "Электронная почта",
+    "offeroAgreement": "Даю согласие на <link>обработку персональных данных</link>.",
+    "submitApplication": "Подать заявку"
   }
 }

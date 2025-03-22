@@ -4,7 +4,7 @@ import { cn } from "@/lib/utils/common"
 import FormErrorText from "@/components/ui/FormErrorText"
 
 interface Props extends DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement> {
-  label?: string
+  label?: React.ReactNode
   id?: string
   wrapperClassname?: string
   errorText?: string

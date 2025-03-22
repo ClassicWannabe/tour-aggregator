@@ -17,7 +17,7 @@ const CustomInput: React.FC<Props> = ({ label, id, placeholder, className, error
   return (
     <div className={cn("flex flex-col gap-1", className ?? "")}>
       {!!label && <Label htmlFor={id}>{label}</Label>}
-      <Input id={id} type="email" placeholder={placeholder} {...otherProps} />
+      <Input id={id} placeholder={placeholder} {...otherProps} />
       {errorText && <FormErrorText text={errorText} />}
     </div>
   )

@@ -4,6 +4,7 @@ import { getTranslations } from "next-intl/server"
 import getHours from "@/lib/utils/get-hours"
 import Image from "next/image"
 import CurrencyText from "@/components/CurrencyText"
+import TourContactModal from "@/app/[locale]/(main)/tours/[tourId]/_components/TourContactModal"
 
 type Props = {
   tour: Tour
@@ -38,6 +39,7 @@ const TourContactInfo: React.FC<Props> = async ({ tour }) => {
       <div className="flex gap-2 items-end">
         <CurrencyText amount={tour.pricePerPerson} /> <p className="text-body2 mb-0.5">{t("Shared.perPerson")}</p>
       </div>
+      <TourContactModal dates={tour.dates} />
     </article>
   )
 }

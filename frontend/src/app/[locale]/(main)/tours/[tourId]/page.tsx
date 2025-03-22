@@ -11,7 +11,6 @@ export default async function CategoryPage({ params }: { params: Promise<Params>
   const { tourId } = await params
   const tour = await getTour(tourId as string)
   const t = await getTranslations()
-  console.log(tour);
   return (
     <section className="main-layout-padding-horizontal flex flex-col gap-4 pb-4 md:gap-6 md:pb-12">
       <article className="flex flex-col gap-2">

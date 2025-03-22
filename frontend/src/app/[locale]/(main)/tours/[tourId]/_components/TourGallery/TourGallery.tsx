@@ -19,11 +19,13 @@ const TourGallery: React.FC<Props> = ({ images }) => {
       galleryRef.current.toggleFullScreen()
     }
   }
+
   const filteredImages: ReactImageGalleryItem[] = images.map((image) => ({
     original: image.compressedMediumStorageLink,
     thumbnail: image.compressedPreviewStorageLink,
     originalAlt: "tour card item original item",
     thumbnailAlt: "tour card thumbnail item",
+    fullscreen: image.compressedMediumStorageLink,
   }))
   return (
     <ReactImageGallery

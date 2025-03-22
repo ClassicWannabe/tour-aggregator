@@ -3,10 +3,9 @@ import { Link } from "@/i18n/routing"
 import Image from "next/image"
 import CurrencyText from "@/components/CurrencyText"
 import { getLocale, getTranslations } from "next-intl/server"
-import Badge from "@/components/ui/Badge"
-import { formatDateToCustomString } from "@/lib/utils/common"
 import { Tour } from "@/lib/interfaces/tours"
 import RouteNames from "@/lib/consts/route-names"
+import TourCardDates from "@/app/[locale]/(main)/_components/TourCardDates"
 
 interface Props {
   tour: Tour
@@ -35,12 +34,7 @@ export default async function TourCard({ tour }: Props) {
           <p className="text-body2 text-tertiaryBlack mb-1">{t(`tourType.${tour.type}`)}</p>
           <h4 className="text-headline5 text-secondaryBlack line-clamp-2">{tour.title}</h4>
           <p className="text-body2 text-secondaryBlack line-clamp-3 mt-auto">{tour.description}</p>
-          <div className="flex gap-1 items-center">
-            {/*<Badge text={formatDateToCustomString(tour.dates[0]?.startDate, locale)} />*/}
-            {/*{!!tour.dates[tour.dates?.length - 1]?.endDate && (*/}
-            {/*  <Badge text={formatDateToCustomString(tour.dates[tour.dates.length - 1].endDate, locale)} />*/}
-            {/*)}*/}
-          </div>
+          <TourCardDates dates={tour.dates} locale={locale} />
           <div className="flex gap-2 items-center">
             <CurrencyText amount={tour.pricePerPerson} /> <p>{t("perPerson")}</p>
           </div>

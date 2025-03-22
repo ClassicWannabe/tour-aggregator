@@ -10,7 +10,7 @@ import formatSearchParamsForTours from "@/lib/utils/format-search-params-for-tou
 export default async function getTours(searchParams: SearchParams): Promise<Tour[] | []> {
   const formatedSearchParams = formatSearchParamsForTours(searchParams)
   const queryString = getQueryFromSearchParams(formatedSearchParams)
-  const data = await fetch(makeFetchUrlPath(`${API_PATHS.tours}?${queryString}`))
+  const data = await fetch(makeFetchUrlPath(`${API_PATHS.tours}?${queryString}`), { next: { revalidate: 300 } })
   if (!data.ok) return []
 
   return data.json()
