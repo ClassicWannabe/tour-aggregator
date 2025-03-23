@@ -10,9 +10,9 @@ export default async function CreateTourPage({ params }: { params: Promise<{ loc
   const locations = await fetchLocations()
 
   return (
-    <>
+    <div className="bg-colorBgLayout">
       <Typography variant="headline1">{t("title")}</Typography>
       <CreateTourForm locations={locations} />
-    </>
+    </div>
   )
 }

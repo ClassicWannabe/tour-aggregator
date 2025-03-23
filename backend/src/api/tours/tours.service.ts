@@ -17,6 +17,10 @@ import { LocationService } from '../location/location.service';
 import { BookTourDto } from './dto/book-tour.dto';
 import { MailerService } from 'src/mailer/mailer.service';
 import { FindAllTourReservationsDto } from 'src/api/tours/dto/find-all-tour-reservations.dto';
+import {
+  FindSupplierToursDto,
+  TourStatus,
+} from 'src/api/tours/dto/find-supplier-tours.dto';
 
 @Injectable()
 export class ToursService {
@@ -202,6 +206,83 @@ export class ToursService {
     }
 
     return { whereRaw, whereSimilarity };
+  }
+
+  async findSupplierTours(query: FindSupplierToursDto, supplierId: string) {
+    const whereClauseBase = this.getSupplierToursWhereClause(query.status);
+    const whereClause = {
+      supplierId,
+      ...whereClauseBase,
+    };
+    const [tours, count] = await Promise.all([
+      this.prismaService.tour.findMany({
+        where: whereClause,
+        select: {
+          id: true,
+          title: true,
+          dates: { select: { startDate: true, endDate: true } },
+        },
+        orderBy: {
+          createdAt: 'desc',
+        },
+        take: query.limit,
+        skip: query.offset,
+      }),
+      this.prismaService.tour.count({
+        where: whereClause,
+      }),
+    ]);
+
+    const rows = tours.map((tour) => {
+      const tourStatus = tour.dates.some((date) => date.startDate > new Date())
+        ? TourStatus.ACTIVE
+        : TourStatus.FINISHED;
+      return { ...tour, status: tourStatus };
+    });
+
+    return {
+      rows,
+      pagination: { count, limit: query.limit, offset: query.offset },
+    };
+  }
+
+  async getSupplierTourCounts(supplierId: string) {
+    const whereClauseBase: Prisma.TourWhereInput = { supplierId };
+    const activeWhereClause: Prisma.TourWhereInput = {
+      ...whereClauseBase,
+      ...this.getSupplierToursWhereClause(TourStatus.ACTIVE),
+    };
+    const finishedWhereClause: Prisma.TourWhereInput = {
+      ...whereClauseBase,
+      ...this.getSupplierToursWhereClause(TourStatus.FINISHED),
+    };
+    const [all, active, finished] = await Promise.all([
+      this.prismaService.tour.count({
+        where: whereClauseBase,
+      }),
+      this.prismaService.tour.count({
+        where: activeWhereClause,
+      }),
+      this.prismaService.tour.count({
+        where: finishedWhereClause,
+      }),
+    ]);
+
+    return { all, active, finished };
+  }
+
+  private getSupplierToursWhereClause(
+    tourStatus?: TourStatus,
+  ): Prisma.TourWhereInput | null {
+    switch (tourStatus) {
+      case TourStatus.ACTIVE: {
+        return { dates: { some: { startDate: { gt: new Date() } } } };
+      }
+      case TourStatus.FINISHED: {
+        return { dates: { every: { startDate: { lt: new Date() } } } };
+      }
+    }
+    return null;
   }
 
   async getTourFilters() {

@@ -1,3 +1,5 @@
+import { Pagination } from "@/lib/interfaces/common"
+
 export type ToursFilterParams = Partial<{
   limit: number
   offset: number
@@ -54,6 +56,11 @@ export enum TourType {
   FIELD = "FIELD",
 }
 
+export enum TourStatus {
+  ACTIVE = "ACTIVE",
+  FINISHED = "FINISHED",
+}
+
 export interface TourFilters {
   prices: {
     min: number
@@ -70,4 +77,18 @@ export interface TourFilters {
       name: string
     },
   ]
+}
+
+export type SupplierTourCounts = { all: number; active: number; finished: number }
+
+export type SupplierTour = {
+  id: string
+  title: string
+  status: TourStatus
+  dates: { startDate: string; endDate: string }[]
+}
+
+export type SupplierTourResponse = {
+  rows: SupplierTour[]
+  pagination: Pagination
 }

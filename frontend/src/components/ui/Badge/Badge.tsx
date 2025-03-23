@@ -7,7 +7,7 @@ export default function Badge({
   variant = "primary",
 }: {
   text: string
-  variant?: "primary" | "secondary"
+  variant?: "primary" | "secondary" | "destructive"
   className?: string
 }) {
   return (
@@ -16,7 +16,9 @@ export default function Badge({
         "text-xs px-2 py-0.5 rounded h-fit",
         variant === "primary"
           ? "text-[#202020] bg-[#EFEFEF]"
-          : "text-primaryGreen bg-accentGreen border-solid border border-primaryGreen",
+          : variant === "destructive"
+            ? "text-destructive bg-red-100 border-solid border border-destructive"
+            : "text-primaryGreen bg-accentGreen border-solid border border-primaryGreen",
         className,
       )}
     >
