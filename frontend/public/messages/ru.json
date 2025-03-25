@@ -51,7 +51,11 @@
     },
     "phone": "Телефон",
     "search": "Поиск",
-    "price": "Цена"
+    "price": "Цена",
+    "pagination": {
+      "back": "Назад",
+      "next": "Вперед"
+    }
   },
   "TopSection": {
     "motto": "<company>movo</company> - маркетплейс туров напрямую от авторов туров и туристических услуг",
@@ -298,5 +302,41 @@
     "email": "Электронная почта",
     "offeroAgreement": "Даю согласие на <link>обработку персональных данных</link>.",
     "submitApplication": "Подать заявку"
+  },
+  "PersonalAccount": {
+    "supplierType": {
+      "COMPANY_SUPPLIER": "Тур агенство",
+      "INDIVIDUAL_SUPPLIER": "Гид"
+    },
+    "tabs": {
+      "personalAccount": "Личный кабинет",
+      "profile": "Профиль"
+    }
+  },
+  "TourCounts": {
+    "all": "Количество всех туров",
+    "active": "Активные туры",
+    "finished": "Завершенные туры"
+  },
+  "MyTours": {
+    "title": "Мои туры",
+    "createTour": "Создать тур",
+    "tabs": {
+      "allTours": "Все туры",
+      "activeTours": "Активные",
+      "finishedTours": "Завершенные"
+    }
+  },
+  "TourTable": {
+    "headers": {
+      "name": "Название тура",
+      "date": "Дата",
+      "status": "Статус",
+      "action": "Действие"
+    },
+    "tourStatus": {
+      "active": "Активный",
+      "finished": "Завершенный"
+    }
   }
 }

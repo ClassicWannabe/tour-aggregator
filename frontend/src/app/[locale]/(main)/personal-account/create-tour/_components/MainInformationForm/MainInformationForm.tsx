@@ -13,6 +13,7 @@ import dayjs from "dayjs"
 import { RecurringTourInputs } from "@/app/[locale]/(main)/personal-account/create-tour/_components/MainInformationForm/RecurringTourInputs"
 import { Location } from "@/actions/fetch-locations"
 import { TourType } from "@/lib/interfaces/tours"
+import { DEFAULT_DATETIME_FORMAT } from "@/lib/consts/dayjs"
 
 type MainInformationFormProps = {
   locations: Location[]
@@ -107,7 +108,7 @@ export function MainInformationForm({ locations }: MainInformationFormProps) {
           datePickerProps={{
             showTime: { minuteStep: 5 },
             minDate: dayjs(),
-            format: "DD.MM.YYYY HH:mm",
+            format: DEFAULT_DATETIME_FORMAT,
           }}
         />
 

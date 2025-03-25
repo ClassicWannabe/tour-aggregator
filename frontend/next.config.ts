@@ -25,6 +25,11 @@ const nextConfig: NextConfig = {
             hostname: "storage.yandexcloud.kz",
             pathname: "/tour-aggregator-static/**",
           },
+          {
+            protocol: "https",
+            hostname: "images.unsplash.com",
+            pathname: "/**",
+          },
         ]
       : [
           {

@@ -14,14 +14,14 @@ export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElemen
   href?: string
 }
 
-const variants: Record<Variants, string> = {
+export const variants: Record<Variants, string> = {
   filled: "border-none rounded-lg",
   outlined: "border rounded-lg",
   dashed: "border border-dashed rounded-lg",
   text: "bg-none border-none",
 }
 
-const colors: Record<Colors, string> = {
+export const colors: Record<Colors, string> = {
   primary: "bg-primaryGreen text-primaryWhite border-accentGreen",
   secondary: "bg-primaryWhite text-primaryBlack border-borderColorSecondary",
 }

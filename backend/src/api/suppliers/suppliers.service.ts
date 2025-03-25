@@ -187,10 +187,16 @@ export class SuppliersService {
   }
 
   async findOneSupplier(id: string) {
-    return this.prismaService.supplier.findUnique({
+    const supplier = await this.prismaService.supplier.findUnique({
       where: { id },
-      include: { individualSupplier: true, companySupplier: true },
+      include: { individualSupplier: true, companySupplier: true, photo: true },
     });
+
+    if (!supplier) {
+      throw new NotFoundException('Supplier not found');
+    }
+
+    return supplier;
   }
 
   async verifyEmail(verifyEmailDto: VerifyEmailDto) {

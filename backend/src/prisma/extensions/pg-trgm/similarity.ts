@@ -19,7 +19,7 @@ async function similarity<T, A>(
       ? `"${args?.__meta?.schema}"`
       : `"${process.env.DB_SCHEMA}"`;
 
-    const selectList: string[] = ['']; // for handling comma. check the final query!
+    const selectList: string[] = args.select ?? [];
     const whereSimilarityList: string[] = [];
     const orderList: string[] = [];
 
@@ -118,7 +118,7 @@ async function similarity<T, A>(
       );
     }
 
-    const selectQuery = selectList.join(', ');
+    const selectQuery = selectList.length > 0 ? selectList.join(', ') : '*';
     const whereRawString = args.whereRaw?.join(' AND ');
     const whereSimilarityString = whereSimilarityList.length
       ? whereSimilarityList.join(' OR ')
@@ -146,7 +146,7 @@ async function similarity<T, A>(
      *          WHERE similarity(col_name, 'lorem') >= 0.01
      *          ORDER BY similarity(col_name, 'lorem') desc
      */
-    const query = `SELECT * ${selectQuery} FROM ${schema}."${model}" ${whereQuery} ${orderQuery} ${offsetQuery} ${limitQuery}`;
+    const query = `SELECT ${selectQuery} FROM ${schema}."${model}" ${whereQuery} ${orderQuery} ${offsetQuery} ${limitQuery}`;
 
     const result = await prisma.$queryRawUnsafe(query);
     return result as SimilarityResult<T, A>;

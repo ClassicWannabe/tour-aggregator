@@ -22,6 +22,7 @@ import { UploadPhotoDto } from './dto/upload-photo.dto';
 import { DeletePhotoDto } from './dto/delete-photo.dto';
 import { BookTourDto } from './dto/book-tour.dto';
 import { FindAllTourReservationsDto } from 'src/api/tours/dto/find-all-tour-reservations.dto';
+import { FindSupplierToursDto } from 'src/api/tours/dto/find-supplier-tours.dto';
 
 @Controller('tours')
 @ApiTags('Tours')
@@ -41,6 +42,23 @@ export class ToursController {
   @Get()
   findAll(@Query() query: FindAllToursDto) {
     return this.toursService.findAllTours(query);
+  }
+
+  @Get('/supplier-tours')
+  @ApiBearerAuth()
+  @UseGuards(SupplierAuthGuard)
+  findSupplierTours(
+    @Query() query: FindSupplierToursDto,
+    @SupplierJwt() supplier: SupplierJwtBody,
+  ) {
+    return this.toursService.findSupplierTours(query, supplier.sub);
+  }
+
+  @Get('/supplier-tours/counts')
+  @ApiBearerAuth()
+  @UseGuards(SupplierAuthGuard)
+  findSupplierTourCounts(@SupplierJwt() supplier: SupplierJwtBody) {
+    return this.toursService.getSupplierTourCounts(supplier.sub);
   }
 
   @Get('/filters')
