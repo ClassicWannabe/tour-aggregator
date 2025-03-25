@@ -20,6 +20,9 @@ type TablePaginationProps = {
 const ELLIPSIS_PLACE = -1
 
 export default async function TablePagination({ pagination, searchParams }: TablePaginationProps) {
+  if (pagination.count === 0) {
+    return null
+  }
   const t = await getTranslations("Shared")
   const currentPage = pagination.offset / pagination.limit + 1
   const maxPage = Math.ceil(pagination.count / pagination.limit)
@@ -98,7 +101,7 @@ export default async function TablePagination({ pagination, searchParams }: Tabl
           }
           return (
             <PaginationItem key={index}>
-              <PaginationLink href={getNewPageHref(page)} isActive={page === currentPage}>
+              <PaginationLink href={getNewPageHref(page)} isActive={page === currentPage} scroll={false}>
                 {page}
               </PaginationLink>
             </PaginationItem>

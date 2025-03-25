@@ -1,17 +1,20 @@
 import { z } from "zod"
 
+const EmailSchema = z
+  .string()
+  .email({ message: "FormErrors.notValidEmail" })
+  .min(1, { message: "FormErrors.emailRequired" })
+
+const PhoneSchema = z.string().regex(/^\+77[0,7]\d{8}$/, { message: "FormErrors.phoneRequired" })
+
 export const SignInSchema = z.object({
-  email: z.string().email({ message: "FormErrors.notValidEmail" }).min(1, { message: "FormErrors.emailRequired" }),
+  email: EmailSchema,
   password: z.string().min(8, { message: "FormErrors.shortPassword" }),
 })
 
 export const SignUpSchema = z.object({
-  email: z.string().email({ message: "FormErrors.notValidEmail" }).min(1, { message: "FormErrors.emailRequired" }),
-  phone: z
-    .string()
-    .min(10, { message: "FormErrors.phoneRequired" })
-    .max(15, { message: "FormErrors.phoneRequired" })
-    .regex(/^[0-9]+$/, { message: "FormErrors.phoneRequired" }),
+  email: EmailSchema,
+  phone: PhoneSchema,
   password: z
     .string()
     .min(8, { message: "FormErrors.shortPassword" })
@@ -28,12 +31,12 @@ export const SignUpSchema = z.object({
   agreeToReceiveUpdates: z.string().optional(),
 })
 
-export const SignUpAgencyFieldsSchema = SignUpSchema.merge(
-  z.object({
-    companyName: z.string().min(1, { message: "FormErrors.companyNameRequired" }),
-    ownerName: z.string().min(1, { message: "FormErrors.ownerNameRequired" }),
-  }),
-).refine(
+const AgencyFieldsSchema = z.object({
+  companyName: z.string().min(1, { message: "FormErrors.companyNameRequired" }),
+  ownerName: z.string().min(1, { message: "FormErrors.ownerNameRequired" }),
+})
+
+export const SignUpAgencyFieldsSchema = SignUpSchema.merge(AgencyFieldsSchema).refine(
   (data) => data.password === data.confirmPassword, // Check if passwords match
   {
     message: "FormErrors.passwordsMissMatch",
@@ -41,12 +44,12 @@ export const SignUpAgencyFieldsSchema = SignUpSchema.merge(
   },
 )
 
-export const SignUpGuideFieldsSchema = SignUpSchema.merge(
-  z.object({
-    firstName: z.string().min(1, { message: "FormErrors.firstNameRequired" }),
-    lastName: z.string().min(1, { message: "FormErrors.lastNameRequired" }),
-  }),
-).refine(
+const GuideFieldsSchema = z.object({
+  firstName: z.string().min(1, { message: "FormErrors.firstNameRequired" }),
+  lastName: z.string().min(1, { message: "FormErrors.lastNameRequired" }),
+})
+
+export const SignUpGuideFieldsSchema = SignUpSchema.merge(GuideFieldsSchema).refine(
   (data) => data.password === data.confirmPassword, // Check if passwords match
   {
     message: "FormErrors.passwordsMissMatch",
@@ -56,16 +59,22 @@ export const SignUpGuideFieldsSchema = SignUpSchema.merge(
 
 export const BookTourSchema = z.object({
   dateId: z.string().min(1, { message: "FormErrors.dateIdRequired" }),
-  email: z.string().email({ message: "FormErrors.notValidEmail" }).min(1, { message: "FormErrors.emailRequired" }),
+  email: EmailSchema,
   offeroAgreement: z
     .string()
     .min(1, { message: "FormErrors.offeroAgreementRequired" })
     .transform((val) => val === "on")
     .refine((val) => val, { message: "FormErrors.offeroAgreementRequired" }),
-  phone: z
-    .string()
-    .min(10, { message: "FormErrors.phoneRequired" })
-    .max(15, { message: "FormErrors.phoneRequired" })
-    .regex(/^[0-9]+$/, { message: "FormErrors.phoneRequired" }),
+  phone: PhoneSchema,
   name: z.string().min(1, { message: "FormErrors.nameRequired" }),
 })
+
+const UpdateProfileSchema = z.object({
+  email: EmailSchema,
+  phone: PhoneSchema,
+  aboutMe: z.string().max(100, { message: "FormErrors.longAboutMe" }),
+})
+
+export const UpdateProfileGuideSchema = UpdateProfileSchema.merge(GuideFieldsSchema)
+
+export const UpdateProfileAgencySchema = UpdateProfileSchema.merge(AgencyFieldsSchema)

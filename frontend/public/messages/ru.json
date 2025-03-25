@@ -52,6 +52,7 @@
     "phone": "Телефон",
     "search": "Поиск",
     "price": "Цена",
+    "aboutMe": "О себе",
     "pagination": {
       "back": "Назад",
       "next": "Вперед"
@@ -281,7 +282,8 @@
     "agreeToTermPolicyRequired": "You must agree to the terms and policy",
     "dateIdRequired": "Поле \"Дата\" обязательно для заполнения",
     "nameRequired": "Поле \"ФИО\" обязательно для заполнения",
-    "offeroAgreementRequired": "Поле обязательно для заполнения"
+    "offeroAgreementRequired": "Поле обязательно для заполнения",
+    "longAboutMe": "Описание слишком длинное"
   },
   "SignInErrors": {
     "invalidCredentials": "Неверная почта или пароль"
@@ -337,6 +339,20 @@
     "tourStatus": {
       "active": "Активный",
       "finished": "Завершенный"
+    },
+    "noData": "Туры отсутствуют"
+  },
+  "ProfileForm": {
+    "title": "Профиль",
+    "description": "Просматривайте и редактируйте информацию профиля",
+    "editButton": "Редактировать",
+    "mainInformation": {
+      "title": "Основная информация",
+      "uploadPhotoButton": "Загрузить",
+      "deletePhotoButton": "Удалить"
+    },
+    "certificate": {
+      "title": "Сертификаты"
     }
   }
 }

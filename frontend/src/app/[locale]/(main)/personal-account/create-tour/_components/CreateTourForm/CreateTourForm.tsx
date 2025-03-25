@@ -20,6 +20,7 @@ import { createTour } from "@/actions/create-tour"
 
 type CreateTourFormProps = {
   locations: Location[]
+  initialForm?: FormType
 }
 
 export function CreateTourForm({ locations }: CreateTourFormProps) {
@@ -122,7 +123,7 @@ export function CreateTourForm({ locations }: CreateTourFormProps) {
   }
 
   return (
-    <section className="my-10 lg:py-20 lg:px-16 p-2 bg-background">
+    <section className="my-10 lg:py-20 lg:px-16 p-2 bg-background border rounded">
       <Form {...form}>
         <form onSubmit={handleSubmit}>
           {step}

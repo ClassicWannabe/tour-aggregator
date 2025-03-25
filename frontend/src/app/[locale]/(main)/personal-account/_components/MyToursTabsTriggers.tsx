@@ -5,19 +5,27 @@ import React from "react"
 import { TourStatus } from "@/lib/interfaces/tours"
 import { useTranslations } from "next-intl"
 import { useRouter } from "@/i18n/routing"
+import { SearchParams } from "next/dist/server/request/search-params"
+import getQueryFromSearchParams from "@/lib/utils/get-query-from-search-params"
 
-export default function MyToursTabsTriggers() {
+type MyToursTabsTriggersProps = {
+  searchParams: SearchParams
+}
+
+export default function MyToursTabsTriggers({ searchParams }: MyToursTabsTriggersProps) {
   const t = useTranslations("MyTours")
   const router = useRouter()
 
   const handleClick = (tourStatus?: TourStatus) => {
-    const currentParams = new URLSearchParams()
+    const searchParamsStr = getQueryFromSearchParams(searchParams)
+    const currentParams = new URLSearchParams(searchParamsStr)
     if (tourStatus) {
       currentParams.set("status", tourStatus)
     } else {
       currentParams.delete("status")
     }
-    router.replace(`?${currentParams.toString()}`)
+    currentParams.delete("page")
+    router.replace(`?${currentParams.toString()}`, { scroll: false })
   }
 
   return (

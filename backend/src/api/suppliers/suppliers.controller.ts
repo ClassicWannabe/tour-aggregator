@@ -8,6 +8,7 @@ import {
   HttpCode,
   Delete,
   Param,
+  Patch,
 } from '@nestjs/common';
 import { SuppliersService } from './suppliers.service';
 import { SignUpSupplierDto } from './dto/sign-up-supplier.dto';
@@ -23,6 +24,7 @@ import { DeleteProfilePhotoDto } from './dto/delete-profile-photo.dto';
 import { UploadProfilePhotoDto } from './dto/upload-profile-photo.dto';
 import { UploadCertificateDto } from './dto/upload-certificate.dto';
 import { DeleteCertificatesDto } from './dto/delete-certificates.dto';
+import { UpdateProfileDto } from 'src/api/suppliers/dto/update-profile.dto';
 
 @Controller('suppliers')
 @ApiTags('Suppliers')
@@ -62,6 +64,16 @@ export class SuppliersController {
     return this.suppliersService.findOneSupplier(supplier.sub);
   }
 
+  @Patch('profile')
+  @ApiBearerAuth()
+  @UseGuards(SupplierAuthGuard)
+  updateProfile(
+    @Body() updateProfileDto: UpdateProfileDto,
+    @SupplierJwt() supplier: SupplierJwtBody,
+  ) {
+    return this.suppliersService.updateProfile(updateProfileDto, supplier.sub);
+  }
+
   @Post('profile-photo')
   @ApiBearerAuth()
   @UseGuards(SupplierAuthGuard)
@@ -77,7 +89,7 @@ export class SuppliersController {
     );
   }
 
-  @Delete('profile-photo/:id')
+  @Delete('profile-photo/:photoId')
   @ApiBearerAuth()
   @UseGuards(SupplierAuthGuard)
   deleteProfilePhoto(

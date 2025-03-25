@@ -19,6 +19,7 @@ import { CustomConfigService } from 'src/config/custom-config.service';
 import { MailerService } from 'src/mailer/mailer.service';
 import { FileManagerService } from '../file-manager/file-manager.service';
 import { MemoryStoredFile } from 'nestjs-form-data';
+import { UpdateProfileDto } from 'src/api/suppliers/dto/update-profile.dto';
 
 @Injectable()
 export class SuppliersService {
@@ -236,6 +237,64 @@ export class SuppliersService {
       data: {
         contactVerifiedAt: new Date(),
         supplier: { update: { email: verifyEmailDto.email } },
+      },
+    });
+  }
+
+  async updateProfile(params: UpdateProfileDto, supplierId: string) {
+    const supplier = await this.prismaService.supplier.findUnique({
+      where: { id: supplierId },
+    });
+    if (!supplier) {
+      throw new NotFoundException('Supplier not found');
+    }
+    if (params.individualSupplier && params.companySupplier) {
+      throw new BadRequestException(
+        'Provide either company or individual supplier payload',
+      );
+    }
+    if (
+      params.individualSupplier &&
+      supplier.type === SupplierType.COMPANY_SUPPLIER
+    ) {
+      throw new BadRequestException('Provide company supplier payload instead');
+    }
+    if (
+      params.companySupplier &&
+      supplier.type === SupplierType.INDIVIDUAL_SUPPLIER
+    ) {
+      throw new BadRequestException(
+        'Provide individual supplier payload instead',
+      );
+    }
+    if (params.email && params.email !== supplier.email) {
+      const conflictingSupplier = await this.prismaService.supplier.findFirst({
+        where: { email: params.email },
+        select: { id: true },
+      });
+      if (conflictingSupplier) {
+        throw new BadRequestException('Email is already taken');
+      }
+      await this.sendEmailVerification(params.email, supplierId);
+    }
+    if (params.phone && params.phone !== supplier.phone) {
+      const conflictingSupplier = await this.prismaService.supplier.findFirst({
+        where: { phone: params.phone },
+        select: { id: true },
+      });
+      if (conflictingSupplier) {
+        throw new BadRequestException('Phone is already taken');
+      }
+    }
+
+    return this.prismaService.supplier.update({
+      where: { id: supplierId },
+      data: {
+        phone: params.phone,
+        aboutMe: params.aboutMe,
+        socialLinks: params.socialLinks,
+        companySupplier: { update: params.companySupplier },
+        individualSupplier: { update: params.individualSupplier },
       },
     });
   }
