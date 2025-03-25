@@ -2,6 +2,7 @@
   "extends": ["next/core-web-vitals", "next/typescript", "plugin:prettier/recommended"],
   "rules": {
     "@typescript-eslint/no-explicit-any": "off",
+    "prettier/prettier": 0,
     "no-restricted-imports": [
       "error",
       {

@@ -20,7 +20,7 @@ export interface Tour {
   highlights: string[]
   inclusions: string[]
   exclusions: string[]
-  dates: { startDate: string; endDate: string; id: string }[]
+  dates: { startDate: string; endDate: string; id: string; isFull: boolean }[]
   createdAt: string
   updatedAt: string
   supplierId: string

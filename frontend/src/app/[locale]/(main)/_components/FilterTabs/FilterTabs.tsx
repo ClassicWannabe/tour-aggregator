@@ -15,7 +15,7 @@ export default function FilterTabs() {
     { key: TourType.CITY, label: t("cityTours") },
   ]
   return (
-    <div className="flex mt-auto px-4 sm:px-16 md:px-[60px] lg:px-[120px] justify-center">
+    <div className="mt-auto flex justify-center px-4 sm:px-16 md:px-[60px] lg:px-[120px]">
       {filterTabs.map((tab) => (
         <FilterTab key={tab.key} title={tab.label} tourTypeKey={tab.key} />
       ))}
@@ -44,8 +44,8 @@ function FilterTab({ title, tourTypeKey }: FilterTabProps) {
     <span
       role="button"
       className={cn(
-        "text-body1 text-primaryWhite flex items-center justify-center flex-1 px-1 sm:px-4 py-2 rounded-t-md transition-colors",
-        currentTourType === tourTypeKey && "text-primaryGreen bg-primaryWhite",
+        "text-body1 flex flex-1 items-center justify-center rounded-t-md px-1 py-2 text-primaryWhite transition-colors sm:px-4",
+        currentTourType === tourTypeKey && "bg-primaryWhite text-primaryGreen",
       )}
       onClick={handleClick}
     >

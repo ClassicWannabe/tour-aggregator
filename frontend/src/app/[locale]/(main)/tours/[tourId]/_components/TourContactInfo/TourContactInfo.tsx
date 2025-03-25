@@ -13,15 +13,15 @@ type Props = {
 const TourContactInfo: React.FC<Props> = async ({ tour }) => {
   const t = await getTranslations()
   return (
-    <article className="bg-yellowAccent rounded-lg p-4 flex flex-col gap-4 h-fit">
-      <h3 className="text-headline5 text-primaryBlack min-w-[300px]">{t(`Shared.tourType.${tour.type}`)}</h3>
+    <article className="flex h-fit min-w-80 flex-col gap-4 rounded-lg bg-yellowAccent p-4">
+      <h3 className="text-headline5 text-primaryBlack">{t(`Shared.tourType.${tour.type}`)}</h3>
       <p className="text-body2">
         {t("TourDetails.beginning")} - <b>{getHours(tour.dates[0].startDate)}</b>
       </p>
-      <h3 className="text-headline5 text-primaryBlack min-w-[300px]">{t(`TourDetails.whatsIn`)}</h3>
+      <h3 className="text-headline5 text-primaryBlack">{t(`TourDetails.whatsIn`)}</h3>
       <div className="flex flex-col gap-4">
         {tour.inclusions.map((inclusion) => (
-          <div className="flex gap-2 items-center" key={inclusion}>
+          <div className="flex items-center gap-2" key={inclusion}>
             <Image src="/static/icons/check-circle.svg" width={16} height={16} alt="check circle" />
             <p className="text-body2">{inclusion}</p>
           </div>
@@ -29,14 +29,14 @@ const TourContactInfo: React.FC<Props> = async ({ tour }) => {
       </div>
       <div className="flex flex-col gap-4">
         {tour.exclusions.map((exclusion) => (
-          <div className="flex gap-2 items-center" key={exclusion}>
+          <div className="flex items-center gap-2" key={exclusion}>
             <Image src="/static/icons/x-icon.svg" width={16} height={16} alt="check circle" />
             <p className="text-body2">{exclusion}</p>
           </div>
         ))}
       </div>
-      <h3 className="text-headline5 text-primaryBlack min-w-[300px]">{t(`Shared.price`)}</h3>
-      <div className="flex gap-2 items-end">
+      <h3 className="text-headline5 text-primaryBlack">{t(`Shared.price`)}</h3>
+      <div className="flex items-end gap-2">
         <CurrencyText amount={tour.pricePerPerson} /> <p className="text-body2 mb-0.5">{t("Shared.perPerson")}</p>
       </div>
       <TourContactModal dates={tour.dates} />

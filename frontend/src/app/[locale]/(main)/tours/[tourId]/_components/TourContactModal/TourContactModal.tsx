@@ -94,7 +94,7 @@ const TourContactModal: React.FC<Props> = ({ dates }) => {
           errorText={getErrorsTranslation(state?.errors?.offeroAgreement)}
           required
         />
-        <Button className="w-full text-body1 text-primaryWhite mt-2" type="submit" disabled={pending}>
+        <Button className="text-body1 mt-2 w-full text-primaryWhite" type="submit" disabled={pending}>
           {t("TourDetails.submitApplication")}
         </Button>
       </form>

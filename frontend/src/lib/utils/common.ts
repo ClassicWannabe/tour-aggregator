@@ -1,6 +1,7 @@
 import { clsx, type ClassValue } from "clsx"
 import { twMerge } from "tailwind-merge"
 import { Locale, routing } from "@/i18n/routing"
+import { EN_MONTHS_SHORT, EN_WEEKDAYS, KZ_MONTHS, KZ_WEEKDAYS, RU_MONTHS_SHORT, RU_WEEKDAYS } from "@/lib/consts/dates"
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
@@ -23,29 +24,16 @@ export function convertNumberInPriceFormat(initialNumber: string | number, toFix
 export function formatDateToCustomString(isoDate: string, locale: string = "ru") {
   const locales = {
     ru: {
-      months: ["янв", "фев", "мар", "апр", "май", "июн", "июл", "авг", "сен", "окт", "ноя", "дек"],
-      days: ["вс", "пн", "вт", "ср", "чт", "пт", "сб"],
+      months: RU_MONTHS_SHORT,
+      days: RU_WEEKDAYS,
     },
     kz: {
-      months: [
-        "Қаңтар",
-        "Ақпан",
-        "Наурыз",
-        "Сәуір",
-        "Мамыр",
-        "Маусым",
-        "Шілде",
-        "Тамыз",
-        "Қыркүйек",
-        "Қазан",
-        "Қараша",
-        "Желтоқсан",
-      ],
-      days: ["жс", "дс", "сс", "ср", "бс", "жм", "сб"],
+      months: KZ_MONTHS,
+      days: KZ_WEEKDAYS,
     },
     en: {
-      months: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
-      days: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
+      months: EN_MONTHS_SHORT,
+      days: EN_WEEKDAYS,
     },
   }
   if (!isoDate) {
