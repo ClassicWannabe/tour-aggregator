@@ -3,8 +3,8 @@ import Input from "@/components/ui/Input"
 import FormCheckboxMultiple, { FormCheckboxMultipleProps } from "@/components/Form/FormCheckboxMultiple"
 import Button from "@/components/ui/Button"
 import React, { ComponentProps, useRef, useState } from "react"
-import AddButton from "@/app/[locale]/(main)/personal-account/create-tour/_components/AddButton"
 import { cn } from "@/lib/utils/common"
+import AddButton from "@/app/[locale]/(main)/personal-account/(mutate-tour)/_components/AddButton"
 
 export interface FormCheckboxMultipleEditableProps {
   name: string
@@ -54,7 +54,7 @@ export default function FormCheckboxMultipleDynamic({
       <Input
         ref={inputRef}
         className={cn(
-          "border-none shadow-none ml-4",
+          "ml-4 border-none shadow-none",
           isNewItemError ? "placeholder:text-destructive" : "",
           inputClassName,
         )}

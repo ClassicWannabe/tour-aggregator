@@ -4,26 +4,30 @@ import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import useMultistepForm from "@/lib/hooks/useMultistepForm"
 import { Separator } from "@/components/ui/Separator"
-import FormButtons from "@/app/[locale]/(main)/personal-account/create-tour/_components/FormButtons/FormButtons"
 import useBeforeunload from "@/lib/hooks/useBeforeunload"
 import { useTranslations } from "next-intl"
 import { FormType, getSchemas } from "./schema"
-import { MainInformationForm } from "@/app/[locale]/(main)/personal-account/create-tour/_components/MainInformationForm"
-import { AttachmentsForm } from "@/app/[locale]/(main)/personal-account/create-tour/_components/AttachmentsForm"
-import { TourProgramForm } from "@/app/[locale]/(main)/personal-account/create-tour/_components/TourProgramForm"
-import { AmenitiesForm } from "@/app/[locale]/(main)/personal-account/create-tour/_components/AmenitiesForm"
 import { useMemo } from "react"
 import { useRouter } from "@/i18n/routing"
 import RouteNames from "@/lib/consts/route-names"
 import { Location } from "@/actions/fetch-locations"
 import { createTour } from "@/actions/create-tour"
+import { MainInformationForm } from "@/app/[locale]/(main)/personal-account/(mutate-tour)/_components/MainInformationForm"
+import { AmenitiesForm } from "../AmenitiesForm"
+import { TourProgramForm } from "@/app/[locale]/(main)/personal-account/(mutate-tour)/_components/TourProgramForm"
+import { AttachmentsForm } from "@/app/[locale]/(main)/personal-account/(mutate-tour)/_components/AttachmentsForm"
+import FormButtons from "@/app/[locale]/(main)/personal-account/(mutate-tour)/_components/FormButtons/FormButtons"
+import { editTour } from "@/actions/edit-tour"
 
 type CreateTourFormProps = {
   locations: Location[]
-  initialForm?: FormType
+  editDetails?: {
+    tourId: string
+    initialForm?: FormType
+  }
 }
 
-export function CreateTourForm({ locations }: CreateTourFormProps) {
+export function CreateTourForm({ locations, editDetails }: CreateTourFormProps) {
   const t = useTranslations("CreateTourForm.zod")
   const router = useRouter()
   const { formSchema, mainInformationFormSchema, amenitiesFormSchema, tourProgramFormSchema, attachmentsFormSchema } =
@@ -52,6 +56,7 @@ export function CreateTourForm({ locations }: CreateTourFormProps) {
         isRecurringTour: false,
         recurringDates: [],
       },
+      ...editDetails?.initialForm,
     },
     mode: "all",
   })
@@ -75,7 +80,7 @@ export function CreateTourForm({ locations }: CreateTourFormProps) {
       dayProgram.map((item) => ({ ...item, time: item.time.toISOString() })),
     )
     const recurrenceDates = formData.recurringTour.recurringDates.map((date) => date.toISOString())
-    await createTour({
+    const data = {
       ...formData,
       photoIds,
       startDate,
@@ -85,7 +90,13 @@ export function CreateTourForm({ locations }: CreateTourFormProps) {
       recurrenceDates,
       type: formData.tourType,
       locationId: formData.location,
-    })
+    }
+    if (editDetails) {
+      await editTour(editDetails.tourId, data)
+    } else {
+      await createTour(data)
+    }
+
     router.push(RouteNames.PersonalAccount)
   })
 
@@ -123,7 +134,7 @@ export function CreateTourForm({ locations }: CreateTourFormProps) {
   }
 
   return (
-    <section className="my-10 lg:py-20 lg:px-16 p-2 bg-background border rounded">
+    <section className="my-10 rounded border bg-background p-2 lg:px-16 lg:py-20">
       <Form {...form}>
         <form onSubmit={handleSubmit}>
           {step}
@@ -131,6 +142,7 @@ export function CreateTourForm({ locations }: CreateTourFormProps) {
           <FormButtons
             isFirstStep={isFirstStep}
             isLastStep={isLastStep}
+            isEdit={!!editDetails}
             onCancelClick={handleCancelClick}
             onPreviewClick={() => {}}
             onBackClick={back}

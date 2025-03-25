@@ -5,6 +5,7 @@ enum RouteNames {
   Category = "/tours",
   PersonalAccount = "/personal-account",
   CreateTour = "/personal-account/create-tour",
+  EditTour = "/personal-account/edit-tour",
 }
 
 export default RouteNames

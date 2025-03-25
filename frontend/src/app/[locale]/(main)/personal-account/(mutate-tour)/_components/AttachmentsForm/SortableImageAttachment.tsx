@@ -4,7 +4,7 @@ import { useSortable } from "@dnd-kit/sortable"
 import { CSS } from "@dnd-kit/utilities"
 import ImageAttachment, {
   ImageAttachmentProps,
-} from "@/app/[locale]/(main)/personal-account/create-tour/_components/AttachmentsForm/ImageAttachment"
+} from "@/app/[locale]/(main)/personal-account/(mutate-tour)/_components/AttachmentsForm/ImageAttachment"
 
 type SortableImageAttachmentProps = {
   id: string

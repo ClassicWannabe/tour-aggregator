@@ -1,8 +1,8 @@
 "use client"
 import { useTranslations } from "next-intl"
 import FormRadioGroup from "@/components/Form/FormRadioGroup"
-import FormTitle from "@/app/[locale]/(main)/personal-account/create-tour/_components/FormTitle"
-import FormCheckboxMultipleDynamic from "@/app/[locale]/(main)/personal-account/create-tour/_components/FormCheckboxMultipleDynamic"
+import FormCheckboxMultipleDynamic from "@/app/[locale]/(main)/personal-account/(mutate-tour)/_components/FormCheckboxMultipleDynamic"
+import FormTitle from "@/app/[locale]/(main)/personal-account/(mutate-tour)/_components/FormTitle"
 
 export function AmenitiesForm() {
   const t = useTranslations("AmenitiesForm")
@@ -10,7 +10,7 @@ export function AmenitiesForm() {
   const initialInclusions = [t("input.inclusions.value1"), t("input.inclusions.value2"), t("input.inclusions.value3")]
   return (
     <>
-      <div className="flex flex-col gap-10 mb-10">
+      <div className="mb-10 flex flex-col gap-10">
         <div>
           <FormTitle title={t("title1")} subtitle={t("subtitle1")} />
           <FormCheckboxMultipleDynamic

@@ -5,15 +5,15 @@ import FormSelect from "@/components/Form/FormSelect"
 import FormTextarea from "@/components/Form/FormTextarea"
 import FormCheckbox from "@/components/Form/FormCheckbox"
 import FormDateRangePicker from "@/components/Form/FormDateRangePicker"
-import FormTitle from "@/app/[locale]/(main)/personal-account/create-tour/_components/FormTitle"
 import { useFormContext, useWatch } from "react-hook-form"
 import { useEffect, useMemo } from "react"
-import { mainInformationFormLimits } from "@/app/[locale]/(main)/personal-account/create-tour/_components/MainInformationForm/schema"
 import dayjs from "dayjs"
-import { RecurringTourInputs } from "@/app/[locale]/(main)/personal-account/create-tour/_components/MainInformationForm/RecurringTourInputs"
 import { Location } from "@/actions/fetch-locations"
 import { TourType } from "@/lib/interfaces/tours"
 import { DEFAULT_DATETIME_FORMAT } from "@/lib/consts/dayjs"
+import FormTitle from "../FormTitle"
+import { mainInformationFormLimits } from "@/app/[locale]/(main)/personal-account/(mutate-tour)/_components/MainInformationForm/schema"
+import { RecurringTourInputs } from "@/app/[locale]/(main)/personal-account/(mutate-tour)/_components/MainInformationForm/RecurringTourInputs"
 
 type MainInformationFormProps = {
   locations: Location[]
@@ -45,7 +45,7 @@ export function MainInformationForm({ locations }: MainInformationFormProps) {
   return (
     <>
       <FormTitle title={t("title")} subtitle={t("subtitle")} />
-      <div className="grid lg:grid-cols-2 lg:gap-x-6 gap-y-10">
+      <div className="grid gap-y-10 lg:grid-cols-2 lg:gap-x-6">
         <FormInput
           name="title"
           label={t("input.title.label")}

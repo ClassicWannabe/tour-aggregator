@@ -22,7 +22,7 @@ export const getAttachmentsFormSchema = (t: Translate) =>
       .array(
         z.object({
           id: z.string().uuid(),
-          file: imageSchema,
+          file: imageSchema.optional(),
           link: z.string().url(),
         }),
       )
@@ -30,7 +30,10 @@ export const getAttachmentsFormSchema = (t: Translate) =>
       .max(attachmentsFormLimits.images.max, t("images.tooBig", { maximum: attachmentsFormLimits.images.max }))
       .refine(
         (images) => {
-          return images.every((image) => imageMimeTypes.includes(image.file.type))
+          return images.every((image) => {
+            if (!image.file) return true
+            return imageMimeTypes.includes(image.file.type)
+          })
         },
         {
           message: t("images.invalidType"),
@@ -39,7 +42,10 @@ export const getAttachmentsFormSchema = (t: Translate) =>
       )
       .refine(
         (images) => {
-          return images.every((image) => image.file.size <= fileSizeLimitInBytes)
+          return images.every((image) => {
+            if (!image.file) return true
+            return image.file.size <= fileSizeLimitInBytes
+          })
         },
         {
           message: t("images.tooBigSize", { MB: fileSizeLimitInMB }),

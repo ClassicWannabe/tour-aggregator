@@ -1,9 +1,9 @@
 import { Translate } from "@/lib/interfaces/translation"
 import { z } from "zod"
-import { getMainInformationFormSchema } from "@/app/[locale]/(main)/personal-account/create-tour/_components/MainInformationForm"
-import { getAmenitiesFormSchema } from "@/app/[locale]/(main)/personal-account/create-tour/_components/AmenitiesForm"
-import { getTourProgramFormSchema } from "@/app/[locale]/(main)/personal-account/create-tour/_components/TourProgramForm"
-import { getAttachmentsFormSchema } from "@/app/[locale]/(main)/personal-account/create-tour/_components/AttachmentsForm"
+import { getMainInformationFormSchema } from "../MainInformationForm"
+import { getAmenitiesFormSchema } from "../AmenitiesForm"
+import { getTourProgramFormSchema } from "../TourProgramForm"
+import { getAttachmentsFormSchema } from "../AttachmentsForm"
 
 export const getFormSchema = (t: Translate) => {
   const mainInformationFormSchema = getMainInformationFormSchema(t)

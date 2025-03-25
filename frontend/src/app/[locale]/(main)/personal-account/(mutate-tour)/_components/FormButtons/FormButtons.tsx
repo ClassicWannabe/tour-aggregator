@@ -1,11 +1,12 @@
 "use client"
 import Button from "@/components/ui/Button"
 import { useTranslations } from "next-intl"
-import { FormButtonsWrapper } from "@/app/[locale]/(main)/personal-account/create-tour/_components/FormButtons/FormButtonsWrapper"
+import { FormButtonsWrapper } from "@/app/[locale]/(main)/personal-account/(mutate-tour)/_components/FormButtons/FormButtonsWrapper"
 
 type FormButtonsProps = {
   isFirstStep: boolean
   isLastStep: boolean
+  isEdit: boolean
   onCancelClick(): void
   onBackClick(): void
   onNextClick(): void
@@ -15,6 +16,7 @@ type FormButtonsProps = {
 export default function FormButtons({
   isLastStep,
   isFirstStep,
+  isEdit,
   onBackClick,
   onPreviewClick,
   onCancelClick,
@@ -37,7 +39,7 @@ export default function FormButtons({
       {t("back")}
     </Button>
   )
-  const renderCreateButton = () => <Button type="submit">{t("create")}</Button>
+  const renderSubmitButton = () => <Button type="submit">{isEdit ? t("edit") : t("create")}</Button>
   const renderPreviewButton = () => (
     <Button type="button" onClick={onPreviewClick}>
       {t("preview")}
@@ -57,7 +59,7 @@ export default function FormButtons({
       <FormButtonsWrapper>
         {renderBackButton()}
         {renderPreviewButton()}
-        {renderCreateButton()}
+        {renderSubmitButton()}
       </FormButtonsWrapper>
     )
   }

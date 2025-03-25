@@ -1,13 +1,13 @@
 "use client"
 import { useTranslations } from "next-intl"
-import FormTitle from "@/app/[locale]/(main)/personal-account/create-tour/_components/FormTitle"
 import FormInput from "@/components/Form/FormInput"
 import { useFormContext } from "react-hook-form"
 import React, { useCallback, useEffect, useMemo } from "react"
-import { MainInformationFormType } from "@/app/[locale]/(main)/personal-account/create-tour/_components/MainInformationForm"
 import dayjs from "dayjs"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/Tabs/Tabs"
-import { DayProgramInputs } from "@/app/[locale]/(main)/personal-account/create-tour/_components/TourProgramForm/DayProgramInputs"
+import FormTitle from "@/app/[locale]/(main)/personal-account/(mutate-tour)/_components/FormTitle"
+import { DayProgramInputs } from "@/app/[locale]/(main)/personal-account/(mutate-tour)/_components/TourProgramForm/DayProgramInputs"
+import { MainInformationFormType } from "@/app/[locale]/(main)/personal-account/(mutate-tour)/_components/MainInformationForm"
 
 export function TourProgramForm() {
   const t = useTranslations("TourProgramForm")

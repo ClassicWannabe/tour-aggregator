@@ -17,7 +17,7 @@ export default function CustomBreadcrumb() {
   const pathname = usePathname()
   const t = useTranslations("Breadcrumb")
 
-  const pathSegments = pathname.split("/").filter(Boolean)
+  const pathSegments = pathname.split("/").filter((segment) => !!segment && t.has(segment))
 
   return (
     <Breadcrumb>

@@ -3,9 +3,9 @@ import FormCheckbox from "@/components/Form/FormCheckbox"
 import { useTranslations } from "next-intl"
 import FormDatePicker from "@/components/Form/FormDatePicker"
 import { useFormContext } from "react-hook-form"
-import { MainInformationFormType } from "@/app/[locale]/(main)/personal-account/create-tour/_components/MainInformationForm/schema"
 import dayjs from "dayjs"
 import { useEffect } from "react"
+import { MainInformationFormType } from "@/app/[locale]/(main)/personal-account/(mutate-tour)/_components/MainInformationForm/schema"
 
 export function RecurringTourInputs() {
   const t = useTranslations("MainInformationForm")

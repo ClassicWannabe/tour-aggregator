@@ -175,6 +175,7 @@
       "next": "Далее",
       "cancel": "Отмена",
       "create": "Создать тур",
+      "edit": "Обновить тур",
       "preview": "Предпросмотр"
     },
     "zod": {
@@ -248,10 +249,13 @@
   },
   "Breadcrumb": {
     "personal-account": "Личный кабинет",
-    "create-tour": "Создание тура"
+    "create-tour": "Создание тура",
+    "edit-tour": "Изменение тура"
   },
   "CreateTourPage": {
     "title": "Создание тура"
+  },"EditTourPage": {
+    "title": "Изменение тура"
   },
   "Filter": {
     "filterTitle": "Фильтр",

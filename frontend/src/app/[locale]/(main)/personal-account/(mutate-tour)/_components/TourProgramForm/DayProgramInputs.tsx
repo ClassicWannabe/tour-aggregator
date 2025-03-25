@@ -3,12 +3,12 @@ import { useTranslations } from "next-intl"
 import FormTextarea from "@/components/Form/FormTextarea"
 import { Separator } from "@/components/ui/Separator"
 import { Dot, Trash } from "lucide-react"
-import AddButton from "@/app/[locale]/(main)/personal-account/create-tour/_components/AddButton"
 import { useFieldArray, useFormContext } from "react-hook-form"
-import { tourProgramFormLimits } from "@/app/[locale]/(main)/personal-account/create-tour/_components/TourProgramForm/schema"
 import { FormField, FormMessage } from "@/components/ui/Form"
 import FormTimePicker from "@/components/Form/FormTimePicker"
 import React from "react"
+import { tourProgramFormLimits } from "@/app/[locale]/(main)/personal-account/(mutate-tour)/_components/TourProgramForm/schema"
+import AddButton from "@/app/[locale]/(main)/personal-account/(mutate-tour)/_components/AddButton"
 
 interface DayProgramInputsProps {
   dayIndex: number
@@ -43,12 +43,12 @@ export function DayProgramInputs({ dayIndex }: DayProgramInputsProps) {
             <>
               {fields.map((field, index) => {
                 return (
-                  <div key={field.id} className="flex flex-row gap-5 mb-8">
+                  <div key={field.id} className="mb-8 flex flex-row gap-5">
                     <div className="relative flex">
-                      <Dot className="absolute -top-5 -left-8 h-16 w-16 text-primaryGreen" />
-                      <Separator orientation="vertical" className="h-auto mt-4" decorative />
+                      <Dot className="absolute -left-8 -top-5 h-16 w-16 text-primaryGreen" />
+                      <Separator orientation="vertical" className="mt-4 h-auto" decorative />
                     </div>
-                    <div className="flex flex-col gap-2 w-[50%]">
+                    <div className="flex w-[50%] flex-col gap-2">
                       <div className="flex items-center justify-between">
                         <FormTimePicker
                           name={`${inputName}.${index}.time`}
@@ -62,7 +62,7 @@ export function DayProgramInputs({ dayIndex }: DayProgramInputsProps) {
                           }}
                         />
                         <Trash
-                          className="h-8 w-8 cursor-pointer border rounded-lg p-1.5"
+                          className="h-8 w-8 cursor-pointer rounded-lg border p-1.5"
                           onClick={() => handleRemoveClick(index)}
                         />
                       </div>

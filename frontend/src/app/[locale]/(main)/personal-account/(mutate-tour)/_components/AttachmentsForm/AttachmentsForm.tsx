@@ -1,16 +1,11 @@
 "use client"
 import { useTranslations } from "next-intl"
-import FormTitle from "@/app/[locale]/(main)/personal-account/create-tour/_components/FormTitle"
 import { Alert, AlertDescription } from "@/components/ui/Alert"
 import { AlertCircle, Plus } from "lucide-react"
 import FormInput from "@/components/Form/FormInput"
 import React, { ChangeEvent, useRef } from "react"
 import Button from "@/components/ui/Button"
 import { useFormContext } from "react-hook-form"
-import {
-  AttachmentsFormType,
-  imageMimeTypes,
-} from "@/app/[locale]/(main)/personal-account/create-tour/_components/AttachmentsForm/schema"
 import { uploadPhoto } from "@/actions/upload-photo"
 import {
   DndContext,
@@ -22,8 +17,13 @@ import {
   type DragEndEvent,
 } from "@dnd-kit/core"
 import { SortableContext, arrayMove } from "@dnd-kit/sortable"
-import OverlayImageAttachment from "@/app/[locale]/(main)/personal-account/create-tour/_components/AttachmentsForm/OverlayImageAttachment"
-import SortableImageAttachment from "@/app/[locale]/(main)/personal-account/create-tour/_components/AttachmentsForm/SortableImageAttachment"
+import {
+  AttachmentsFormType,
+  imageMimeTypes,
+} from "@/app/[locale]/(main)/personal-account/(mutate-tour)/_components/AttachmentsForm/schema"
+import FormTitle from "@/app/[locale]/(main)/personal-account/(mutate-tour)/_components/FormTitle"
+import SortableImageAttachment from "@/app/[locale]/(main)/personal-account/(mutate-tour)/_components/AttachmentsForm/SortableImageAttachment"
+import OverlayImageAttachment from "@/app/[locale]/(main)/personal-account/(mutate-tour)/_components/AttachmentsForm/OverlayImageAttachment"
 
 export function AttachmentsForm() {
   const t = useTranslations("AttachmentsForm")
@@ -87,7 +87,7 @@ export function AttachmentsForm() {
       <FormTitle title={t("title")} subtitle={t("subtitle")} />
       <Alert
         variant="info"
-        className="[&>svg]:unset [&>svg]:relative [&>svg+div]:translate-y-0 [&>svg~*]:pl-0 [&>svg]:left-0 [&>svg]:top-0 flex gap-2 my-10"
+        className="[&>svg]:unset my-10 flex gap-2 [&>svg+div]:translate-y-0 [&>svg]:relative [&>svg]:left-0 [&>svg]:top-0 [&>svg~*]:pl-0"
       >
         <AlertCircle className="h-5 w-5" />
         <AlertDescription>{t("infoAlert")}</AlertDescription>
@@ -106,7 +106,7 @@ export function AttachmentsForm() {
           multiple: true,
         }}
       />
-      <div className="flex flex-wrap gap-1.5 mt-8">
+      <div className="mt-8 flex flex-wrap gap-1.5">
         <DndContext sensors={sensors} onDragEnd={handleImageDragEnd}>
           <SortableContext items={images}>
             {images.length > 0 &&
@@ -130,10 +130,10 @@ export function AttachmentsForm() {
         <Button
           variant="dashed"
           type="button"
-          className="h-24 w-36 flex flex-col items-center justify-center bg-colorBgLayout border-gray-500 text-gray-500 text-sm px-1 gap-1"
+          className="flex h-24 w-36 flex-col items-center justify-center gap-1 border-gray-500 bg-colorBgLayout px-1 text-sm text-gray-500"
           onClick={handleAddImageClick}
         >
-          <Plus className="h-6 w-6 border-2 border-gray-500 rounded-sm" />
+          <Plus className="h-6 w-6 rounded-sm border-2 border-gray-500" />
           <span>{t("input.image.addButton")}</span>
         </Button>
       </div>

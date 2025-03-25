@@ -1,8 +1,8 @@
 "use client"
 import React from "react"
-import ImageAttachment from "@/app/[locale]/(main)/personal-account/create-tour/_components/AttachmentsForm/ImageAttachment"
 import { DragOverlay, useDndContext } from "@dnd-kit/core"
-import { AttachmentsFormType } from "@/app/[locale]/(main)/personal-account/create-tour/_components/AttachmentsForm/schema"
+import ImageAttachment from "@/app/[locale]/(main)/personal-account/(mutate-tour)/_components/AttachmentsForm/ImageAttachment"
+import { AttachmentsFormType } from "@/app/[locale]/(main)/personal-account/(mutate-tour)/_components/AttachmentsForm/schema"
 
 interface OverlayImageAttachmentProps {
   images: AttachmentsFormType["images"]
