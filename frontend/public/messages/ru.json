@@ -344,7 +344,12 @@
       "active": "Активный",
       "finished": "Завершенный"
     },
-    "noData": "Туры отсутствуют"
+    "noData": "Туры отсутствуют",
+    "deleteTour": {
+      "title": "Вы точно хотите удалить тур?",
+      "cancelButton": "Отмена",
+      "confirmDeleteButton": "Удалить безвозвратно"
+    }
   },
   "ProfileForm": {
     "title": "Профиль",
@@ -353,7 +358,12 @@
     "mainInformation": {
       "title": "Основная информация",
       "uploadPhotoButton": "Загрузить",
-      "deletePhotoButton": "Удалить"
+      "deletePhotoModal": {
+        "title": "Вы точно хотите удалить фото?",
+        "triggerButton": "Удалить",
+        "cancelButton": "Отмена",
+        "confirmDeleteButton": "Удалить безвозвратно"
+      }
     },
     "certificate": {
       "title": "Сертификаты"

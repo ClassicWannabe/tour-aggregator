@@ -3,7 +3,7 @@ import { Link } from "@/i18n/routing"
 import { cn } from "@/lib/utils/common"
 
 type Variants = "filled" | "outlined" | "text" | "dashed"
-type Colors = "primary" | "secondary"
+type Colors = "primary" | "secondary" | "destructive"
 type Sizes = "sm" | "md" | "lg"
 
 export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
@@ -24,6 +24,7 @@ export const variants: Record<Variants, string> = {
 export const colors: Record<Colors, string> = {
   primary: "bg-primaryGreen text-primaryWhite border-accentGreen",
   secondary: "bg-primaryWhite text-primaryBlack border-borderColorSecondary",
+  destructive: "bg-destructive text-primaryWhite border-destructive-foreground",
 }
 
 const sizes: Record<Sizes, string> = {
@@ -32,7 +33,7 @@ const sizes: Record<Sizes, string> = {
   lg: "px-5 py-3",
 }
 
-const BaseStyles = "hover:opacity-90 transition-opacity font-normal"
+const BaseStyles = "hover:opacity-90 transition-opacity font-normal disabled:pointer-events-none disabled:opacity-50"
 
 const Button: React.FC<ButtonProps> = ({
   children,

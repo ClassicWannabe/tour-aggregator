@@ -176,6 +176,8 @@ export class FileManagerService implements OnModuleInit {
       return this.extractKeyFromUrl(url);
     });
 
+    if (keys.length === 0) return;
+
     return this.storageService.deleteFiles(keys);
   }
 

@@ -35,6 +35,7 @@ export function RecurringTourInputs() {
             multiple: true,
             maxTagCount: "responsive",
             minDate: dayjs(dateRange.endDate),
+            maxDate: dayjs().add(90, "days"),
           }}
         />
       )}

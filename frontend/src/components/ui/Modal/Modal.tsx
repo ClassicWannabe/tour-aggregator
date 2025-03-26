@@ -1,6 +1,5 @@
 "use client"
 import React from "react"
-import useMediaQuery from "@/lib/hooks/useMediaQuery"
 import {
   Dialog,
   DialogContent,
@@ -8,17 +7,27 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
+  DialogClose,
 } from "@/components/ui/Dialog"
-import { Drawer, DrawerContent, DrawerHeader, DrawerTitle, DrawerTrigger } from "@/components/ui/Drawer/drawer"
+import {
+  Drawer,
+  DrawerContent,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+  DrawerClose,
+} from "@/components/ui/Drawer/drawer"
+import useMobileMediaQuery from "@/lib/hooks/useMobileMediaQuery"
 
 interface Props {
   children: React.ReactNode
   title?: string
   trigger: React.ReactNode
+  isOpen?: boolean
 }
 
 export const Modal: React.FC<Props> = ({ children, ...props }) => {
-  const isMobileViewport = useMediaQuery("(max-width: 768px)")
+  const isMobileViewport = useMobileMediaQuery()
   return isMobileViewport ? (
     <MobileBottomDrawer {...props}>{children}</MobileBottomDrawer>
   ) : (
@@ -26,9 +35,22 @@ export const Modal: React.FC<Props> = ({ children, ...props }) => {
   )
 }
 
-export const DesktopModal: React.FC<Props> = ({ children, trigger, title }) => {
+type ModalCloseProps = React.PropsWithChildren &
+  React.ComponentProps<typeof DrawerClose> &
+  React.ComponentProps<typeof DialogClose>
+
+export const ModalClose: React.FC<ModalCloseProps> = ({ children, ...props }) => {
+  const isMobileViewport = useMobileMediaQuery()
+  return isMobileViewport ? (
+    <DrawerClose {...props}>{children}</DrawerClose>
+  ) : (
+    <DialogClose {...props}>{children}</DialogClose>
+  )
+}
+
+export const DesktopModal: React.FC<Props> = ({ children, trigger, title, isOpen }) => {
   return (
-    <Dialog>
+    <Dialog open={isOpen}>
       <DialogTrigger asChild>{trigger}</DialogTrigger>
       <DialogContent>
         <DialogHeader>
@@ -41,9 +63,9 @@ export const DesktopModal: React.FC<Props> = ({ children, trigger, title }) => {
   )
 }
 
-export const MobileBottomDrawer: React.FC<Props> = ({ children, trigger, title }) => {
+export const MobileBottomDrawer: React.FC<Props> = ({ children, trigger, title, isOpen }) => {
   return (
-    <Drawer direction="bottom">
+    <Drawer direction="bottom" open={isOpen}>
       <DrawerTrigger asChild>{trigger}</DrawerTrigger>
       <DrawerContent>
         <DrawerHeader>

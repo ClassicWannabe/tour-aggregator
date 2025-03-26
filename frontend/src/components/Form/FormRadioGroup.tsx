@@ -8,9 +8,10 @@ interface FormRadioGroupProps {
   items: { label: string; value: string }[]
   label?: string
   containerProps?: ComponentProps<typeof FormItem>
+  valueResolver?: (value: any) => any
 }
 
-export default function FormRadioGroup({ name, label, containerProps, items }: FormRadioGroupProps) {
+export default function FormRadioGroup({ name, label, containerProps, items, valueResolver }: FormRadioGroupProps) {
   return (
     <FormField
       name={name}
@@ -19,7 +20,11 @@ export default function FormRadioGroup({ name, label, containerProps, items }: F
           <FormItem {...containerProps}>
             {label && <FormLabel>{label}</FormLabel>}
             <FormControl>
-              <RadioGroup onValueChange={field.onChange} defaultValue={field.value} className="flex flex-col space-y-2">
+              <RadioGroup
+                onValueChange={field.onChange}
+                defaultValue={valueResolver ? valueResolver(field.value) : field.value}
+                className="flex flex-col space-y-2"
+              >
                 {items.map(({ label, value }) => (
                   <FormItem key={value} className="flex items-center space-x-3 space-y-0">
                     <FormControl>

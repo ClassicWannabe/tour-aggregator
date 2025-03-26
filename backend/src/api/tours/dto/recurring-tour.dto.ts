@@ -3,7 +3,7 @@ import { ArrayMaxSize, ArrayUnique, IsISO8601 } from 'class-validator';
 import { DateTime } from 'luxon';
 import { IsDateBetween } from 'src/decorators/is-date-between/is-date-between';
 
-const MAX_RECURRENCE_DAY_ADDITION = 90;
+const MAX_RECURRENCE_DAY_OFFSET = 90;
 
 export class RecurringTourDto {
   @ApiProperty({
@@ -16,7 +16,7 @@ export class RecurringTourDto {
   @IsDateBetween(
     {
       min: () => DateTime.now(),
-      max: () => DateTime.now().plus({ day: MAX_RECURRENCE_DAY_ADDITION }),
+      max: () => DateTime.now().plus({ day: MAX_RECURRENCE_DAY_OFFSET }),
     },
     { each: true },
   )

@@ -1,6 +1,7 @@
 import {
   BadRequestException,
   Injectable,
+  Logger,
   NotFoundException,
 } from '@nestjs/common';
 import * as lodash from 'lodash';
@@ -24,6 +25,8 @@ import {
 
 @Injectable()
 export class ToursService {
+  private readonly logger = new Logger(ToursService.name);
+
   constructor(
     private readonly prismaService: PrismaService,
     private readonly fileManagerService: FileManagerService,
@@ -310,7 +313,7 @@ export class ToursService {
     try {
       return await this.prismaService.tour.findFirstOrThrow({
         include: {
-          photos: true,
+          photos: { orderBy: { order: 'asc' } },
           location: true,
           dates: true,
         },
@@ -386,12 +389,12 @@ export class ToursService {
       where: { id, supplierId },
       select: {
         id: true,
-        dates: { select: { startDate: true, endDate: true }, take: 1 },
+        dates: { select: { startDate: true, endDate: true, id: true } },
         photos: true,
       },
     });
-    const [existingTourDate] = existingTour?.dates ?? [];
-    if (!existingTour || !existingTourDate) {
+    const existingTourDates = existingTour?.dates ?? [];
+    if (!existingTour || existingTourDates.length === 0) {
       throw new NotFoundException(`Tour not found by ID: ${id}`);
     }
     const {
@@ -409,34 +412,52 @@ export class ToursService {
     const recurrenceDates = rawRecurrenceDates.map((date) => new Date(date));
     const tourDates = this.generateTourDatesFromRecurrence(
       {
-        startDate: existingTourDate.startDate,
-        endDate: existingTourDate.endDate,
+        startDate: existingTourDates[0]!.startDate,
+        endDate: existingTourDates[0]!.endDate,
       },
       recurrenceDates,
     );
+    const tourDatesToCreate = tourDates.filter(
+      (tourDate) =>
+        !existingTourDates.every(
+          (existingTourDate) =>
+            existingTourDate.startDate === tourDate.startDate,
+        ),
+    );
+    const tourDatesToDelete = existingTourDates.filter(
+      (existingTourDate) =>
+        !tourDates.every(
+          (tourDate) => existingTourDate.startDate === tourDate.startDate,
+        ),
+    );
+    const tourDateIdsToDelete = tourDatesToDelete.map(
+      (tourDate) => tourDate.id,
+    );
 
     const updatedTour = await this.prismaService.$transaction(async (tx) => {
-      const photos = await tx.tourPhoto.findMany({
-        select: { id: true },
-        where: {
-          id: { in: photoIds },
-          supplierId,
-          OR: [{ tourId: null }, { tourId: existingTour.id }],
-        },
-      });
-      if (photos.length !== photoIds.length) {
-        throw new BadRequestException('Wrong user photo input');
+      if (photoIds.length > 0) {
+        const photos = await tx.tourPhoto.findMany({
+          select: { id: true },
+          where: {
+            id: { in: photoIds },
+            supplierId,
+            OR: [{ tourId: null }, { tourId: existingTour.id }],
+          },
+        });
+        if (photos.length !== photoIds.length) {
+          throw new BadRequestException('Wrong user photo input');
+        }
+        await Promise.all(
+          photoIds.map((photoId, idx) =>
+            tx.tourPhoto.update({
+              where: { id: photoId },
+              data: {
+                order: idx + 1,
+              },
+            }),
+          ),
+        );
       }
-      await Promise.all(
-        photoIds.map((photoId, idx) =>
-          tx.tourPhoto.update({
-            where: { id: photoId },
-            data: {
-              order: idx + 1,
-            },
-          }),
-        ),
-      );
 
       if (photoToDelete.length > 0) {
         const photoUrlsToDelete = this.extractPhotoUrls(photoToDelete);
@@ -446,6 +467,10 @@ export class ToursService {
         });
       }
 
+      await tx.tourDate.deleteMany({
+        where: { id: { in: tourDateIdsToDelete } },
+      });
+
       return tx.tour.update({
         where: { id: existingTour.id },
         data: {
@@ -453,7 +478,7 @@ export class ToursService {
             connect: photoIds.map((photoId) => ({ id: photoId })),
           },
           dates: {
-            createMany: { data: tourDates },
+            createMany: { data: tourDatesToCreate },
           },
           ...tourInfo,
         },
@@ -493,6 +518,7 @@ export class ToursService {
 
       return await this.prismaService.tour.delete({ where: { id } });
     } catch (e) {
+      this.logger.error(e);
       throw new NotFoundException(`Tour not found by ID: ${id}`);
     }
   }

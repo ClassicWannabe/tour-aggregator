@@ -27,7 +27,7 @@ type CreateTourFormProps = {
   }
 }
 
-export function CreateTourForm({ locations, editDetails }: CreateTourFormProps) {
+export function MutateTourForm({ locations, editDetails }: CreateTourFormProps) {
   const t = useTranslations("CreateTourForm.zod")
   const router = useRouter()
   const { formSchema, mainInformationFormSchema, amenitiesFormSchema, tourProgramFormSchema, attachmentsFormSchema } =
@@ -56,6 +56,7 @@ export function CreateTourForm({ locations, editDetails }: CreateTourFormProps) 
         isRecurringTour: false,
         recurringDates: [],
       },
+      isEditForm: false,
       ...editDetails?.initialForm,
     },
     mode: "all",

@@ -1,5 +1,5 @@
 import { Tour } from "@/lib/interfaces/tours"
-import { FormType } from "@/app/[locale]/(main)/personal-account/(mutate-tour)/_components/CreateTourForm/schema"
+import { FormType } from "@/app/[locale]/(main)/personal-account/(mutate-tour)/_components/MutateTourForm/schema"
 
 export const getTourFormDefaultValues = (tour: Tour): FormType => {
   const program: FormType["tourProgram"] = tour.program.map((dayProgram) =>
@@ -36,5 +36,6 @@ export const getTourFormDefaultValues = (tour: Tour): FormType => {
       isRecurringTour: recurringDates.length > 0,
       recurringDates: recurringDates,
     },
+    isEditForm: true,
   }
 }

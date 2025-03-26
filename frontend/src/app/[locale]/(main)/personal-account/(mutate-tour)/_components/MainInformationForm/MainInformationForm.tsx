@@ -14,6 +14,7 @@ import { DEFAULT_DATETIME_FORMAT } from "@/lib/consts/dayjs"
 import FormTitle from "../FormTitle"
 import { mainInformationFormLimits } from "@/app/[locale]/(main)/personal-account/(mutate-tour)/_components/MainInformationForm/schema"
 import { RecurringTourInputs } from "@/app/[locale]/(main)/personal-account/(mutate-tour)/_components/MainInformationForm/RecurringTourInputs"
+import { FormType } from "@/app/[locale]/(main)/personal-account/(mutate-tour)/_components/MutateTourForm/schema"
 
 type MainInformationFormProps = {
   locations: Location[]
@@ -23,7 +24,7 @@ export function MainInformationForm({ locations }: MainInformationFormProps) {
   const t = useTranslations("MainInformationForm")
   const tShared = useTranslations("Shared")
   const isTourFree: boolean = useWatch({ name: "priceInfo.isTourFree" })
-  const form = useFormContext()
+  const form = useFormContext<FormType>()
   const locationOptions = useMemo(() => {
     return locations.map(({ id, name }) => ({ value: id, text: tShared(`location.${name}`) }))
   }, [locations, tShared])
@@ -38,7 +39,7 @@ export function MainInformationForm({ locations }: MainInformationFormProps) {
     }
 
     if (isTourFree) {
-      form.setValue("priceInfo.pricePerPerson", "")
+      form.setValue("priceInfo.pricePerPerson", 0)
     }
   }, [form.trigger, form.setValue, form.formState.touchedFields, isTourFree])
 
@@ -108,7 +109,9 @@ export function MainInformationForm({ locations }: MainInformationFormProps) {
           datePickerProps={{
             showTime: { minuteStep: 5 },
             minDate: dayjs(),
+            maxDate: dayjs().add(90, "days"),
             format: DEFAULT_DATETIME_FORMAT,
+            disabled: form.getValues("isEditForm"),
           }}
         />
 

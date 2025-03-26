@@ -11,7 +11,13 @@ export const getFormSchema = (t: Translate) => {
   const tourProgramFormSchema = getTourProgramFormSchema(t)
   const attachmentsFormSchema = getAttachmentsFormSchema(t)
 
-  return mainInformationFormSchema.merge(amenitiesFormSchema).merge(tourProgramFormSchema).merge(attachmentsFormSchema)
+  const baseSchema = z.object({ isEditForm: z.boolean() })
+
+  return baseSchema
+    .merge(mainInformationFormSchema)
+    .merge(amenitiesFormSchema)
+    .merge(tourProgramFormSchema)
+    .merge(attachmentsFormSchema)
 }
 
 export type FormType = z.infer<ReturnType<typeof getFormSchema>>
