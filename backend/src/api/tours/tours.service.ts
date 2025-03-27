@@ -279,13 +279,30 @@ export class ToursService {
   ): Prisma.TourWhereInput | null {
     switch (tourStatus) {
       case TourStatus.ACTIVE: {
-        return { dates: { some: { startDate: { gt: new Date() } } } };
+        return {
+          dates: { some: this.getTourDateStatusWhereClause(tourStatus) },
+        };
       }
       case TourStatus.FINISHED: {
-        return { dates: { every: { startDate: { lt: new Date() } } } };
+        return {
+          dates: { every: this.getTourDateStatusWhereClause(tourStatus) },
+        };
       }
     }
     return null;
+  }
+
+  private getTourDateStatusWhereClause(
+    tourStatus: TourStatus,
+  ): Prisma.TourDateWhereInput {
+    switch (tourStatus) {
+      case TourStatus.ACTIVE: {
+        return { startDate: { gt: new Date() } };
+      }
+      case TourStatus.FINISHED: {
+        return { startDate: { lt: new Date() } };
+      }
+    }
   }
 
   async getTourFilters() {
@@ -489,22 +506,36 @@ export class ToursService {
     return updatedTour;
   }
 
-  getSupplierTourReservations(
-    { limit, offset }: FindAllTourReservationsDto,
+  async getSupplierTourReservations(
+    { limit, offset, status }: FindAllTourReservationsDto,
     supplierId: string,
   ) {
-    return this.prismaService.tourReservation.findMany({
-      where: { tourDate: { tour: { supplierId } } },
-      select: {
-        id: true,
-        name: true,
-        phoneNumber: true,
-        email: true,
-        tourDate: { select: { startDate: true, endDate: true, tourId: true } },
-      },
-      take: limit,
-      skip: offset,
-    });
+    const tourDateStatusWhereClause = status
+      ? this.getTourDateStatusWhereClause(status)
+      : null;
+    const whereClause: Prisma.TourReservationWhereInput = {
+      tourDate: { tour: { supplierId }, ...tourDateStatusWhereClause },
+    };
+    const [rows, count] = await Promise.all([
+      this.prismaService.tourReservation.findMany({
+        where: whereClause,
+        select: {
+          id: true,
+          name: true,
+          phoneNumber: true,
+          email: true,
+          tourDate: {
+            select: { startDate: true, endDate: true, tourId: true },
+          },
+        },
+        orderBy: { createdAt: 'desc' },
+        take: limit,
+        skip: offset,
+      }),
+      this.prismaService.tourReservation.count({ where: whereClause }),
+    ]);
+
+    return { rows, pagination: { count, limit, offset } };
   }
 
   async deleteTour(id: string, supplierId: string) {
