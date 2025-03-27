@@ -6,9 +6,10 @@ import { SearchParams } from "next/dist/server/request/search-params"
 import getTourDisplayDate from "@/lib/utils/get-tour-display-date"
 import dayjs from "dayjs"
 import { DEFAULT_DATE_FORMAT } from "@/lib/consts/dayjs"
-import TablePagination from "@/app/[locale]/(main)/personal-account/_components/TourTable/TablePagination"
-import TourStatusBadge from "@/app/[locale]/(main)/personal-account/_components/TourTable/TourStatusBadge"
-import ActionButtons from "@/app/[locale]/(main)/personal-account/_components/TourTable/ActionButtons"
+import TourStatusBadge from "@/app/[locale]/(main)/personal-account/_components/Table/TourStatusBadge"
+import ActionButtons from "@/app/[locale]/(main)/personal-account/_components/Table/TourTable/ActionButtons"
+import TablePagination from "@/app/[locale]/(main)/personal-account/_components/Table/TablePagination"
+import { MY_TOURS_SEARCH_PARAMS } from "@/lib/consts/personal-account"
 
 type TourTableProps = {
   searchParams: SearchParams
@@ -59,14 +60,14 @@ export async function TourTable({ searchParams }: TourTableProps) {
             })
           ) : (
             <TableRow>
-              <TableCell colSpan={4} className="text-center text-gray-400 text-lg py-4">
+              <TableCell colSpan={4} className="py-4 text-center text-lg text-gray-400">
                 {t("noData")}
               </TableCell>
             </TableRow>
           )}
         </TableBody>
       </Table>
-      <TablePagination pagination={pagination} searchParams={searchParams} />
+      <TablePagination pagination={pagination} searchParams={searchParams} pageKey={MY_TOURS_SEARCH_PARAMS.page} />
     </>
   )
 }

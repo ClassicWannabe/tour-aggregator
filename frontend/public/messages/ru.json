@@ -254,7 +254,8 @@
   },
   "CreateTourPage": {
     "title": "Создание тура"
-  },"EditTourPage": {
+  },
+  "EditTourPage": {
     "title": "Изменение тура"
   },
   "Filter": {
@@ -333,6 +334,14 @@
       "finishedTours": "Завершенные"
     }
   },
+  "MyTourReservations": {
+    "title": "Мои заявки",
+    "tabs": {
+      "allReservations": "Все заявки",
+      "activeReservations": "Активные",
+      "finishedReservations": "Завершенные"
+    }
+  },
   "TourTable": {
     "headers": {
       "name": "Название тура",
@@ -350,6 +359,16 @@
       "cancelButton": "Отмена",
       "confirmDeleteButton": "Удалить безвозвратно"
     }
+  },
+  "TourReservationTable": {
+    "headers": {
+      "name": "Имя клиента",
+      "date": "Дата тура",
+      "email": "Электронная почта",
+      "status": "Статус тура",
+      "phoneNumber": "Телефон клиента"
+    },
+    "noData": "Заявки отсутствуют"
   },
   "ProfileForm": {
     "title": "Профиль",

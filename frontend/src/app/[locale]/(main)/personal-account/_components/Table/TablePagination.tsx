@@ -15,11 +15,12 @@ import getQueryFromSearchParams from "@/lib/utils/get-query-from-search-params"
 type TablePaginationProps = {
   pagination: TPagination
   searchParams: SearchParams
+  pageKey: string
 }
 
 const ELLIPSIS_PLACE = -1
 
-export default async function TablePagination({ pagination, searchParams }: TablePaginationProps) {
+export default async function TablePagination({ pagination, searchParams, pageKey }: TablePaginationProps) {
   if (pagination.count === 0) {
     return null
   }
@@ -33,7 +34,7 @@ export default async function TablePagination({ pagination, searchParams }: Tabl
     if (isFirstPage) return ""
     const stringParams = getQueryFromSearchParams(searchParams)
     const currentParams = new URLSearchParams(stringParams)
-    currentParams.set("page", `${currentPage - 1}`)
+    currentParams.set(pageKey, `${currentPage - 1}`)
 
     return `?${currentParams.toString()}`
   }
@@ -42,7 +43,7 @@ export default async function TablePagination({ pagination, searchParams }: Tabl
     if (isLastPage) return ""
     const stringParams = getQueryFromSearchParams(searchParams)
     const currentParams = new URLSearchParams(stringParams)
-    currentParams.set("page", `${currentPage + 1}`)
+    currentParams.set(pageKey, `${currentPage + 1}`)
 
     return `?${currentParams.toString()}`
   }
@@ -50,7 +51,7 @@ export default async function TablePagination({ pagination, searchParams }: Tabl
   const getNewPageHref = (page: number) => {
     const stringParams = getQueryFromSearchParams(searchParams)
     const currentParams = new URLSearchParams(stringParams)
-    currentParams.set("page", page.toString())
+    currentParams.set(pageKey, page.toString())
 
     return `?${currentParams.toString()}`
   }

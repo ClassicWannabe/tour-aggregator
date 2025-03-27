@@ -516,7 +516,7 @@ export class ToursService {
     const whereClause: Prisma.TourReservationWhereInput = {
       tourDate: { tour: { supplierId }, ...tourDateStatusWhereClause },
     };
-    const [rows, count] = await Promise.all([
+    const [reservations, count] = await Promise.all([
       this.prismaService.tourReservation.findMany({
         where: whereClause,
         select: {
@@ -534,6 +534,14 @@ export class ToursService {
       }),
       this.prismaService.tourReservation.count({ where: whereClause }),
     ]);
+
+    const rows = reservations.map((reservation) => {
+      const tourStatus =
+        reservation.tourDate.startDate > new Date()
+          ? TourStatus.ACTIVE
+          : TourStatus.FINISHED;
+      return { ...reservation, status: tourStatus };
+    });
 
     return { rows, pagination: { count, limit, offset } };
   }

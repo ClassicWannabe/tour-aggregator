@@ -9,6 +9,7 @@ export const API_PATHS = {
   supplierMe: "/suppliers/me",
   supplierTourCounts: "/tours/supplier-tours/counts",
   supplierTours: "/tours/supplier-tours",
+  supplierTourReservations: "/tours/reservations",
   uploadSupplierProfilePhoto: "/suppliers/profile-photo",
   deleteSupplierProfilePhoto: (photoId: string) => `/suppliers/profile-photo/${photoId}` as const,
   updateSupplierProfileInfo: "/suppliers/profile",
