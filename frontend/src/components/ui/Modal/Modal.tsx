@@ -28,7 +28,7 @@ export const Modal: React.FC<Props> = ({ children, ...props }) => {
 
 export const DesktopModal: React.FC<Props> = ({ children, trigger, title }) => {
   return (
-    <Dialog>
+    <Dialog >
       <DialogTrigger asChild>{trigger}</DialogTrigger>
       <DialogContent>
         <DialogHeader>

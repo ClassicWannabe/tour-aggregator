@@ -5,8 +5,9 @@ import { useTranslations } from "next-intl"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/Tabs/Tabs"
 import CustomInput from "@/components/CustomInput/CustomInput"
 import CustomCheckbox from "@/components/CustomCheckbox"
-import { signUp } from "./actions"
 import useFormErrorsTranslation from "@/lib/hooks/useFormErrorsTranslation"
+import { signUp } from "@/actions/sign-up"
+import FormErrorText from "@/components/ui/FormErrorText";
 
 const SignUpInitialState = {
   payload: {
@@ -29,8 +30,8 @@ export default function SingUpForm() {
   const getErrorsTranslation = useFormErrorsTranslation()
 
   return (
-    <form action={actionState} className="flex-col flex gap-3">
-      <Tabs defaultValue="tourAgency" className="w-full flex flex-col gap-3">
+    <form action={actionState} className="flex flex-col gap-3">
+      <Tabs defaultValue="tourAgency" className="flex w-full flex-col gap-3">
         <TabsList className="w-full">
           <TabsTrigger value="tourAgency">{t("Shared.tourAgency")}</TabsTrigger>
           <TabsTrigger value="tourGuide">{t("Shared.tourGuide")}</TabsTrigger>
@@ -55,7 +56,7 @@ export default function SingUpForm() {
           errorText={getErrorsTranslation(state?.errors?.phone)}
           required
         />
-        <TabsContent value="tourAgency" className="flex flex-col gap-3 mt-0">
+        <TabsContent value="tourAgency" className="mt-0 flex flex-col gap-3">
           <CustomInput
             id="company-name"
             label={t("SignUpPage.companyName")}
@@ -77,7 +78,7 @@ export default function SingUpForm() {
             required
           />
         </TabsContent>
-        <TabsContent value="tourGuide" className="flex flex-col gap-3 mt-0">
+        <TabsContent value="tourGuide" className="mt-0 flex flex-col gap-3">
           <CustomInput
             id="guide-name"
             label={t("SignUpPage.name")}
@@ -152,7 +153,8 @@ export default function SingUpForm() {
           defaultChecked={state?.payload.agreeToReceiveUpdates === "on"}
         />
       </Tabs>
-      <Button className="w-full text-body1 text-primaryWhite" type="submit" disabled={pending}>
+      {state?.errors?.common && <FormErrorText text={getErrorsTranslation(state.errors.common)} />}
+      <Button className="text-body1 w-full text-primaryWhite" type="submit" disabled={pending}>
         {t("SignUpPage.createAccount")}
       </Button>
     </form>

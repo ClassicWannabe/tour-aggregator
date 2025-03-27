@@ -2,7 +2,7 @@
 import React, { useActionState } from "react"
 import Button from "@/components/ui/Button"
 import CustomInput from "@/components/CustomInput/CustomInput"
-import { signIn } from "./actions"
+import { signIn } from "../../../../../../actions/sign-in"
 import useFormErrorsTranslation from "@/lib/hooks/useFormErrorsTranslation"
 import { useTranslations } from "next-intl"
 import FormErrorText from "@/components/ui/FormErrorText"

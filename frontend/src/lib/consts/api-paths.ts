@@ -4,6 +4,7 @@ export const API_PATHS = {
   tours: "/tours",
   tourById: (tourId: string) => `/tours/${tourId}`,
   signIn: "/suppliers/sign-in",
+  signUp: "/suppliers/sign-up",
   filters: "/tours/filters",
   supplierMe: "/suppliers/me",
   supplierTourCounts: "/tours/supplier-tours/counts",
