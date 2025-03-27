@@ -11,7 +11,10 @@ import { SignUpSupplierDto } from './dto/sign-up-supplier.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { JwtService } from '@nestjs/jwt';
 import { SupplierJwtPayload } from './types';
-import { SUPPLIER_PASSWORD_SALT_ROUNDS } from './constants';
+import {
+  SUPPLIER_JWT_EXPIRES_IN_SECONDS,
+  SUPPLIER_PASSWORD_SALT_ROUNDS,
+} from './constants';
 import { SignInSupplierDto } from './dto/sign-in-supplier.dto';
 import { SupplierContactType, SupplierType } from '@prisma/client';
 import { VerifyEmailDto } from './dto/verify-email.dto';
@@ -159,7 +162,7 @@ export class SuppliersService {
 
   async signIn(
     signInSupplierDto: SignInSupplierDto,
-  ): Promise<{ access_token: string }> {
+  ): Promise<{ accessToken: string; exp: number }> {
     const supplier = await this.prismaService.supplier.findFirst({
       select: { id: true, email: true, password: true },
       where: { email: signInSupplierDto.email },
@@ -182,8 +185,12 @@ export class SuppliersService {
       sub: supplier.id,
       email: signInSupplierDto.email,
     };
+    const accessToken = await this.jwtService.signAsync(payload);
+    const tokenInfo = this.jwtService.decode(accessToken);
+
     return {
-      access_token: await this.jwtService.signAsync(payload),
+      accessToken,
+      exp: tokenInfo.exp * 1000,
     };
   }
 
