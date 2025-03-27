@@ -1,8 +1,11 @@
-import { ApiPropertyOptional } from '@nestjs/swagger';
+import { ApiPropertyOptional, PickType } from '@nestjs/swagger';
 import { IsInt, Max, Min } from 'class-validator';
 import { Type } from 'class-transformer';
+import { FindSupplierToursDto } from 'src/api/tours/dto/find-supplier-tours.dto';
 
-export class FindAllTourReservationsDto {
+export class FindAllTourReservationsDto extends PickType(FindSupplierToursDto, [
+  'status',
+]) {
   @ApiPropertyOptional({
     description: 'Maximum number of tours to get',
     example: 10,

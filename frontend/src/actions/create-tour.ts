@@ -6,7 +6,7 @@ type TourProgramItem = {
   description: string
 }
 
-type CreateTourData = {
+export type CreateTourData = {
   title: string
   thesis: string
   description: string

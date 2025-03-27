@@ -52,8 +52,8 @@ export async function signIn(prevState: any, formData: FormData) {
     }
   }
 
-  const { access_token } = await signInReq.json()
-  await setSession(access_token)
+  const { accessToken, exp } = await signInReq.json()
+  await setSession(accessToken, exp)
   const locale = await getLocale()
   redirect({ href: RouteNames.Home, locale })
 

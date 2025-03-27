@@ -6,4 +6,4 @@ export const ALLOWED_PHOTO_MIME_TYPES = [
   'image/webp',
 ];
 
-export const SEARCH_SIMILARITY_MIN_THRESHOLD = 0.3;
+export const SEARCH_SIMILARITY_MIN_THRESHOLD = 0.1;

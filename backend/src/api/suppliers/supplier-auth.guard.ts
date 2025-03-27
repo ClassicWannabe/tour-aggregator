@@ -5,12 +5,16 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { SUPPLIER_JWT_REQUEST_KEY, SUPPLIER_JWT_SECRET } from './constants';
+import { SUPPLIER_JWT_REQUEST_KEY } from './constants';
 import { Request } from 'express';
+import { CustomConfigService } from 'src/config/custom-config.service';
 
 @Injectable()
 export class SupplierAuthGuard implements CanActivate {
-  constructor(private jwtService: JwtService) {}
+  constructor(
+    private readonly jwtService: JwtService,
+    private readonly configService: CustomConfigService,
+  ) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const request = context.switchToHttp().getRequest();
@@ -22,7 +26,7 @@ export class SupplierAuthGuard implements CanActivate {
     }
     try {
       const payload = await this.jwtService.verifyAsync(token, {
-        secret: SUPPLIER_JWT_SECRET,
+        secret: this.configService.getOrFail('SUPPLIER_JWT_SECRET'),
       });
 
       request[SUPPLIER_JWT_REQUEST_KEY] = payload;

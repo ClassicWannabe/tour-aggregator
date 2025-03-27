@@ -7,8 +7,10 @@ type SupplierBase = {
   id: string
   email: string
   phone: string
+  socialLinks: string[]
   aboutMe: string
   photo?: {
+    id: string
     compressedMediumStorageLink: string
     compressedPreviewStorageLink: string
   }
@@ -31,3 +33,10 @@ export interface IndividualSupplier extends SupplierBase {
 }
 
 export type Supplier = CompanySupplier | IndividualSupplier
+
+export type SupplierProfilePhoto = {
+  id: string
+  originalStorageLink: string
+  compressedMediumStorageLink: string
+  compressedPreviewStorageLink: string
+}

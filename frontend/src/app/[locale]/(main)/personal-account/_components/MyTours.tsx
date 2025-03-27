@@ -8,6 +8,8 @@ import { TourTable } from "@/app/[locale]/(main)/personal-account/_components/To
 import { SearchParams } from "next/dist/server/request/search-params"
 import MyToursTabsTriggers from "@/app/[locale]/(main)/personal-account/_components/MyToursTabsTriggers"
 import { TourStatus } from "@/lib/interfaces/tours"
+import { Link } from "@/i18n/routing"
+import RouteNames from "@/lib/consts/route-names"
 
 type MyToursProps = {
   searchParams: SearchParams
@@ -20,14 +22,16 @@ export default async function MyTours({ searchParams }: MyToursProps) {
     <>
       <div className="flex flex-row justify-between items-center">
         <Typography variant="headline4">{t("title")}</Typography>
-        <Button className="flex flex-row justify-evenly">
-          <Plus />
-          <span>{t("createTour")}</span>
-        </Button>
+        <Link href={RouteNames.CreateTour}>
+          <Button className="flex flex-row justify-evenly">
+            <Plus />
+            <span>{t("createTour")}</span>
+          </Button>
+        </Link>
       </div>
 
-      <Tabs defaultValue={(status as string) ?? "allTours"} className="w-full flex flex-col gap-3">
-        <MyToursTabsTriggers />
+      <Tabs defaultValue="allTours" value={(status as string) ?? "allTours"} className="w-full flex flex-col gap-3">
+        <MyToursTabsTriggers searchParams={searchParams} />
         <TabsContent value="allTours" className="flex flex-col gap-3 mt-0">
           <TourTable searchParams={searchParams} />
         </TabsContent>

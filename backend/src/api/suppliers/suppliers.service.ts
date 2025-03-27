@@ -11,7 +11,10 @@ import { SignUpSupplierDto } from './dto/sign-up-supplier.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { JwtService } from '@nestjs/jwt';
 import { SupplierJwtPayload } from './types';
-import { SUPPLIER_PASSWORD_SALT_ROUNDS } from './constants';
+import {
+  SUPPLIER_JWT_EXPIRES_IN_SECONDS,
+  SUPPLIER_PASSWORD_SALT_ROUNDS,
+} from './constants';
 import { SignInSupplierDto } from './dto/sign-in-supplier.dto';
 import { SupplierContactType, SupplierType } from '@prisma/client';
 import { VerifyEmailDto } from './dto/verify-email.dto';
@@ -19,6 +22,7 @@ import { CustomConfigService } from 'src/config/custom-config.service';
 import { MailerService } from 'src/mailer/mailer.service';
 import { FileManagerService } from '../file-manager/file-manager.service';
 import { MemoryStoredFile } from 'nestjs-form-data';
+import { UpdateProfileDto } from 'src/api/suppliers/dto/update-profile.dto';
 
 @Injectable()
 export class SuppliersService {
@@ -158,7 +162,7 @@ export class SuppliersService {
 
   async signIn(
     signInSupplierDto: SignInSupplierDto,
-  ): Promise<{ access_token: string }> {
+  ): Promise<{ accessToken: string; exp: number }> {
     const supplier = await this.prismaService.supplier.findFirst({
       select: { id: true, email: true, password: true },
       where: { email: signInSupplierDto.email },
@@ -181,8 +185,12 @@ export class SuppliersService {
       sub: supplier.id,
       email: signInSupplierDto.email,
     };
+    const accessToken = await this.jwtService.signAsync(payload);
+    const tokenInfo = this.jwtService.decode(accessToken);
+
     return {
-      access_token: await this.jwtService.signAsync(payload),
+      accessToken,
+      exp: tokenInfo.exp * 1000,
     };
   }
 
@@ -236,6 +244,64 @@ export class SuppliersService {
       data: {
         contactVerifiedAt: new Date(),
         supplier: { update: { email: verifyEmailDto.email } },
+      },
+    });
+  }
+
+  async updateProfile(params: UpdateProfileDto, supplierId: string) {
+    const supplier = await this.prismaService.supplier.findUnique({
+      where: { id: supplierId },
+    });
+    if (!supplier) {
+      throw new NotFoundException('Supplier not found');
+    }
+    if (params.individualSupplier && params.companySupplier) {
+      throw new BadRequestException(
+        'Provide either company or individual supplier payload',
+      );
+    }
+    if (
+      params.individualSupplier &&
+      supplier.type === SupplierType.COMPANY_SUPPLIER
+    ) {
+      throw new BadRequestException('Provide company supplier payload instead');
+    }
+    if (
+      params.companySupplier &&
+      supplier.type === SupplierType.INDIVIDUAL_SUPPLIER
+    ) {
+      throw new BadRequestException(
+        'Provide individual supplier payload instead',
+      );
+    }
+    if (params.email && params.email !== supplier.email) {
+      const conflictingSupplier = await this.prismaService.supplier.findFirst({
+        where: { email: params.email },
+        select: { id: true },
+      });
+      if (conflictingSupplier) {
+        throw new BadRequestException('Email is already taken');
+      }
+      await this.sendEmailVerification(params.email, supplierId);
+    }
+    if (params.phone && params.phone !== supplier.phone) {
+      const conflictingSupplier = await this.prismaService.supplier.findFirst({
+        where: { phone: params.phone },
+        select: { id: true },
+      });
+      if (conflictingSupplier) {
+        throw new BadRequestException('Phone is already taken');
+      }
+    }
+
+    return this.prismaService.supplier.update({
+      where: { id: supplierId },
+      data: {
+        phone: params.phone,
+        aboutMe: params.aboutMe,
+        socialLinks: params.socialLinks,
+        companySupplier: { update: params.companySupplier },
+        individualSupplier: { update: params.individualSupplier },
       },
     });
   }

@@ -15,19 +15,19 @@ export interface Tour {
   title: string
   thesis: string
   description: string
-  transportDescription: string
+  isTransportIncluded: boolean
   pricePerPerson: number
   peopleCount: number
-  contacts: string[]
-  highlights: string[]
+  locationId: string
   inclusions: string[]
   exclusions: string[]
-  dates: { startDate: string; endDate: string; id: string; isFull: boolean }[]
+  dates: { startDate: string; endDate: string; id: string }[]
   createdAt: string
   updatedAt: string
   supplierId: string
   photos: TourPhoto[]
   program: ITourProgram
+  meetingPlace: string
 }
 
 export type ITourProgram = TourProgramItem[][]

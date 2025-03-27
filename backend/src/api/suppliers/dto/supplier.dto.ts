@@ -32,7 +32,7 @@ export class SupplierDto {
   })
   @IsOptional()
   @IsString()
-  @Length(3, 100)
+  @Length(0, 100)
   aboutMe?: string;
 
   @ApiProperty({

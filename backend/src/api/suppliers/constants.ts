@@ -1,6 +1,6 @@
-export const SUPPLIER_JWT_SECRET = process.env.SUPPLIER_JWT_SECRET;
+const ONE_WEEK_IN_SECONDS = 7 * 24 * 60 * 60;
 
-export const SUPPLIER_JWT_EXPIRES_IN = '7d';
+export const SUPPLIER_JWT_EXPIRES_IN_SECONDS = ONE_WEEK_IN_SECONDS;
 
 export const SUPPLIER_JWT_REQUEST_KEY = 'supplier';
 

@@ -38,24 +38,32 @@ export async function TourTable({ searchParams }: TourTableProps) {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {rows.map((tour) => {
-            const displayDate = getTourDisplayDate(tour)
-            return (
-              <TableRow key={tour.id}>
-                <TableCell className="font-medium">{tour.title}</TableCell>
-                <TableCell>
-                  {dayjs(displayDate.startDate).format(DEFAULT_DATE_FORMAT)} -{" "}
-                  {dayjs(displayDate.endDate).format(DEFAULT_DATE_FORMAT)}
-                </TableCell>
-                <TableCell>
-                  <TourStatusBadge tourStatus={tour.status} />
-                </TableCell>
-                <TableCell>
-                  <ActionButtons tourId={tour.id} />
-                </TableCell>
-              </TableRow>
-            )
-          })}
+          {rows.length > 0 ? (
+            rows.map((tour) => {
+              const displayDate = getTourDisplayDate(tour)
+              return (
+                <TableRow key={tour.id}>
+                  <TableCell className="font-medium">{tour.title}</TableCell>
+                  <TableCell>
+                    {dayjs(displayDate.startDate).format(DEFAULT_DATE_FORMAT)} -{" "}
+                    {dayjs(displayDate.endDate).format(DEFAULT_DATE_FORMAT)}
+                  </TableCell>
+                  <TableCell>
+                    <TourStatusBadge tourStatus={tour.status} />
+                  </TableCell>
+                  <TableCell>
+                    <ActionButtons tourId={tour.id} />
+                  </TableCell>
+                </TableRow>
+              )
+            })
+          ) : (
+            <TableRow>
+              <TableCell colSpan={4} className="text-center text-gray-400 text-lg py-4">
+                {t("noData")}
+              </TableCell>
+            </TableRow>
+          )}
         </TableBody>
       </Table>
       <TablePagination pagination={pagination} searchParams={searchParams} />

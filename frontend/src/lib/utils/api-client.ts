@@ -76,6 +76,10 @@ export class FetchClient {
     return this.request<T>(endpoint, "PUT", body)
   }
 
+  patch<T>(endpoint: Endpoint, body?: unknown) {
+    return this.request<T>(endpoint, "PATCH", body)
+  }
+
   delete<T>(endpoint: Endpoint) {
     return this.request<T>(endpoint, "DELETE")
   }

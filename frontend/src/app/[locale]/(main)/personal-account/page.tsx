@@ -1,27 +1,31 @@
-import { getTranslations } from "next-intl/server"
 import SupplierPhoto from "@/app/[locale]/(main)/personal-account/_components/SupplierPhoto"
-import { TabsList, TabsTrigger, Tabs, TabsContent } from "@/components/ui/Tabs/Tabs"
+import { Tabs, TabsContent } from "@/components/ui/Tabs/Tabs"
 import React from "react"
 import { TourCounts } from "@/app/[locale]/(main)/personal-account/_components/TourCounts"
 import MyTours from "@/app/[locale]/(main)/personal-account/_components/MyTours"
 import { SearchParams } from "next/dist/server/request/search-params"
+import { ProfileForm } from "@/app/[locale]/(main)/personal-account/_components/ProfileForm"
+import { getSupplierMe } from "@/actions/get-supplier-me"
+import PersonalAccountTabsTriggers from "@/app/[locale]/(main)/personal-account/_components/PersonalAccountTabsTriggers"
 
 export default async function PersonalAccount({ searchParams }: { searchParams: Promise<SearchParams> }) {
-  const t = await getTranslations("PersonalAccount")
   const searchParamsAwaited = await searchParams
+  const supplier = await getSupplierMe()
+  const { tab = "personalAccount" } = searchParamsAwaited
+  const currentTab = tab as string
   return (
     <section className="h-full">
       <div className="my-5">
         <SupplierPhoto />
       </div>
-      <Tabs defaultValue="personalAccount" className="w-full flex flex-col gap-3">
-        <TabsList className="max-w-80">
-          <TabsTrigger value="personalAccount">{t("tabs.personalAccount")}</TabsTrigger>
-          <TabsTrigger value="profile">{t("tabs.profile")}</TabsTrigger>
-        </TabsList>
+      <Tabs defaultValue="personalAccount" value={currentTab} className="w-full flex flex-col gap-3">
+        <PersonalAccountTabsTriggers currentTab={currentTab} />
         <TabsContent value="personalAccount" className="flex flex-col gap-3 mt-0">
           <TourCounts />
           <MyTours searchParams={searchParamsAwaited} />
+        </TabsContent>
+        <TabsContent value="profile" className="flex flex-col gap-3 mt-0">
+          <ProfileForm supplier={supplier} />
         </TabsContent>
       </Tabs>
     </section>
