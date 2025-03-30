@@ -88,7 +88,21 @@ export type SupplierTour = {
   dates: { startDate: string; endDate: string }[]
 }
 
+export type SupplierTourReservation = {
+  id: string
+  name: string
+  email: string
+  phoneNumber: string
+  status: TourStatus
+  tourDate: { startDate: string; endDate: string; tourId: string }
+}
+
 export type SupplierTourResponse = {
   rows: SupplierTour[]
+  pagination: Pagination
+}
+
+export type SupplierTourReservationResponse = {
+  rows: SupplierTourReservation[]
   pagination: Pagination
 }
