@@ -14,4 +14,6 @@ export const API_PATHS = {
   deleteSupplierProfilePhoto: (photoId: string) => `/suppliers/profile-photo/${photoId}` as const,
   updateSupplierProfileInfo: "/suppliers/profile",
   deleteTour: (tourId: string) => `/tours/${tourId}` as const,
+  verifyEmail: "/suppliers/verify-email",
+  sendEmailVerification: "/suppliers/send-email-verification",
 } as const
