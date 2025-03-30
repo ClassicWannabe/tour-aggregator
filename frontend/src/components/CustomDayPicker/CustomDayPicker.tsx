@@ -20,8 +20,6 @@ import { EN_WEEKDAYS, KZ_WEEKDAYS, RU_WEEKDAYS } from "@/lib/consts/dates"
 import { Tour } from "@/lib/interfaces/tours"
 import { cn } from "@/lib/utils/common"
 
-const busyDays = [new Date(2024, 8, 25)] // Example: September 25, 2024 (Month index starts at 0)
-
 const WeekDays = {
   en: EN_WEEKDAYS,
   ru: RU_WEEKDAYS,
@@ -69,7 +67,7 @@ export default function CustomDayPicker({ dates }: Props) {
 
       <div className="grid grid-cols-7 gap-1">
         {days.map((day) => {
-          const isTourFull = busyDays.some((d) => isSameDay(d, day))
+          // const isTourFull = busyDays.some((d) => isSameDay(d, day))
           const isTourDay = tourStartDates.some((d) => isSameDay(d, day))
           const isCurrentMonth = isSameMonth(day, currentMonth)
 
@@ -78,9 +76,9 @@ export default function CustomDayPicker({ dates }: Props) {
               key={day.toString()}
               className={cn(
                 "flex h-10 w-10 items-center justify-center rounded-md",
-                isTourFull && "bg-red-400 text-white",
-                isTourDay && "bg-primaryGreen text-white",
                 isCurrentMonth ? "text-black" : "text-gray-400",
+                // isTourFull && "bg-red-400 text-white",
+                isTourDay && "bg-primaryGreen text-white",
               )}
             >
               {format(day, "d")}

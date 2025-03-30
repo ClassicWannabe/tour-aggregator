@@ -3,6 +3,9 @@
 import { SignUpAgencyFieldsSchema, SignUpGuideFieldsSchema } from "@/lib/consts/schemas"
 import makeFetchUrlPath from "@/lib/utils/make-fetch-url-path"
 import { API_PATHS } from "@/lib/consts/api-paths"
+import { redirect } from "@/i18n/routing"
+import RouteNames from "@/lib/consts/route-names"
+import { getLocale } from "next-intl/server"
 
 type SignUpErrors = {
   email?: string[]
@@ -38,8 +41,8 @@ export async function signUp(prevState: any, formData: FormData) {
 
   const { email, phone, password } = data
   const personalInfo = isGuideData
-    ? { firstName: data.firstName, lastName: data.lastName }
-    : { companyName: data.companyName, ownerName: data.ownerName }
+    ? { individualSupplier: { firstName: data.firstName, lastName: data.lastName } }
+    : { companySupplier: { companyName: data.companyName, ownerName: data.ownerName } }
 
   const signUpReq = await fetch(makeFetchUrlPath(API_PATHS.signUp), {
     method: "POST",
@@ -57,7 +60,8 @@ export async function signUp(prevState: any, formData: FormData) {
       } as SignUpErrors,
     }
   }
-
+  const locale = await getLocale()
+  redirect({ href: RouteNames.SignIn, locale })
   return {
     payload: data,
   }

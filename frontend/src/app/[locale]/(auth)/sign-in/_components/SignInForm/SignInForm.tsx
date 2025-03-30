@@ -6,6 +6,7 @@ import { signIn } from "../../../../../../actions/sign-in"
 import useFormErrorsTranslation from "@/lib/hooks/useFormErrorsTranslation"
 import { useTranslations } from "next-intl"
 import FormErrorText from "@/components/ui/FormErrorText"
+import Spinner from "@/components/ui/Spinner"
 
 const SignInFormInitial = {
   payload: {
@@ -21,7 +22,7 @@ export default function SignInForm() {
   const getErrorsTranslation = useFormErrorsTranslation()
 
   return (
-    <form action={actionState} className="flex-col flex gap-3">
+    <form action={actionState} className="flex flex-col gap-3">
       <CustomInput
         id="email-input"
         label={t("Shared.email")}
@@ -42,8 +43,12 @@ export default function SignInForm() {
         required
       />
       {state?.errors?.common && <FormErrorText text={getErrorsTranslation(state.errors.common)} />}
-      <Button className="w-full text-body1 text-primaryWhite" type="submit" disabled={pending}>
-        {t("AuthPage.enterAccountBtn")}
+      <Button
+        className="text-body1 flex min-h-12 w-full items-center justify-center text-primaryWhite"
+        type="submit"
+        disabled={pending}
+      >
+        {pending ? <Spinner /> : t("AuthPage.enterAccountBtn")}
       </Button>
     </form>
   )

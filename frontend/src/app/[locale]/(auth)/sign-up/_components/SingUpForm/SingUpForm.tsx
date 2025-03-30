@@ -7,7 +7,8 @@ import CustomInput from "@/components/CustomInput/CustomInput"
 import CustomCheckbox from "@/components/CustomCheckbox"
 import useFormErrorsTranslation from "@/lib/hooks/useFormErrorsTranslation"
 import { signUp } from "@/actions/sign-up"
-import FormErrorText from "@/components/ui/FormErrorText";
+import FormErrorText from "@/components/ui/FormErrorText"
+import Spinner from "@/components/ui/Spinner"
 
 const SignUpInitialState = {
   payload: {
@@ -154,8 +155,12 @@ export default function SingUpForm() {
         />
       </Tabs>
       {state?.errors?.common && <FormErrorText text={getErrorsTranslation(state.errors.common)} />}
-      <Button className="text-body1 w-full text-primaryWhite" type="submit" disabled={pending}>
-        {t("SignUpPage.createAccount")}
+      <Button
+        className="text-body1 flex min-h-12 w-full items-center justify-center text-primaryWhite"
+        type="submit"
+        disabled={pending}
+      >
+        {pending ? <Spinner /> : t("SignUpPage.createAccount")}
       </Button>
     </form>
   )

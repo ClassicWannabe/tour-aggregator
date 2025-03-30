@@ -254,7 +254,8 @@
   },
   "CreateTourPage": {
     "title": "Создание тура"
-  },"EditTourPage": {
+  },
+  "EditTourPage": {
     "title": "Изменение тура"
   },
   "Filter": {
@@ -307,7 +308,8 @@
     "phone": "Телефонный номер",
     "email": "Электронная почта",
     "offeroAgreement": "Даю согласие на <link>обработку персональных данных</link>.",
-    "submitApplication": "Подать заявку"
+    "submitApplication": "Подать заявку",
+    "availableDates": "Доступные даты"
   },
   "PersonalAccount": {
     "supplierType": {
