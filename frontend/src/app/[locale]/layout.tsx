@@ -10,6 +10,7 @@ import { AntConfigProvider } from "@/components/AntConfigProvider"
 import { DayjsProvider } from "@/components/DayjsProvider"
 import { isLocale } from "@/lib/utils/common"
 import UserContextProvider from "@/components/UserContextProvider"
+import Toaster from "@/components/ui/Toast";
 
 const inter = Inter({
   subsets: ["latin", "cyrillic", "cyrillic-ext"],
@@ -52,6 +53,7 @@ export default async function RootLayout({ children, params }: Props) {
             <UserContextProvider>
               <AntdRegistry layer>
                 <NextIntlClientProvider locale={locale} messages={messages}>
+                  <Toaster />
                   {children}
                 </NextIntlClientProvider>
               </AntdRegistry>

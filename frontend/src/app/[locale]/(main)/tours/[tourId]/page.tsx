@@ -33,8 +33,10 @@ export default async function CategoryPage({ params }: { params: Promise<Params>
         </div>
         <div className="flex min-w-[320px] flex-col gap-3 md:flex-row md:justify-center md:gap-4 lg:flex-col lg:justify-start">
           <TourContactInfo tour={tour} />
-          <h2 className="text-headline4 text-primaryBlack">{t("TourDetails.availableDates")}</h2>
-          <CustomDayPicker dates={tour.dates} />
+          <div className="flex flex-col items-center gap-3">
+            <h2 className="text-headline4 text-primaryBlack">{t("TourDetails.availableDates")}</h2>
+            <CustomDayPicker dates={tour.dates} />
+          </div>
         </div>
       </div>
     </section>

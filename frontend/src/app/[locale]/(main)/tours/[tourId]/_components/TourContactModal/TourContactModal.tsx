@@ -11,6 +11,8 @@ import { bookTour } from "@/actions/book-tour"
 import CustomCheckbox from "@/components/CustomCheckbox"
 import { Link } from "@/i18n/routing"
 import CustomSelect from "@/components/CustomSelect"
+import withCallbacks from "@/lib/utils/with-callbacks"
+import { useCreateToastCallbacks } from "@/lib/hooks/useCreateToastCallbacks"
 
 type Props = {
   dates: Tour["dates"]
@@ -27,8 +29,13 @@ const FormInitialState = {
   errors: {},
 }
 
+const useBookTour = () => {
+  const createToastCallbacks = useCreateToastCallbacks()
+  return useActionState(withCallbacks(bookTour, createToastCallbacks()), FormInitialState)
+}
+
 const TourContactModal: React.FC<Props> = ({ dates }) => {
-  const [state, actionState, pending] = useActionState(bookTour, FormInitialState)
+  const [state, actionState, pending] = useBookTour()
   const t = useTranslations()
   const getErrorsTranslation = useFormErrorsTranslation()
   const locale = useLocale()
@@ -74,7 +81,7 @@ const TourContactModal: React.FC<Props> = ({ dates }) => {
           id="email-input"
           label={t("TourDetails.email")}
           placeholder={t("TourDetails.email")}
-          type="text"
+          type="email"
           name="email"
           defaultValue={state?.payload.email as string}
           errorText={getErrorsTranslation(state?.errors?.email)}

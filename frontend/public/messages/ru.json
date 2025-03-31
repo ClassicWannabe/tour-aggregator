@@ -309,7 +309,9 @@
     "email": "Электронная почта",
     "offeroAgreement": "Даю согласие на <link>обработку персональных данных</link>.",
     "submitApplication": "Подать заявку",
-    "availableDates": "Доступные даты"
+    "availableDates": "Доступные даты",
+    "bookResponseError": "Произошла ошибка во время бронирования тура, попробуйте снова или обратитесь в поддержку",
+    "bookResponseSuccess": "Заявка успешно создана. С вами предварительно свяжутся."
   },
   "PersonalAccount": {
     "supplierType": {
