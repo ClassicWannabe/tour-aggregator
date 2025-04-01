@@ -11,10 +11,7 @@ import { SignUpSupplierDto } from './dto/sign-up-supplier.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { JwtService } from '@nestjs/jwt';
 import { SupplierJwtPayload } from './types';
-import {
-  SUPPLIER_JWT_EXPIRES_IN_SECONDS,
-  SUPPLIER_PASSWORD_SALT_ROUNDS,
-} from './constants';
+import { SUPPLIER_PASSWORD_SALT_ROUNDS } from './constants';
 import { SignInSupplierDto } from './dto/sign-in-supplier.dto';
 import { SupplierContactType, SupplierType } from '@prisma/client';
 import { VerifyEmailDto } from './dto/verify-email.dto';

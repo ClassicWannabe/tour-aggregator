@@ -9,7 +9,7 @@ import {
   DeleteObjectTaggingCommand,
   Tag,
 } from '@aws-sdk/client-s3';
-import { CustomConfigService } from '../../config/custom-config.service';
+import { CustomConfigService } from 'src/config/custom-config.service';
 
 interface UploadFileParams {
   file: Buffer;

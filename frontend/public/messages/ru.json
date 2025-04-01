@@ -390,5 +390,11 @@
     "certificate": {
       "title": "Сертификаты"
     }
+  },
+  "VerifyEmail": {
+    "errorText": "Что-то пошло не так...",
+    "successText": "Почта успешно подтверждена!",
+    "resendVerifyEmailButton": "Отправить код еще раз",
+    "redirectSignInButton": "Войти в личный кабинет"
   }
 }
