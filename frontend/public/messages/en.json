@@ -1,297 +1,297 @@
 {
   "AuthPage": {
-    "enterAccountTitle": "Войти в личный кабинет en",
-    "enterAccountBtn": "Войти en",
-    "noAccount": "Нет аккаунта? en",
-    "signUp": "Регистрация en"
+    "enterAccountTitle": "Log in to your account",
+    "enterAccountBtn": "Log in",
+    "noAccount": "Don't have an account?",
+    "signUp": "Sign Up"
   },
   "SignUpPage": {
-    "createAccount": "Создать аккаунт",
-    "companyName": "Название компании",
-    "ownerFullName": "ФИО владельца",
-    "confirmPassword": "Подтвердите пароль",
-    "resourcesLinks": "Ссылки на ресурсы (Instagram, Facebook)",
-    "addOtherLink": "Добавить еще ссылку",
+    "createAccount": "Create an account",
+    "companyName": "Company Name",
+    "ownerFullName": "Owner's Full Name",
+    "confirmPassword": "Confirm Password",
+    "resourcesLinks": "Resource Links (Instagram, Facebook)",
+    "addOtherLink": "Add another link",
     "agreeToTermPolicy": "I have read and agree to Movo's Terms of Service and Privacy Policy.",
     "agreeToReceiveUpdates": "I agree to receive marketing updates from Che tam.",
-    "accountExist": "Уже есть аккаунт?",
-    "entry": "Вход",
-    "name": "Имя",
-    "surname": "Фамилия"
+    "accountExist": "Already have an account?",
+    "entry": "Entry",
+    "name": "Name",
+    "surname": "Surname"
   },
   "RootLayout": {
-    "title": "ENg title",
+    "title": "en title",
     "description": "en desc"
   },
   "Shared": {
-    "goBackBtnLabel": "Вернуться назад",
-    "email": "Электронная почта",
-    "password": "Пароль",
-    "tourAgency": "Тур агенство",
-    "tourGuide": "Гид",
-    "toTravellers": "Путешественникам",
-    "toPartners": "Партнёрам",
-    "support": "Поддержка",
-    "enterAccount": "Войти",
-    "lookThroughAllTours": "Смотреть все туры",
-    "allTours": "Все туры",
-    "fieldTrips": "Выездные",
-    "walkingTours": "Пешие",
-    "cityTours": "Городские",
-    "perPerson": "за человека",
-    "choose": "Выбрать",
-    "phone": "Телефон"
+    "goBackBtnLabel": "Go back",
+    "email": "Email",
+    "password": "Password",
+    "tourAgency": "Tour Agency",
+    "tourGuide": "Tour Guide",
+    "toTravellers": "To Travellers",
+    "toPartners": "To Partners",
+    "support": "Support",
+    "enterAccount": "Log in",
+    "lookThroughAllTours": "Look through all tours",
+    "allTours": "All tours",
+    "fieldTrips": "Field trips",
+    "walkingTours": "Walking tours",
+    "cityTours": "City tours",
+    "perPerson": "per person",
+    "choose": "Choose",
+    "phone": "Phone"
   },
   "TopSection": {
-    "motto": "<company>movo</company> - маркетплейс туров напрямую от авторов туров и туристических услуг",
-    "whereWannaGo": "Куда хотите отправиться",
-    "find": "Найти"
+    "motto": "<company>movo</company> - a marketplace for tours directly from tour authors and tourist services",
+    "whereWannaGo": "Where do you want to go",
+    "find": "Find"
   },
   "TourBoard": {
-    "popularTours": "Популярные туры"
+    "popularTours": "Popular tours"
   },
   "MainInformationForm": {
-    "title": "Основная информация",
-    "subtitle": "Эта информация будет отображаться публично, поэтому будьте осторожны с тем, что вы делитесь.",
+    "title": "Main Information",
+    "subtitle": "This information will be displayed publicly, so be careful what you share.",
     "input": {
       "tourName": {
-        "label": "Название тура",
-        "placeholder": "Введите название тура"
+        "label": "Tour Name",
+        "placeholder": "Enter tour name"
       },
       "location": {
-        "label": "Локация/город",
-        "placeholder": "Выбрать"
+        "label": "Location/City",
+        "placeholder": "Choose"
       },
       "tourType": {
-        "label": "Тип тура",
-        "placeholder": "Выбрать"
+        "label": "Tour Type",
+        "placeholder": "Choose"
       },
       "thesis": {
-        "label": "Тезис",
-        "placeholder": "Введите тезис",
-        "helperText": "Не менее {minSymbols} символов не более {maxSymbols} символов"
+        "label": "Thesis",
+        "placeholder": "Enter thesis",
+        "helperText": "At least {minSymbols} characters, no more than {maxSymbols} characters"
       },
       "description": {
-        "label": "Описание",
-        "placeholder": "Введите описание",
-        "helperText": "Не менее {minSymbols} символов не более {maxSymbols} символов"
+        "label": "Description",
+        "placeholder": "Enter description",
+        "helperText": "At least {minSymbols} characters, no more than {maxSymbols} characters"
       },
       "tourPrice": {
-        "label": "Стоимость тура за человека",
-        "placeholder": "Введите цену"
+        "label": "Tour price per person",
+        "placeholder": "Enter price"
       },
       "isTourFree": {
-        "label": "Тур бесплатный"
+        "label": "Tour is free"
       },
       "dateRange": {
-        "label": "Даты отправления и прибытия"
+        "label": "Departure and arrival dates"
       },
       "numberOfPeople": {
-        "label": "Количество мест",
-        "placeholder": "Введите кол-во"
+        "label": "Number of seats",
+        "placeholder": "Enter number"
       },
       "weekdays": {
-        "label": "Выберите дни повторения",
+        "label": "Choose recurrence days",
         "value": {
-          "monday": "Пн",
-          "tuesday": "Вт",
-          "wednesday": "Ср",
-          "thursday": "Чт",
-          "friday": "Пт",
-          "saturday": "Сб",
-          "sunday": "Вс"
+          "monday": "Mon",
+          "tuesday": "Tue",
+          "wednesday": "Wed",
+          "thursday": "Thu",
+          "friday": "Fri",
+          "saturday": "Sat",
+          "sunday": "Sun"
         }
       },
       "isRecurringTour": {
-        "label": "Сделать тур повторяющимся"
+        "label": "Make tour recurring"
       },
       "repeatPattern": {
-        "label": "Повторять каждую",
-        "placeholder": "Выбрать",
+        "label": "Choose recurrence pattern",
+        "placeholder": "Choose",
         "value": {
-          "weekly": "Неделю",
-          "biweekly": "2 недели",
-          "threeWeekly": "3 недели",
-          "monthly": "Месяц"
+          "weekly": "Weekly",
+          "biweekly": "Biweekly",
+          "threeWeekly": "Three weekly",
+          "monthly": "Monthly"
         }
       },
       "endRecurringDate": {
-        "label": "Срок действия тура"
+        "label": "End recurring date"
       },
       "withoutEndDate": {
-        "label": "Без даты окончания"
+        "label": "No end date"
       }
     }
   },
   "AmenitiesForm": {
-    "title1": "Что включено в тур",
-    "subtitle1": "Услуги, которые будут предоставлены в рамках тура и включены в стоимость.",
-    "title2": "Не включено в тур",
-    "subtitle2": "Дополнительные расходы и услуги, которые туристам необходимо будет оплачивать отдельно.",
+    "title1": "What's included in the tour",
+    "subtitle1": "Services that will be provided as part of the tour and included in the price.",
+    "title2": "Not included in the tour",
+    "subtitle2": "Additional expenses and services that tourists will need to pay separately.",
     "input": {
       "isTransportIncluded": {
-        "label": "Транспорт для туристов",
-        "yes": "Да",
-        "no": "Нет"
+        "label": "Transport for tourists",
+        "yes": "Yes",
+        "no": "No"
       },
       "inclusions": {
-        "addButton": "Добавить свой вариант",
-        "placeholder": "Введите",
-        "value1": "Встреча в отеле и высадка",
-        "value2": "Входные билеты в горячие источники",
-        "value3": "Трехразовое питание"
+        "addButton": "Add your option",
+        "placeholder": "Enter",
+        "value1": "Hotel pick-up and drop-off",
+        "value2": "Entrance tickets to hot springs",
+        "value3": "Three meals a day"
       }
     }
   },
   "TourProgramForm": {
-    "title1": "Программа тура",
-    "subtitle1": "Добавьте ключевые остановки и точки, через которые пройдет тур",
-    "title2": "Место встречи",
-    "subtitle2": "Добавьте адрес место встречи ",
-    "addButton": "Добавить остановку",
+    "title1": "Tour Program",
+    "subtitle1": "Add key stops and points through which the tour will pass",
+    "title2": "Meeting place",
+    "subtitle2": "Add meeting place address",
+    "addButton": "Add stop",
     "input": {
       "time": {
-        "label": "Выберите время",
-        "placeholder": "Выбрать время"
+        "label": "Choose time",
+        "placeholder": "Choose time"
       },
       "location": {
-        "label": "Локация",
-        "placeholder": "Например, Сбор на месте встречи и выезд в ...",
-        "helperText": "Не менее {minSymbols} символов не более {maxSymbols} символов"
+        "label": "Location",
+        "placeholder": "For example, Gather at the meeting place and depart to ...",
+        "helperText": "At least {minSymbols} characters, no more than {maxSymbols} characters"
       },
       "meetingPlace": {
-        "label": "Место встречи",
-        "placeholder": "Введите место встречи"
+        "label": "Meeting place",
+        "placeholder": "Enter meeting place"
       }
     }
   },
   "AttachmentsForm": {
-    "title": "Фотографии мест тура",
-    "subtitle": "Фотографии тех мест, куда отправятся туристы. Это может быть горная природа, водопады, исторические памятники и т.д.",
-    "infoAlert": "Рекомендуется загружать изображения высокого качества, чтобы привлечь внимание потенциальных туристов",
+    "title": "Photos of tour places",
+    "subtitle": "Photos of the places where tourists will go. This can be mountain nature, waterfalls, historical monuments, etc.",
+    "infoAlert": "It is recommended to upload high-quality images to attract the attention of potential tourists",
     "input": {
       "image": {
-        "label": "Фотографии",
-        "addButton": "Добавить фото"
+        "label": "Photos",
+        "addButton": "Add photo"
       }
     }
   },
   "CreateTourForm": {
     "button": {
-      "back": "Назад",
-      "next": "Далее",
-      "cancel": "Отмена",
-      "create": "Создать тур",
-      "preview": "Предпросмотр"
+      "back": "Back",
+      "next": "Next",
+      "cancel": "Cancel",
+      "create": "Create tour",
+      "preview": "Preview"
     },
     "zod": {
       "default": {
-        "tooSmall": "Напишите не менее {minimum} {minimum, plural, =1 {символа} other {символов}}",
-        "tooBig": "Напишите не более {maximum} {maximum, plural, =1 {символа} other {символов}}",
-        "required": "Обязательное поле"
+        "tooSmall": "Write at least {minimum} {minimum, plural, =1 {character} other {characters}}",
+        "tooBig": "Write no more than {maximum} {maximum, plural, =1 {character} other {characters}}",
+        "required": "Required field"
       },
       "tourType": {
-        "choose": "Выберите тип тура"
+        "choose": "Choose tour type"
       },
       "location": {
-        "choose": "Выберите локацию/город"
+        "choose": "Choose location/city"
       },
       "dateRange": {
-        "missingStartDate": "Укажите начальную дату",
-        "missingEndDate": "Укажите конечную дату",
-        "missingDates": "Укажите начальную и конечную даты"
+        "missingStartDate": "Specify start date",
+        "missingEndDate": "Specify end date",
+        "missingDates": "Specify start and end dates"
       },
       "images": {
-        "tooSmall": "Добавьте не менее {minimum} фотографий",
-        "tooBig": "Добавьте не более {maximum} фотографий",
-        "invalidType": "Некорректный тип фотографий",
-        "tooBigSize": "Размер фотографии не может превышать {MB} MB"
+        "tooSmall": "Add at least {minimum} photos",
+        "tooBig": "Add no more than {maximum} photos",
+        "invalidType": "Invalid photo type",
+        "tooBigSize": "Photo size cannot exceed {MB} MB"
       },
       "numberOfPeople": {
-        "tooSmall": "Укажите не менее {minimum} {minimum, plural, =1 {местa} other {мест}}",
-        "tooBig": "Укажите не более {maximum} мест"
+        "tooSmall": "Specify at least {minimum} {minimum, plural, =1 {seat} other {seats}}",
+        "tooBig": "Specify no more than {maximum} seats"
       },
       "tourPrice": {
-        "empty": "Укажите цену за человека",
-        "tooSmall": "Укажите цену не менее {minimum} тенге за человека",
-        "tooBig": "Укажите цену не более {maximum} тенге за человека"
+        "empty": "Specify price per person",
+        "tooSmall": "Specify price not less than {minimum} tenge per person",
+        "tooBig": "Specify price not more than {maximum} tenge per person"
       },
       "inclusions": {
-        "tooSmall": "Выберите не менее {minimum} {minimum, plural, =1 {элемента} other {элементов}}",
-        "tooBig": "Выберите не более {maximum} {maximum, plural, =1 {элемента} other {элементов}}"
+        "tooSmall": "Choose at least {minimum} {minimum, plural, =1 {item} other {items}}",
+        "tooBig": "Choose no more than {maximum} {maximum, plural, =1 {item} other {items}}"
       },
       "tourProgram": {
-        "tooSmall": "Добавьте не менее {minimum} {minimum, plural, =1 {остановки} other {остановок}}",
-        "tooBig": "Добавьте не более {maximum} {maximum, plural, =1 {остановки} other {остановок}}"
+        "tooSmall": "Add at least {minimum} {minimum, plural, =1 {stop} other {stops}}",
+        "tooBig": "Add no more than {maximum} {maximum, plural, =1 {stop} other {stops}}"
       },
       "weekdays": {
-        "tooSmall": "Укажите не менее одного дня недели"
+        "tooSmall": "Specify at least one weekday"
       },
       "repeatPattern": {
-        "choose": "Укажите повторение"
+        "choose": "Specify recurrence pattern"
       },
       "endRecurringDate": {
-        "choose": "Укажите срок действия тура"
+        "choose": "Specify end recurring date"
       }
     }
   },
   "AboutUs": {
-    "aboutUs": "О нас",
-    "ourMission": "Наша миссия",
-    "missionDesc": "Мы стремимся сделать путешествия доступными, разнообразными и увлекательными для каждого. HikeUp объединяет путешественников и профессионалов туризма на одной платформе, создавая простую и надежную среду для поиска приключений.",
-    "weOffer": "Что мы предлагаем",
-    "toursFromAuthors": "Туры напрямую от авторов",
-    "fromAuthorsDesc": "Мы работаем с независимыми организаторами туров и туристических услуг, предоставляя уникальные предложения, которые невозможно найти в стандартных агентствах.",
-    "directionsDiversity": "Разнообразие направлений",
-    "directionsDesc": "Горные походы, кемпинг, природные экскурсии, экстремальные экспедиции – на нашей платформе можно найти туры для всех уровней подготовки и интересов.",
-    "convenientSearch": "Удобный поиск",
-    "searchDesc": "Подберите тур по времени, местоположению и типу активности, используя нашу интуитивно понятную систему фильтров."
+    "aboutUs": "About us",
+    "ourMission": "Our mission",
+    "missionDesc": "We strive to make travel accessible, diverse, and exciting for everyone. HikeUp unites travelers and tourism professionals on one platform, creating a simple and reliable environment for finding adventures.",
+    "weOffer": "What we offer",
+    "toursFromAuthors": "Tours directly from authors",
+    "fromAuthorsDesc": "We work with independent tour organizers and tourism services, providing unique offers that cannot be found in standard agencies.",
+    "directionsDiversity": "Diversity of directions",
+    "directionsDesc": "Mountain hikes, camping, nature excursions, extreme expeditions – on our platform, you can find tours for all levels of training and interests.",
+    "convenientSearch": "Convenient search",
+    "searchDesc": "Choose a tour by time, location, and type of activity using our intuitive filtering system."
   },
   "Footer": {
-    "faq": "Частые вопросы",
-    "userConditions": "Условия использования",
-    "refundPolicy": "Политика возврата",
-    "paymentsSafety": "Безопасность платежей",
-    "toGuides": "Гидам",
-    "becomeGuide": "Стать гидом",
-    "operatingRules": "Правила работы",
-    "becomePartner": "Стать партнёром",
-    "partnerCabinet": "Кабинет партнёра",
-    "docs": "Документация"
+    "faq": "Frequently Asked Questions",
+    "userConditions": "Terms of use",
+    "refundPolicy": "Refund policy",
+    "paymentsSafety": "Payment safety",
+    "toGuides": "To guides",
+    "becomeGuide": "Become a guide",
+    "operatingRules": "Operating rules",
+    "becomePartner": "Become a partner",
+    "partnerCabinet": "Partner cabinet",
+    "docs": "Documentation"
   },
   "Breadcrumb": {
-    "personal-account": "Личный кабинет",
-    "create-tour": "Создание тура"
+    "personal-account": "Personal account",
+    "create-tour": "Create tour"
   },
   "CreateTourPage": {
-    "title": "Создание тура"
+    "title": "Create tour"
   },
   "Filter": {
-    "filterTitle": "Фильтр",
-    "filtersTitle": "Фильтры",
-    "toFilterBy": "Фильтровать по:",
-    "reset": "Сбросить",
-    "resetAll": "Сбросить все",
-    "apply": "Применить",
-    "price": "Цена",
-    "from": "От",
-    "to": "До",
-    "tourType": "Тип тура",
-    "location": "Локация"
+    "filterTitle": "Filter",
+    "filtersTitle": "Filters",
+    "toFilterBy": "Filter by:",
+    "reset": "Reset",
+    "resetAll": "Reset all",
+    "apply": "Apply",
+    "price": "Price",
+    "from": "From",
+    "to": "To",
+    "tourType": "Tour type",
+    "location": "Location"
   },
   "SignUpErrors": {
-    "emailRequired": "Поле \"Электронная почта\" обязательно для заполнения en",
-    "notValidEmail": "Пожалуйста введите корректную электронную почту en",
-    "phoneRequired": "Пожалуйста введите корректный телефон en",
-    "passwordsMissMatch": "Пароли не совпадают",
-    "shortPassword": "Пароль должен состоять не менее чем из 8 символов",
-    "notValidPassword": "Пароль должен содержать заглавные, строчные буквы латинского алфавита, цифры и специальные символы",
-    "notValidUrl": "Пожалуйста введите корректный URL для ссылки на ресурс",
-    "confirmPasswordRequired": "Поле \"Подтверждение пароля\" обязательно для заполнения",
-    "companyNameRequired": "Поле \"Название компании\" обязательно для заполнения",
-    "ownerNameRequired": "Поле \"ФИО владельца\" обязательно для заполнения",
-    "firstNameRequired": "Поле \"Имя\" обязательно для заполнения",
-    "lastNameRequired": "Поле \"Фамилия\" обязательно для заполнения",
+    "emailRequired": "Email field is required",
+    "notValidEmail": "Please enter a valid email",
+    "phoneRequired": "Please enter a valid phone number",
+    "passwordsMissMatch": "Passwords do not match",
+    "shortPassword": "Password must be at least 8 characters long",
+    "notValidPassword": "Password must contain uppercase and lowercase letters, numbers, and special characters",
+    "notValidUrl": "Please enter a valid URL for the resource link",
+    "confirmPasswordRequired": "Confirm password field is required",
+    "companyNameRequired": "Company name field is required",
+    "ownerNameRequired": "Owner's full name field is required",
+    "firstNameRequired": "First name field is required",
+    "lastNameRequired": "Last name field is required",
     "agreeToTermPolicyRequired": "You must agree to the terms and policy"
   }
 }

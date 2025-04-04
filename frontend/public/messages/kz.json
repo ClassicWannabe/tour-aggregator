@@ -1,297 +1,297 @@
 {
   "AuthPage": {
-    "enterAccountTitle": "Войти в личный кабинет кз",
-    "enterAccountBtn": "Войти kz",
-    "noAccount": "Нет аккаунта? kz",
-    "signUp": "Регистрация kz"
+    "enterAccountTitle": "Жеке кабинетке кіру",
+    "enterAccountBtn": "Кіру",
+    "noAccount": "Есептік жазба жоқ па?",
+    "signUp": "Тіркелу"
   },
   "SignUpPage": {
-    "createAccount": "Создать аккаунт",
-    "companyName": "Название компании",
-    "ownerFullName": "ФИО владельца",
-    "confirmPassword": "Подтвердите пароль",
-    "resourcesLinks": "Ссылки на ресурсы (Instagram, Facebook)",
-    "addOtherLink": "Добавить еще ссылку",
-    "agreeToTermPolicy": "I have read and agree to Movo's Terms of Service and Privacy Policy.",
-    "agreeToReceiveUpdates": "I agree to receive marketing updates from Che tam.",
-    "accountExist": "Уже есть аккаунт?",
-    "entry": "Вход",
-    "name": "Имя",
-    "surname": "Фамилия"
+    "createAccount": "Есептік жазба жасау",
+    "companyName": "Компания атауы",
+    "ownerFullName": "Иесінің толық аты-жөні",
+    "confirmPassword": "Құпиясөзді растаңыз",
+    "resourcesLinks": "Ресурс сілтемелері (Instagram, Facebook)",
+    "addOtherLink": "Тағы бір сілтеме қосу",
+    "agreeToTermPolicy": "Мен Movo-ның Қызмет көрсету шарттары мен Құпиялылық саясатын оқып, келісемін.",
+    "agreeToReceiveUpdates": "Мен Che tam-нан маркетингтік жаңартулар алуға келісемін.",
+    "accountExist": "Есептік жазбаңыз бар ма?",
+    "entry": "Кіру",
+    "name": "Аты",
+    "surname": "Тегі"
   },
   "RootLayout": {
     "title": "kz title",
-    "description": "en desc"
+    "description": "kz desc"
   },
   "Shared": {
-    "goBackBtnLabel": "Вернуться назад",
-    "email": "Электронная почта",
-    "password": "Пароль",
-    "tourAgency": "Тур агенство",
+    "goBackBtnLabel": "Артқа қайту",
+    "email": "Электрондық пошта",
+    "password": "Құпиясөз",
+    "tourAgency": "Тур агенттігі",
     "tourGuide": "Гид",
-    "toTravellers": "Путешественникам",
-    "toPartners": "Партнёрам",
-    "support": "Поддержка",
-    "enterAccount": "Войти",
-    "lookThroughAllTours": "Смотреть все туры",
-    "allTours": "Все туры",
-    "fieldTrips": "Выездные",
-    "walkingTours": "Пешие",
-    "cityTours": "Городские",
-    "perPerson": "за человека",
-    "choose": "Выбрать",
+    "toTravellers": "Саяхатшыларға",
+    "toPartners": "Серіктестерге",
+    "support": "Қолдау",
+    "enterAccount": "Кіру",
+    "lookThroughAllTours": "Барлық турларды қарау",
+    "allTours": "Барлық турлар",
+    "fieldTrips": "Сапарлар",
+    "walkingTours": "Жаяу турлар",
+    "cityTours": "Қалалық турлар",
+    "perPerson": "адам басына",
+    "choose": "Таңдау",
     "phone": "Телефон"
   },
   "TopSection": {
-    "motto": "<company>movo</company> - маркетплейс туров напрямую от авторов туров и туристических услуг",
-    "whereWannaGo": "Куда хотите отправиться",
-    "find": "Найти"
+    "motto": "<company>movo</company> - турлар мен туристік қызметтерді тікелей авторларынан алуға арналған маркетплейс",
+    "whereWannaGo": "Қайда барғыңыз келеді",
+    "find": "Табу"
   },
   "TourBoard": {
-    "popularTours": "Популярные туры"
+    "popularTours": "Танымал турлар"
   },
   "MainInformationForm": {
-    "title": "Основная информация",
-    "subtitle": "Эта информация будет отображаться публично, поэтому будьте осторожны с тем, что вы делитесь.",
+    "title": "Негізгі ақпарат",
+    "subtitle": "Бұл ақпарат көпшілікке көрінеді, сондықтан бөлісетін нәрселеріңізге мұқият болыңыз.",
     "input": {
       "tourName": {
-        "label": "Название тура",
-        "placeholder": "Введите название тура"
+        "label": "Тур атауы",
+        "placeholder": "Тур атауын енгізіңіз"
       },
       "location": {
-        "label": "Локация/город",
-        "placeholder": "Выбрать"
+        "label": "Орналасқан жері/қала",
+        "placeholder": "Таңдау"
       },
       "tourType": {
-        "label": "Тип тура",
-        "placeholder": "Выбрать"
+        "label": "Тур түрі",
+        "placeholder": "Таңдау"
       },
       "thesis": {
         "label": "Тезис",
-        "placeholder": "Введите тезис",
-        "helperText": "Не менее {minSymbols} символов не более {maxSymbols} символов"
+        "placeholder": "Тезис енгізіңіз",
+        "helperText": "Кемінде {minSymbols} таңба, ең көбі {maxSymbols} таңба"
       },
       "description": {
-        "label": "Описание",
-        "placeholder": "Введите описание",
-        "helperText": "Не менее {minSymbols} символов не более {maxSymbols} символов"
+        "label": "Сипаттама",
+        "placeholder": "Сипаттаманы енгізіңіз",
+        "helperText": "Кемінде {minSymbols} таңба, ең көбі {maxSymbols} таңба"
       },
       "tourPrice": {
-        "label": "Стоимость тура за человека",
-        "placeholder": "Введите цену"
+        "label": "Адам басына тур бағасы",
+        "placeholder": "Бағаны енгізіңіз"
       },
       "isTourFree": {
-        "label": "Тур бесплатный"
+        "label": "Тур тегін"
       },
       "dateRange": {
-        "label": "Даты отправления и прибытия"
+        "label": "Кету және келу күндері"
       },
       "numberOfPeople": {
-        "label": "Количество мест",
-        "placeholder": "Введите кол-во"
+        "label": "Орындар саны",
+        "placeholder": "Санды енгізіңіз"
       },
       "weekdays": {
-        "label": "Выберите дни повторения",
+        "label": "Қайталану күндерін таңдаңыз",
         "value": {
-          "monday": "Пн",
-          "tuesday": "Вт",
-          "wednesday": "Ср",
-          "thursday": "Чт",
-          "friday": "Пт",
-          "saturday": "Сб",
-          "sunday": "Вс"
+          "monday": "Дүйсенбі",
+          "tuesday": "Сейсенбі",
+          "wednesday": "Сәрсенбі",
+          "thursday": "Бейсенбі",
+          "friday": "Жұма",
+          "saturday": "Сенбі",
+          "sunday": "Жексенбі"
         }
       },
       "isRecurringTour": {
-        "label": "Сделать тур повторяющимся"
+        "label": "Турды қайталанатын ету"
       },
       "repeatPattern": {
-        "label": "Повторять каждую",
-        "placeholder": "Выбрать",
+        "label": "Қайталану мерзімін таңдаңыз",
+        "placeholder": "Таңдау",
         "value": {
-          "weekly": "Неделю",
-          "biweekly": "2 недели",
-          "threeWeekly": "3 недели",
-          "monthly": "Месяц"
+          "weekly": "Апта сайын",
+          "biweekly": "Екі апта сайын",
+          "threeWeekly": "Үш апта сайын",
+          "monthly": "Ай сайын"
         }
       },
       "endRecurringDate": {
-        "label": "Срок действия тура"
+        "label": "Қайталану мерзімінің аяқталу күні"
       },
       "withoutEndDate": {
-        "label": "Без даты окончания"
+        "label": "Қайталану мерзімінің аяқталу күні жоқ"
       }
     }
   },
   "AmenitiesForm": {
-    "title1": "Что включено в тур",
-    "subtitle1": "Услуги, которые будут предоставлены в рамках тура и включены в стоимость.",
-    "title2": "Не включено в тур",
-    "subtitle2": "Дополнительные расходы и услуги, которые туристам необходимо будет оплачивать отдельно.",
+    "title1": "Турға не кіреді",
+    "subtitle1": "Тур аясында ұсынылатын және бағаға кіретін қызметтер.",
+    "title2": "Турға кірмейді",
+    "subtitle2": "Туристерге бөлек төлеуге тура келетін қосымша шығындар мен қызметтер.",
     "input": {
       "isTransportIncluded": {
-        "label": "Транспорт для туристов",
-        "yes": "Да",
-        "no": "Нет"
+        "label": "Туристерге арналған көлік",
+        "yes": "Иә",
+        "no": "Жоқ"
       },
       "inclusions": {
-        "addButton": "Добавить свой вариант",
-        "placeholder": "Введите",
-        "value1": "Встреча в отеле и высадка",
-        "value2": "Входные билеты в горячие источники",
-        "value3": "Трехразовое питание"
+        "addButton": "Өз нұсқаңызды қосыңыз",
+        "placeholder": "Енгізу",
+        "value1": "Қонақүйде қарсы алу және шығарып салу",
+        "value2": "Ыстық бұлақтарға кіру билеттері",
+        "value3": "Күніне үш рет тамақтану"
       }
     }
   },
   "TourProgramForm": {
-    "title1": "Программа тура",
-    "subtitle1": "Добавьте ключевые остановки и точки, через которые пройдет тур",
-    "title2": "Место встречи",
-    "subtitle2": "Добавьте адрес место встречи ",
-    "addButton": "Добавить остановку",
+    "title1": "Тур бағдарламасы",
+    "subtitle1": "Тур өтетін негізгі аялдамалар мен нүктелерді қосыңыз",
+    "title2": "Кездесу орны",
+    "subtitle2": "Кездесу орнының мекенжайын қосыңыз",
+    "addButton": "Аялдама қосу",
     "input": {
       "time": {
-        "label": "Выберите время",
-        "placeholder": "Выбрать время"
+        "label": "Уақытты таңдаңыз",
+        "placeholder": "Уақытты таңдау"
       },
       "location": {
-        "label": "Локация",
-        "placeholder": "Например, Сбор на месте встречи и выезд в ...",
-        "helperText": "Не менее {minSymbols} символов не более {maxSymbols} символов"
+        "label": "Орналасқан жері",
+        "placeholder": "Мысалы, Кездесу орнында жиналып, ... жолға шығу",
+        "helperText": "Кемінде {minSymbols} таңба, ең көбі {maxSymbols} таңба"
       },
       "meetingPlace": {
-        "label": "Место встречи",
-        "placeholder": "Введите место встречи"
+        "label": "Кездесу орны",
+        "placeholder": "Кездесу орнын енгізіңіз"
       }
     }
   },
   "AttachmentsForm": {
-    "title": "Фотографии мест тура",
-    "subtitle": "Фотографии тех мест, куда отправятся туристы. Это может быть горная природа, водопады, исторические памятники и т.д.",
-    "infoAlert": "Рекомендуется загружать изображения высокого качества, чтобы привлечь внимание потенциальных туристов",
+    "title": "Тур орындарының фотосуреттері",
+    "subtitle": "Туристер баратын орындардың фотосуреттері. Бұл таулы табиғат, сарқырамалар, тарихи ескерткіштер және т.б. болуы мүмкін.",
+    "infoAlert": "Әлеуетті туристердің назарын аудару үшін жоғары сапалы суреттерді жүктеу ұсынылады",
     "input": {
       "image": {
-        "label": "Фотографии",
-        "addButton": "Добавить фото"
+        "label": "Фотосуреттер",
+        "addButton": "Фото қосу"
       }
     }
   },
   "CreateTourForm": {
     "button": {
-      "back": "Назад",
-      "next": "Далее",
-      "cancel": "Отмена",
-      "create": "Создать тур",
-      "preview": "Предпросмотр"
+      "back": "Артқа",
+      "next": "Келесі",
+      "cancel": "Бас тарту",
+      "create": "Тур жасау",
+      "preview": "Алдын ала қарау"
     },
     "zod": {
       "default": {
-        "tooSmall": "Напишите не менее {minimum} {minimum, plural, =1 {символа} other {символов}}",
-        "tooBig": "Напишите не более {maximum} {maximum, plural, =1 {символа} other {символов}}",
-        "required": "Обязательное поле"
+        "tooSmall": "Кемінде {minimum} {minimum, plural, =1 {таңба} other {таңба}} жазыңыз",
+        "tooBig": "Ең көбі {maximum} {maximum, plural, =1 {таңба} other {таңба}} жазыңыз",
+        "required": "Міндетті алаң"
       },
       "tourType": {
-        "choose": "Выберите тип тура"
+        "choose": "Тур түрін таңдаңыз"
       },
       "location": {
-        "choose": "Выберите локацию/город"
+        "choose": "Орналасқан жері/қаланы таңдаңыз"
       },
       "dateRange": {
-        "missingStartDate": "Укажите начальную дату",
-        "missingEndDate": "Укажите конечную дату",
-        "missingDates": "Укажите начальную и конечную даты"
+        "missingStartDate": "Басталу күнін көрсетіңіз",
+        "missingEndDate": "Аяқталу күнін көрсетіңіз",
+        "missingDates": "Басталу және аяқталу күндерін көрсетіңіз"
       },
       "images": {
-        "tooSmall": "Добавьте не менее {minimum} фотографий",
-        "tooBig": "Добавьте не более {maximum} фотографий",
-        "invalidType": "Некорректный тип фотографий",
-        "tooBigSize": "Размер фотографии не может превышать {MB} MB"
+        "tooSmall": "Кемінде {minimum} фотосурет қосыңыз",
+        "tooBig": "Ең көбі {maximum} фотосурет қосыңыз",
+        "invalidType": "Құпиясөздің дұрыс емес түрі",
+        "tooBigSize": "Фотосуреттің өлшемі {MB} MB-дан аспауы керек"
       },
       "numberOfPeople": {
-        "tooSmall": "Укажите не менее {minimum} {minimum, plural, =1 {местa} other {мест}}",
-        "tooBig": "Укажите не более {maximum} мест"
+        "tooSmall": "Кемінде {minimum} {minimum, plural, =1 {орын} other {орындар}} көрсетіңіз",
+        "tooBig": "Ең көбі {maximum} орын"
       },
       "tourPrice": {
-        "empty": "Укажите цену за человека",
-        "tooSmall": "Укажите цену не менее {minimum} тенге за человека",
-        "tooBig": "Укажите цену не более {maximum} тенге за человека"
+        "empty": "Адам басына тур бағасын көрсетіңіз",
+        "tooSmall": "Адам басына тур бағасын кемінде {minimum} теңге көрсетіңіз",
+        "tooBig": "Адам басына тур бағасын ең көбі {maximum} теңге көрсетіңіз"
       },
       "inclusions": {
-        "tooSmall": "Выберите не менее {minimum} {minimum, plural, =1 {элемента} other {элементов}}",
-        "tooBig": "Выберите не более {maximum} {maximum, plural, =1 {элемента} other {элементов}}"
+        "tooSmall": "Кемінде {minimum} {minimum, plural, =1 {элемент} other {элементтер}} таңдаңыз",
+        "tooBig": "Ең көбі {maximum} {maximum, plural, =1 {элемент} other {элементтер}} таңдаңыз"
       },
       "tourProgram": {
-        "tooSmall": "Добавьте не менее {minimum} {minimum, plural, =1 {остановки} other {остановок}}",
-        "tooBig": "Добавьте не более {maximum} {maximum, plural, =1 {остановки} other {остановок}}"
+        "tooSmall": "Кемінде {minimum} {minimum, plural, =1 {аялдама} other {аялдамалар}} қосыңыз",
+        "tooBig": "Ең көбі {maximum} {maximum, plural, =1 {аялдама} other {аялдамалар}} қосыңыз"
       },
       "weekdays": {
-        "tooSmall": "Укажите не менее одного дня недели"
+        "tooSmall": "Кемінде бір апта күнін көрсетіңіз"
       },
       "repeatPattern": {
-        "choose": "Укажите повторение"
+        "choose": "Қайталану мерзімін таңдаңыз"
       },
       "endRecurringDate": {
-        "choose": "Укажите срок действия тура"
+        "choose": "Қайталану мерзімінің аяқталу күнін таңдаңыз"
       }
     }
   },
   "AboutUs": {
-    "aboutUs": "О нас",
-    "ourMission": "Наша миссия",
-    "missionDesc": "Мы стремимся сделать путешествия доступными, разнообразными и увлекательными для каждого. HikeUp объединяет путешественников и профессионалов туризма на одной платформе, создавая простую и надежную среду для поиска приключений.",
-    "weOffer": "Что мы предлагаем",
-    "toursFromAuthors": "Туры напрямую от авторов",
-    "fromAuthorsDesc": "Мы работаем с независимыми организаторами туров и туристических услуг, предоставляя уникальные предложения, которые невозможно найти в стандартных агентствах.",
-    "directionsDiversity": "Разнообразие направлений",
-    "directionsDesc": "Горные походы, кемпинг, природные экскурсии, экстремальные экспедиции – на нашей платформе можно найти туры для всех уровней подготовки и интересов.",
-    "convenientSearch": "Удобный поиск",
-    "searchDesc": "Подберите тур по времени, местоположению и типу активности, используя нашу интуитивно понятную систему фильтров."
+    "aboutUs": "Біз туралы",
+    "ourMission": "Біздің миссиямыз",
+    "missionDesc": "Біз саяхаттарды барлығы үшін қолжетімді, әртүрлі және қызықты етіп жасағымыз келеді. HikeUp саяхатшыларды және туризмнің кәсіби қызметкерлерін бір платформада біріктіріп, сапарларды іздеудің қарапайым және сенімді ортасын құрады.",
+    "weOffer": "Біз не ұсынамыз",
+    "toursFromAuthors": "Турлар авторларынан тікелей",
+    "fromAuthorsDesc": "Біз тәуелсіз тур операторларымен және туристік қызметтермен жұмыс істейміз, бұл стандартты агенттіктерде табуға болмайтын ерекше ұсыныстарды ұсынады.",
+    "directionsDiversity": "Бағыттардың әртүрлілігі",
+    "directionsDesc": "Таулы саяхаттар, кемпинг, табиғи экскурсиялар, экстремалды экспедициялар - біздің платформада барлық деңгейдегі дайындық пен мүдделерге арналған турларды табуға болады.",
+    "convenientSearch": "Қолайлы іздеу",
+    "searchDesc": "Уақыт, орналасқан жері және белсенділік түрі бойынша турды таңдаңыз, біздің интуитивті фильтрлер жүйесін пайдаланыңыз."
   },
   "Footer": {
-    "faq": "Частые вопросы",
-    "userConditions": "Условия использования",
-    "refundPolicy": "Политика возврата",
-    "paymentsSafety": "Безопасность платежей",
-    "toGuides": "Гидам",
-    "becomeGuide": "Стать гидом",
-    "operatingRules": "Правила работы",
-    "becomePartner": "Стать партнёром",
-    "partnerCabinet": "Кабинет партнёра",
-    "docs": "Документация"
+    "faq": "Жиі қойылатын сұрақтар",
+    "userConditions": "Пайдалану шарттары",
+    "refundPolicy": "Қайтару саясаты",
+    "paymentsSafety": "Төлемдердің қауіпсіздігі",
+    "toGuides": "Гидтерге",
+    "becomeGuide": "Гид болу",
+    "operatingRules": "Жұмыс істеу ережелері",
+    "becomePartner": "Серіктес болу",
+    "partnerCabinet": "Серіктес кабинеті",
+    "docs": "Құжаттар"
   },
   "Breadcrumb": {
-    "personal-account": "Личный кабинет",
-    "create-tour": "Создание тура"
+    "personal-account": "Жеке кабинет",
+    "create-tour": "Тур жасау"
   },
   "CreateTourPage": {
-    "title": "Создание тура"
+    "title": "Тур жасау"
   },
   "Filter": {
     "filterTitle": "Фильтр",
-    "filtersTitle": "Фильтры",
-    "toFilterBy": "Фильтровать по:",
+    "filtersTitle": "Фильтрлер",
+    "toFilterBy": "Фильтрлеу бойынша:",
     "reset": "Сбросить",
-    "resetAll": "Сбросить все",
-    "apply": "Применить",
-    "price": "Цена",
-    "from": "От",
-    "to": "До",
-    "tourType": "Тип тура",
-    "location": "Локация"
+    "resetAll": "Барлығын сбросить",
+    "apply": "Қолдану",
+    "price": "Баға",
+    "from": "Бастап",
+    "to": "Дейін",
+    "tourType": "Тур түрі",
+    "location": "Орналасқан жері"
   },
   "SignUpErrors": {
-    "emailRequired": "Поле \"Электронная почта\" обязательно для заполнения",
-    "notValidEmail": "Пожалуйста введите корректную электронную почту",
-    "phoneRequired": "Пожалуйста введите корректный телефон",
-    "passwordsMissMatch": "Пароли не совпадают",
-    "shortPassword": "Пароль должен состоять не менее чем из 8 символов",
-    "notValidPassword": "Пароль должен содержать заглавные, строчные буквы латинского алфавита, цифры и специальные символы",
-    "notValidUrl": "Пожалуйста введите корректный URL для ссылки на ресурс",
-    "confirmPasswordRequired": "Поле \"Подтверждение пароля\" обязательно для заполнения",
-    "companyNameRequired": "Поле \"Название компании\" обязательно для заполнения",
-    "ownerNameRequired": "Поле \"ФИО владельца\" обязательно для заполнения",
-    "firstNameRequired": "Поле \"Имя\" обязательно для заполнения",
-    "lastNameRequired": "Поле \"Фамилия\" обязательно для заполнения",
-    "agreeToTermPolicyRequired": "You must agree to the terms and policy"
+    "emailRequired": "Электрондық пошта алаңы міндетті",
+    "notValidEmail": "Дұрыс электрондық поштаны енгізіңіз",
+    "phoneRequired": "Телефон нөмірін енгізіңіз",
+    "passwordsMissMatch": "Құпиясөздер сәйкес келмейді",
+    "shortPassword": "Құпиясөз кемінде 8 таңбадан тұруы керек",
+    "notValidPassword": "Құпиясөз латын әліпбиінің үлкен және кіші әріптерін, цифрларды және арнайы таңбаларды қамтуы керек",
+    "notValidUrl": "Ресурсқа дұрыс URL енгізіңіз",
+    "confirmPasswordRequired": "Құпиясөзді растау алаңы міндетті",
+    "companyNameRequired": "Компания атауы алаңы міндетті",
+    "ownerNameRequired": "Иесінің толық аты-жөні алаңы міндетті",
+    "firstNameRequired": "Аты алаңы міндетті",
+    "lastNameRequired": "Тегі алаңы міндетті",
+    "agreeToTermPolicyRequired": "Сіз қызмет көрсету шарттарына және саясатқа келісуіңіз керек"
   }
 }
