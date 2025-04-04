@@ -27,26 +27,26 @@ export async function bookTour(prevState: any, formData: FormData) {
     }
   }
 
-  // const { email, phone, name, dateId } = data
-  //
-  // const bookReq = await fetch(makeFetchUrlPath(API_PATHS.bookTour), {
-  //   method: "POST",
-  //   headers: {
-  //     "Content-Type": "application/json",
-  //   },
-  //   body: JSON.stringify({ email, phone, name, dateId }),
-  // })
-  //
-  // if (!bookReq.ok) {
-  //   return {
-  //     payload: data,
-  //     errors: {
-  //       common: "TourDetails.bookResponseError",
-  //     } as BookTourErrors,
-  //     status: "ERROR",
-  //     message: "TourDetails.bookResponseError",
-  //   }
-  // }
+  const { email, phone, name, dateId } = data
+
+  const bookReq = await fetch(makeFetchUrlPath(API_PATHS.bookTour), {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ email, phone, name, dateId }),
+  })
+
+  if (!bookReq.ok) {
+    return {
+      payload: data,
+      errors: {
+        common: "TourDetails.bookResponseError",
+      } as BookTourErrors,
+      status: "ERROR",
+      message: "TourDetails.bookResponseError",
+    }
+  }
 
   return {
     status: "SUCCESS",
