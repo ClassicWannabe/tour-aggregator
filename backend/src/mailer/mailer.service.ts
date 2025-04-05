@@ -15,7 +15,7 @@ export class MailerService implements OnModuleInit {
   ) {}
 
   onModuleInit() {
-    this.frontendUrl = this.configService.getOrFail('S3_ENDPOINT');
+    this.frontendUrl = this.configService.getOrFail('SMTP_FRONTEND_URL');
   }
 
   async sendVerificationEmail(email: string, code: string) {
