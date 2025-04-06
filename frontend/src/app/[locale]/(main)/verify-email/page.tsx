@@ -24,7 +24,7 @@ export default async function VerifyEmailPage({
 
   return (
     <div className="flex w-full items-center justify-center">
-      {!error ? <ErrorStatus email={email as string} /> : <SuccessStatus />}
+      {error ? <ErrorStatus email={email as string} /> : <SuccessStatus />}
     </div>
   )
 }

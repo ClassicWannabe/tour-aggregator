@@ -31,7 +31,8 @@ export class MailerService implements OnModuleInit {
   }
 
   private getVerificationEmailUrl(email: string, code: string): string {
-    return `${this.frontendUrl}/ru/verify-email?email=${email}&code=${code}`;
+    const encodedEmail = encodeURIComponent(email);
+    return `${this.frontendUrl}/ru/verify-email?email=${encodedEmail}&code=${code}`;
   }
 
   async sendClientTourReservationEmail(
